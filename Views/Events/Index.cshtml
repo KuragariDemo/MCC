@@ -1,0 +1,60 @@
+﻿@model IEnumerable<SEM.Models.Event>
+
+@{
+    ViewData["Title"] = "All Events";
+}
+
+<h2 class="mb-4">All Events</h2>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <input type="text" name="category" class="form-control" placeholder="Category" />
+    </div>
+
+    <div class="col-md-3">
+        <input type="text" name="location" class="form-control" placeholder="Location" />
+    </div>
+
+    <div class="col-md-3">
+        <input type="date" name="date" class="form-control" />
+    </div>
+
+    <div class="col-md-3">
+        <input type="number" name="maxPrice" class="form-control" placeholder="Max Price" />
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a asp-action="Index" class="btn btn-secondary">Reset</a>
+    </div>
+</form>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Category</td>
+                <td>@item.Location</td>
+                <td>@item.Date.ToString("dd MMM yyyy")</td>
+                <td>
+                    <a asp-action="Details"
+                       asp-route-id="@item.Id"
+                       class="btn btn-info btn-sm">
+                        Details
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

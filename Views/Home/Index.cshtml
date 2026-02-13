@@ -1,0 +1,144 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- ===== HERO SECTION ===== -->
+<div class="text-center p-5 bg-light rounded">
+    <h1 class="display-4 fw-bold">Welcome to SEM</h1>
+    <p class="lead">
+        Smart Event Management & Ticketing System for the Metropolitan Cultural Council.
+    </p>
+
+    <a class="btn btn-primary btn-lg me-2"
+       asp-controller="Events"
+       asp-action="Index">
+        Browse Events
+    </a>
+
+</div>
+
+<!-- ===== UPCOMING EVENTS PREVIEW ===== -->
+<div class="mt-5">
+    <h2 class="mb-4">Upcoming Events</h2>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">City Music Festival</h5>
+                    <p class="card-text">
+                        Category: Music <br />
+                        Date: 15 March 2026 <br />
+                        Venue: Central Park
+                    </p>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Modern Art Exhibition</h5>
+                    <p class="card-text">
+                        Category: Exhibition <br />
+                        Date: 22 March 2026 <br />
+                        Venue: Art Gallery Hall
+                    </p>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Drama Theatre Night</h5>
+                    <p class="card-text">
+                        Category: Theatre <br />
+                        Date: 30 March 2026 <br />
+                        Venue: City Theatre
+                    </p>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ===== HOW TO BECOME A MEMBER SECTION ===== -->
+<div class="mt-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">How to Become a SEM Member</h2>
+        <p class="text-muted">
+            Join our community and start booking your favorite cultural events in just a few steps.
+        </p>
+    </div>
+
+    <div class="row text-center">
+
+        <!-- Step 1 -->
+        <div class="col-md-3">
+            <div class="p-4 border rounded shadow-sm h-100">
+                <div class="mb-3">
+                    <span class="badge bg-primary fs-5">1</span>
+                </div>
+                <h5 class="fw-bold">Sign Up</h5>
+                <p class="text-muted">
+                    Create your SEM account by providing your personal information.
+                </p>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="col-md-3">
+            <div class="p-4 border rounded shadow-sm h-100">
+                <div class="mb-3">
+                    <span class="badge bg-success fs-5">2</span>
+                </div>
+                <h5 class="fw-bold">Set Preferences</h5>
+                <p class="text-muted">
+                    Select your favorite event categories like music, theatre, or exhibitions.
+                </p>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="col-md-3">
+            <div class="p-4 border rounded shadow-sm h-100">
+                <div class="mb-3">
+                    <span class="badge bg-warning text-dark fs-5">3</span>
+                </div>
+                <h5 class="fw-bold">Browse Events</h5>
+                <p class="text-muted">
+                    Search events by date, location, category, or price.
+                </p>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="col-md-3">
+            <div class="p-4 border rounded shadow-sm h-100">
+                <div class="mb-3">
+                    <span class="badge bg-danger fs-5">4</span>
+                </div>
+                <h5 class="fw-bold">Book Tickets</h5>
+                <p class="text-muted">
+                    Reserve your seats and enjoy amazing cultural experiences.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-4">
+        <a class="btn btn-primary btn-lg"
+           asp-area="Identity"
+           asp-page="/Account/Register">
+            Become a Member Now
+        </a>
+    </div>
+</div>

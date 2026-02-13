@@ -1,0 +1,68 @@
+﻿@model SEM.Models.Event
+
+<h2>@Model.Title</h2>
+<hr />
+
+<div class="card mb-4">
+    <div class="card-body">
+        <p><strong>Category:</strong> @Model.Category</p>
+        <p><strong>Location:</strong> @Model.Location</p>
+        <p><strong>Date:</strong> @Model.Date.ToString("dd MMM yyyy")</p>
+    </div>
+</div>
+
+<h4>Seat Types</h4>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Seat Type</th>
+            <th>Price (THB)</th>
+            <th>Seats Left</th>
+            <th>Buy</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Low</td>
+            <td>@Model.LowPrice</td>
+            <td>@Model.LowSeats</td>
+            <td>
+                <a asp-action="Buy"
+                   asp-route-id="@Model.Id"
+                   asp-route-seatType="Low"
+                   class="btn btn-success btn-sm">
+                    Buy
+                </a>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Medium</td>
+            <td>@Model.MediumPrice</td>
+            <td>@Model.MediumSeats</td>
+            <td>
+                <a asp-action="Buy"
+                   asp-route-id="@Model.Id"
+                   asp-route-seatType="Medium"
+                   class="btn btn-success btn-sm">
+                    Buy
+                </a>
+            </td>
+        </tr>
+
+        <tr>
+            <td>High</td>
+            <td>@Model.HighPrice</td>
+            <td>@Model.HighSeats</td>
+            <td>
+                <a asp-action="Buy"
+                   asp-route-id="@Model.Id"
+                   asp-route-seatType="High"
+                   class="btn btn-success btn-sm">
+                    Buy
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
