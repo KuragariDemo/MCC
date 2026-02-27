@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using SEM.Areas.Identity.Data;
+using MCC.Areas.Identity.Data;
 
-namespace SEM.Areas.Identity.Pages.Account
+namespace MCC.Areas.Identity.Pages.Account
 {
     public class LogoutModel : PageModel
     {

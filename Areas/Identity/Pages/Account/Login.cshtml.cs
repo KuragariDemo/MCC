@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SEM.Areas.Identity.Data;
+using MCC.Areas.Identity.Data;
 
-namespace SEM.Areas.Identity.Pages.Account
+namespace MCC.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
@@ -36,6 +36,7 @@ namespace SEM.Areas.Identity.Pages.Account
             public string Password { get; set; }
 
             public bool RememberMe { get; set; }
+
         }
 
         public void OnGet()

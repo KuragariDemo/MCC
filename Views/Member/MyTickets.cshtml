@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SEM.Models.Ticket>
+﻿@model IEnumerable<MCC.Models.Ticket>
 
 @{
     ViewData["Title"] = "My Tickets";
@@ -7,141 +7,186 @@
 
 <style>
     /* ==========================================================
-           INLINE CSS: MEMBER TICKETS PAGE
+           NEON DARK TICKET LEDGER SYSTEM
         ========================================================== */
+    :root {
+        --bg-void: #020617;
+        --glass-panel: rgba(15, 23, 42, 0.7);
+        --neon-primary: #8b5cf6; /* Electric Purple */
+        --neon-cyan: #06b6d4; /* Cyan Glow */
+        --neon-emerald: #10b981; /* Success Green */
+        --neon-grad: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        --text-ghost: #f8fafc;
+        --text-slate: #94a3b8;
+        --border-glass: rgba(255, 255, 255, 0.08);
+    }
+
     .member-page-wrapper {
-        background-color: #f8fafc; /* Soft slate background to contrast the white card */
+        background-color: var(--bg-void);
+        background-image: radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
         min-height: 100vh;
-        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-        padding: 50px 40px;
+        padding: 60px 40px;
+        font-family: 'Inter', system-ui, sans-serif;
+        color: var(--text-ghost);
     }
 
     .member-card {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 45px 40px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+        background: var(--glass-panel);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid var(--border-glass);
+        border-radius: 32px;
+        padding: 50px;
         max-width: 1100px;
+        margin: 0 auto;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         position: relative;
-        overflow: hidden;
     }
 
-        /* Gradient Top Line */
+        /* Holographic Top bar */
         .member-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: var(--neon-grad);
+            box-shadow: 0 0 15px var(--neon-primary);
+            filter: blur(1px);
         }
 
-    /* Gradient Title */
     .member-title {
         font-weight: 900;
-        font-size: 2.2rem;
-        letter-spacing: -0.5px;
-        margin-bottom: 5px;
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
+        font-size: 2.5rem;
+        letter-spacing: -1.5px;
+        background: var(--neon-grad);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        display: inline-block;
+        margin-bottom: 5px;
+        text-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
     }
 
-    /* Modern Table Design */
+    /* Modern Neon Table */
     .ticket-table {
         border-collapse: separate;
-        border-spacing: 0 12px; /* Creates the gap between rows */
+        border-spacing: 0 15px;
         width: 100%;
-        margin-top: 10px;
+        margin-top: 20px;
     }
 
         .ticket-table th {
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            color: #94a3b8;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--text-slate);
             border: none;
-            padding: 0 15px 10px 15px;
-            font-weight: 700;
+            padding: 0 20px 10px 20px;
+            font-weight: 800;
         }
 
     .ticket-row {
-        background: #ffffff;
-        transition: all 0.3s ease;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-        border: 1px solid #f1f5f9;
+        background: rgba(255, 255, 255, 0.02);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border-radius: 16px;
     }
 
         .ticket-row:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.08);
-            border-color: #e2e8f0;
+            transform: scale(1.01) translateX(5px);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
     .ticket-table td {
-        padding: 20px 15px;
-        border: none;
+        padding: 25px 20px;
+        border-top: 1px solid var(--border-glass);
+        border-bottom: 1px solid var(--border-glass);
         vertical-align: middle;
-        color: #475569;
-        font-weight: 500;
+        color: var(--text-ghost);
     }
 
-        /* Rounded corners for the floating rows */
         .ticket-table td:first-child {
-            border-top-left-radius: 12px;
-            border-bottom-left-radius: 12px;
-            color: #1e293b;
-            font-weight: 700;
-            font-size: 1.05rem;
+            border-left: 1px solid var(--border-glass);
+            border-top-left-radius: 16px;
+            border-bottom-left-radius: 16px;
+            font-weight: 800;
+            font-size: 1.15rem;
         }
 
         .ticket-table td:last-child {
-            border-top-right-radius: 12px;
-            border-bottom-right-radius: 12px;
+            border-right: 1px solid var(--border-glass);
+            border-top-right-radius: 16px;
+            border-bottom-right-radius: 16px;
         }
 
-    /* Typography & Badges */
+    /* Status & Pricing Badges */
     .seat-badge {
-        background: #f1f5f9;
-        color: #64748b;
-        padding: 6px 14px;
-        border-radius: 50px;
-        font-size: 0.85rem;
-        font-weight: 700;
-        letter-spacing: 0.5px;
+        background: rgba(6, 182, 212, 0.1);
+        color: var(--neon-secondary);
+        padding: 6px 16px;
+        border-radius: 10px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 1px;
         text-transform: uppercase;
+        border: 1px solid rgba(6, 182, 212, 0.2);
+        box-shadow: 0 0 10px rgba(6, 182, 212, 0.1);
     }
 
     .price-tag {
-        font-weight: 800;
-        color: #10b981; /* Premium Emerald Green */
-        font-size: 1.1rem;
+        font-weight: 900;
+        color: var(--neon-emerald);
+        font-size: 1.2rem;
+        text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
     }
 
-    /* Gradient Action Button */
+    /* Neon Action Button */
     .btn-ticket-action {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        color: white;
-        border: none;
-        border-radius: 10px;
+        background: transparent;
+        color: var(--neon-primary);
+        border: 1px solid var(--neon-primary);
+        border-radius: 12px;
         padding: 10px 20px;
-        font-weight: 700;
-        font-size: 0.9rem;
+        font-weight: 800;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
         transition: all 0.3s ease;
-        box-shadow: 0 6px 15px rgba(0, 242, 254, 0.3);
         text-decoration: none;
-        display: inline-block;
-        text-align: center;
     }
 
         .btn-ticket-action:hover {
+            background: var(--neon-primary);
+            color: var(--bg-void);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.5);
-            color: white;
         }
+
+    .empty-state {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px dashed var(--border-glass);
+        border-radius: 24px;
+        padding: 80px 40px;
+        text-align: center;
+    }
+
+    .scanline {
+        width: 100%;
+        height: 2px;
+        background: rgba(139, 92, 246, 0.1);
+        position: absolute;
+        animation: scan 4s linear infinite;
+    }
+
+    @@keyframes scan {
+        from {
+            top: 0;
+        }
+
+        to {
+            top: 100%;
+        }
+    }
 </style>
 
 <div class="d-flex">
@@ -151,19 +196,20 @@
     <div class="member-page-wrapper flex-fill">
 
         <div class="member-card">
+            <div class="scanline"></div>
 
-            <h2 class="member-title">My Tickets</h2>
-            <p class="text-muted mb-4 pb-2" style="border-bottom: 1px solid #f1f5f9;">View and manage your booked event tickets.</p>
+            <h2 class="member-title">Access Ledger</h2>
+            <p class="text-slate mb-5" style="letter-spacing: 0.5px;">Verified digital assets for upcoming event nodes.</p>
 
             <div class="table-responsive">
                 <table class="ticket-table">
                     <thead>
                         <tr>
-                            <th class="ps-4">Event</th>
-                            <th>Seat Type</th>
-                            <th>Price</th>
-                            <th>Purchase Date</th>
-                            <th class="text-end pe-4">Action</th>
+                            <th class="ps-4">Protocol Event</th>
+                            <th>Tier Access</th>
+                            <th>Valuation</th>
+                            <th>Sync Date</th>
+                            <th class="text-end pe-4">Command</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -173,25 +219,26 @@
                             {
                                 <tr class="ticket-row">
                                     <td class="ps-4">
-                                        @ticket.Event.Title
+                                        <div class="text-white">@ticket.Event.Title</div>
+                                        <div style="font-size: 0.75rem; color: var(--neon-primary); font-weight: 700;">NODE_ID: @ticket.EventId</div>
                                     </td>
                                     <td>
                                         <span class="seat-badge">@ticket.SeatType</span>
                                     </td>
                                     <td>
-                                        <span class="price-tag">$@ticket.Price</span>
+                                        <span class="price-tag">@ticket.Price <small style="font-size: 0.7rem;">THB</small></span>
                                     </td>
                                     <td>
-                                        <div class="text-muted" style="font-size: 0.95rem;">
-                                            <i class="me-1 opacity-50"></i> @ticket.PurchaseDate.ToString("dd MMM yyyy")
+                                        <div class="text-slate" style="font-size: 0.9rem; font-weight: 600;">
+                                            @ticket.PurchaseDate.ToString("yyyy.MM.dd")
                                         </div>
                                     </td>
                                     <td class="text-end pe-4">
                                         <a asp-controller="Member"
                                            asp-action="MyTicketsDetails"
                                            asp-route-id="@ticket.EventId"
-                                           class="btn btn-info btn-sm">
-                                            Event Details
+                                           class="btn-ticket-action">
+                                            Telemetry
                                         </a>
                                     </td>
                                 </tr>
@@ -200,9 +247,12 @@
                         else
                         {
                             <tr>
-                                <td colspan="5" class="text-center py-5 text-muted" style="background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1;">
-                                    <div class="mb-2" style="font-size: 2rem;">🎫</div>
-                                    <em>You haven't booked any tickets yet.</em>
+                                <td colspan="5">
+                                    <div class="empty-state">
+                                        <div class="mb-3" style="font-size: 3rem; filter: drop-shadow(0 0 10px var(--neon-primary));">🛰️</div>
+                                        <h4 class="text-white fw-bold">NO ASSETS DETECTED</h4>
+                                        <p class="text-slate opacity-75">Connect to the discovery network to sync event nodes.</p>
+                                    </div>
                                 </td>
                             </tr>
                         }

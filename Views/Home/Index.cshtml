@@ -1,338 +1,318 @@
-﻿@{
+﻿@model IEnumerable<MCC.Models.Event>
+
+@{
     ViewData["Title"] = "Home";
 }
 
 <style>
-    /* --- home-css Styles --- */
-    .home-css-container {
-        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    /* ==========================================================
+           NEON DARK HOMEPAGE DESIGN SYSTEM
+        ========================================================== */
+    :root {
+        --bg-void: #020617;
+        --glass-panel: rgba(15, 23, 42, 0.75);
+        --neon-primary: #8b5cf6; /* Electric Purple */
+        --neon-secondary: #06b6d4; /* Cyan Glow */
+        --neon-accent: #f43f5e; /* Rose */
+        --neon-grad: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        --text-ghost: #f8fafc;
+        --text-slate: #94a3b8;
+        --border-glass: rgba(255, 255, 255, 0.08);
     }
 
-    /* ✨ ULTRA MODERN FULL SCREEN HERO ✨ */
-    .home-css-hero {
-        /* Premium multi-stop modern gradient */
-        background-color: #4158D0;
-        background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-        padding: 140px 20px 120px 20px;
-        color: white;
-        margin-bottom: 80px;
+    .home-neon-container {
+        background-color: var(--bg-void);
+        color: var(--text-ghost);
+        font-family: 'Inter', system-ui, sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* ✨ ULTRA MODERN CYBER HERO ✨ */
+    .home-neon-hero {
         position: relative;
-        overflow: hidden;
+        padding: 160px 20px;
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
         /* Forces edge-to-edge full width */
         width: 100vw;
         left: 50%;
         right: 50%;
         margin-left: -50vw;
         margin-right: -50vw;
-        border-radius: 0;
-        /* Removes the ASP.NET layout gap */
+        background: radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.15) 0%, transparent 40%);
         margin-top: -1.5rem !important;
+        border-bottom: 1px solid var(--border-glass);
     }
 
-        /* Subtle mesh glow overlay */
-        .home-css-hero::before {
+        /* Floating Animated Particles (CSS Only) */
+        .home-neon-hero::after {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 50%);
-            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.05;
+            animation: pulseBG 8s infinite alternate;
         }
 
-    .home-css-hero-title {
+    @@keyframes pulseBG {
+        from {
+            transform: translateY(0);
+        }
+
+        to {
+            transform: translateY(-20px);
+        }
+    }
+
+    .home-neon-hero-title {
         font-weight: 900;
-        letter-spacing: -1px;
+        font-size: 5rem;
+        letter-spacing: -3px;
+        line-height: 0.9;
+        background: linear-gradient(to bottom, #fff 30%, var(--text-slate));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin-bottom: 25px;
-        font-size: 4rem;
-        text-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.3));
     }
 
-    .home-css-hero-text {
-        font-size: 1.35rem;
-        opacity: 0.95;
+    .home-neon-hero-text {
+        font-size: 1.25rem;
+        color: var(--text-slate);
+        max-width: 600px;
         margin-bottom: 45px;
-        font-weight: 400;
-        max-width: 700px;
-        margin-left: auto;
-        margin-right: auto;
-        line-height: 1.6;
+        letter-spacing: 0.5px;
+        z-index: 2;
     }
 
-    /* Premium Hero Button (White/Glass) */
-    .home-css-hero-btn {
-        background: #ffffff;
-        color: #C850C0; /* Matches the middle of the gradient */
-        border: none;
-        padding: 16px 45px;
-        font-size: 18px;
+    /* Glass Action Button */
+    .home-neon-hero-btn {
+        background: var(--neon-grad);
+        color: white;
+        padding: 18px 50px;
+        font-size: 1rem;
         font-weight: 800;
         border-radius: 50px;
         text-decoration: none;
-        display: inline-block;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 2;
     }
 
-        .home-css-hero-btn:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.3);
-            color: #4158D0;
+        .home-neon-hero-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.6);
+            color: white;
         }
 
-    /* Gradient Section Titles */
-    .home-css-section-title {
+    /* Section Titles */
+    .home-neon-section-title {
         font-weight: 800;
-        margin-bottom: 40px;
-        letter-spacing: -0.5px;
-        /* Renders the text itself as a gradient */
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        display: inline-block;
+        font-size: 2rem;
+        letter-spacing: -1px;
+        margin-bottom: 50px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 15px;
     }
 
-    /* Refined Modern Cards */
-    .home-css-card {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 35px 25px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
-        border: none;
+        .home-neon-section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-glass);
+        }
+
+    /* Holographic Grid Cards */
+    .home-neon-card {
+        background: var(--glass-panel);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-glass);
+        border-radius: 24px;
+        padding: 30px;
+        transition: all 0.4s ease;
         position: relative;
         overflow: hidden;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        z-index: 1;
     }
 
-        /* Top Accent Line on Cards */
-        .home-css-card::before {
+        .home-neon-card:hover {
+            border-color: var(--neon-secondary);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .home-neon-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #4158D0, #C850C0);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            width: 4px;
+            height: 0;
+            background: var(--neon-grad);
+            transition: height 0.4s ease;
         }
 
-        .home-css-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+        .home-neon-card:hover::before {
+            height: 100%;
         }
 
-            .home-css-card:hover::before {
-                opacity: 1; /* Shows the colorful line on hover */
-            }
-
-    .home-css-card-title {
+    .home-neon-card-title {
         font-weight: 800;
-        color: #1a1a1a;
+        color: #fff;
+        font-size: 1.4rem;
         margin-bottom: 15px;
-        font-size: 1.35rem;
     }
 
-    .home-css-card-text {
-        color: #555;
-        line-height: 1.8;
+    .home-neon-card-text {
+        color: var(--text-slate);
+        font-size: 0.9rem;
+        line-height: 1.6;
         margin-bottom: 25px;
-        flex-grow: 1;
-        font-size: 0.95rem;
     }
 
-    /* Outline Button for Cards */
-    .home-css-btn-outline {
-        border: 2px solid #e1e5ee;
-        color: #555;
-        padding: 10px 25px;
-        border-radius: 50px;
+    /* Outline Button */
+    .home-neon-btn-outline {
+        border: 1px solid var(--neon-secondary);
+        color: var(--neon-secondary);
+        padding: 12px 25px;
+        border-radius: 12px;
         font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
         text-decoration: none;
-        transition: all 0.3s ease;
         display: inline-block;
-        background: transparent;
         width: 100%;
         text-align: center;
+        transition: all 0.3s;
     }
 
-        .home-css-btn-outline:hover {
-            border-color: #C850C0;
-            color: #C850C0;
-            background: rgba(200, 80, 192, 0.05);
+        .home-neon-btn-outline:hover {
+            background: var(--neon-secondary);
+            color: var(--bg-void);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
         }
 
-    /* Step Badges - Modern Pastel/Neon */
-    .home-css-badge {
-        width: 55px;
-        height: 55px;
-        border-radius: 15px; /* Squircle shape instead of perfect circle */
+    /* Step System */
+    .neon-badge {
+        width: 50px;
+        height: 50px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid var(--border-glass);
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        font-size: 24px;
+        color: var(--neon-secondary);
         font-weight: 900;
-        margin: 0 auto 25px auto;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        transform: rotate(-5deg);
-        transition: transform 0.3s ease;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        transition: all 0.3s;
     }
 
-    .home-css-card:hover .home-css-badge {
-        transform: rotate(0deg) scale(1.1);
+    .home-neon-card:hover .neon-badge {
+        background: var(--neon-secondary);
+        color: var(--bg-void);
+        box-shadow: 0 0 20px var(--neon-secondary);
     }
 
-    .home-css-badge-1 {
-        background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%);
-        color: #D6326C;
+    .footer-cta {
+        padding: 100px 0;
+        text-align: center;
+        background: linear-gradient(to bottom, transparent, rgba(139, 92, 246, 0.05));
     }
-    /* Soft Pink */
-    .home-css-badge-2 {
-        background: linear-gradient(135deg, #A18CD1 0%, #FBC2EB 100%);
-        color: #6A11CB;
-    }
-    /* Soft Purple */
-    .home-css-badge-3 {
-        background: linear-gradient(135deg, #84FAB0 0%, #8FD3F4 100%);
-        color: #00887A;
-    }
-    /* Mint / Cyan */
-    .home-css-badge-4 {
-        background: linear-gradient(135deg, #FCCB90 0%, #D57EEB 100%);
-        color: #C850C0;
-    }
-    /* Sunset */
-
-    /* Bottom Call to Action Button */
-    .home-css-btn-gradient {
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-        color: #fff;
-        border: none;
-        padding: 18px 50px;
-        font-size: 20px;
-        font-weight: 800;
-        border-radius: 50px;
-        text-decoration: none;
-        display: inline-block;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 25px rgba(200, 80, 192, 0.4);
-    }
-
-        .home-css-btn-gradient:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(200, 80, 192, 0.6);
-            color: #fff;
-        }
 </style>
 
-<div class="home-css-container">
+<div class="home-neon-container">
 
-    <div class="text-center home-css-hero">
-        <h1 class="home-css-hero-title">Welcome to SEM</h1>
-        <p class="home-css-hero-text">
-            Smart Event Management & Ticketing System for the Metropolitan Cultural Council.
+    <div class="home-neon-hero">
+        <h1 class="home-neon-hero-title">METROPOLITAN <br> CULTURAL COUNCIL</h1>
+        <p class="home-neon-hero-text">
+            Experience the next generation of event management. Explore, book, and engage with the city's finest cultural clusters.
         </p>
 
-        <a class="home-css-hero-btn"
-           asp-controller="Events"
-           asp-action="Index">
-            Browse Events
+        <a class="home-neon-hero-btn" asp-controller="Events" asp-action="Index">
+            Enter Discovery
         </a>
     </div>
 
-    <div class="mt-5 mb-5 container">
-        <h2 class="home-css-section-title">Upcoming Events</h2>
+    <div class="py-5 container">
+        <h2 class="home-neon-section-title">ACTIVE BROADCASTS</h2>
 
         <div class="row g-4">
             @foreach (var item in Model)
             {
                 <div class="col-md-4">
-                    <div class="home-css-card d-flex flex-column h-100">
-                        <h5 class="home-css-card-title">@item.Title</h5>
-
-                        <p class="home-css-card-text">
-                            <strong>Category:</strong> @item.Category?.Name
-                            <strong>Date:</strong> @item.Date.ToString("dd MMMM yyyy") <br />
-                            <strong>Venue:</strong> @item.Venue?.Name
-                        </p>
-
-                        <div class="mt-auto">
-                            <a asp-controller="Event"
-                               asp-action="Details"
-                               asp-route-id="@item.Id"
-                               class="home-css-btn-outline">
-                                View Details
-                            </a>
+                    <div class="home-neon-card h-100">
+                        <div class="small fw-bold text-uppercase mb-2" style="color: var(--neon-primary); letter-spacing: 2px;">
+                            @item.Category?.Name
                         </div>
+                        <h5 class="home-neon-card-title">@item.Title</h5>
+
+                        <div class="home-neon-card-text">
+                            <div class="mb-1"><span class="opacity-50">NODE:</span> @item.Venue?.Name</div>
+                            <div><span class="opacity-50">SYNC:</span> @item.Date.ToString("dd.MM.yyyy")</div>
+                        </div>
+
+                        <a asp-controller="Event" asp-action="Details" asp-route-id="@item.Id" class="home-neon-btn-outline">
+                            Initialize Sync
+                        </a>
                     </div>
                 </div>
             }
         </div>
     </div>
 
-    <div class="mt-5 mb-5 pt-5 container">
-        <div class="text-center mb-5">
-            <h2 class="home-css-section-title">How to Become a SEM Member</h2>
-            <p class="text-muted fs-5" style="max-width: 600px; margin: 0 auto;">
-                Join our community and start booking your favorite cultural events in just a few steps.
-            </p>
-        </div>
+    <div class="py-5 container">
+        <h2 class="home-neon-section-title">NETWORK INITIALIZATION</h2>
 
-        <div class="row g-4 text-center">
+        <div class="row g-4">
             <div class="col-md-3">
-                <div class="home-css-card">
-                    <div class="home-css-badge home-css-badge-1">1</div>
-                    <h5 class="home-css-card-title">Sign Up</h5>
-                    <p class="home-css-card-text">
-                        Create your SEM account by providing your personal information.
-                    </p>
+                <div class="home-neon-card">
+                    <div class="neon-badge">01</div>
+                    <h5 class="home-neon-card-title" style="font-size: 1.1rem;">ID Synthesis</h5>
+                    <p class="home-neon-card-text">Create your MCC encrypted profile to access the secure booking network.</p>
                 </div>
             </div>
-
             <div class="col-md-3">
-                <div class="home-css-card">
-                    <div class="home-css-badge home-css-badge-2">2</div>
-                    <h5 class="home-css-card-title">Set Preferences</h5>
-                    <p class="home-css-card-text">
-                        Select your favorite event categories like music, theatre, or exhibitions.
-                    </p>
+                <div class="home-neon-card">
+                    <div class="neon-badge">02</div>
+                    <h5 class="home-neon-card-title" style="font-size: 1.1rem;">Preference Tag</h5>
+                    <p class="home-neon-card-text">Configure your cultural telemetry to filter theatre, music, or art streams.</p>
                 </div>
             </div>
-
             <div class="col-md-3">
-                <div class="home-css-card">
-                    <div class="home-css-badge home-css-badge-3">3</div>
-                    <h5 class="home-css-card-title">Browse Events</h5>
-                    <p class="home-css-card-text">
-                        Search events by date, location, category, or price.
-                    </p>
+                <div class="home-neon-card">
+                    <div class="neon-badge">03</div>
+                    <h5 class="home-neon-card-title" style="font-size: 1.1rem;">Scan Catalog</h5>
+                    <p class="home-neon-card-text">Navigate through live event nodes synced by location and price matrices.</p>
                 </div>
             </div>
-
             <div class="col-md-3">
-                <div class="home-css-card">
-                    <div class="home-css-badge home-css-badge-4">4</div>
-                    <h5 class="home-css-card-title">Book Tickets</h5>
-                    <p class="home-css-card-text">
-                        Reserve your seats and enjoy amazing cultural experiences.
-                    </p>
+                <div class="home-neon-card">
+                    <div class="neon-badge">04</div>
+                    <h5 class="home-neon-card-title" style="font-size: 1.1rem;">Secure Access</h5>
+                    <p class="home-neon-card-text">Finalize ticket acquisition through our 256-bit encrypted checkout.</p>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="text-center mt-5 pt-4">
-            <a class="home-css-btn-gradient"
-               asp-area="Identity"
-               asp-page="/Account/Register">
-                Become a Member Now
-            </a>
-        </div>
+    <div class="footer-cta">
+        <h3 class="mb-4 fw-bold" style="font-size: 2rem;">READY TO CONNECT?</h3>
+        <a class="home-neon-hero-btn" asp-area="Identity" asp-page="/Account/Register">
+            Begin Registration
+        </a>
+        <p class="mt-4 text-slate small opacity-50">SYSTEM SECURED // 2026 MCC PROTOCOL</p>
     </div>
 
 </div>

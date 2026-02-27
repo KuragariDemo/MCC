@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SEM.Models.ViewModels
+namespace MCC.Models.ViewModels
 {
     public class PaymentViewModel
     {

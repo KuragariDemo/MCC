@@ -1,4 +1,4 @@
-﻿@model SEM.Models.Category
+﻿@model MCC.Models.Category
 
 @{
     ViewData["Title"] = "Edit Category";
@@ -7,156 +7,200 @@
 
 <style>
     /* ==========================================================
-           INLINE CSS: EDIT CATEGORY PAGE
+           NEON HOLOGRAPHIC DESIGN SYSTEM
         ========================================================== */
+    :root {
+        --bg-void: #020617;
+        --neon-cyan: #22d3ee;
+        --neon-violet: #8b5cf6;
+        --neon-grad: linear-gradient(135deg, #22d3ee 0%, #8b5cf6 100%);
+        --glass-surface: rgba(15, 23, 42, 0.8);
+        --border-glow: rgba(34, 211, 238, 0.2);
+    }
+
     .edit-page-wrapper {
-        background-color: #f8fafc;
+        background-color: var(--bg-void);
+        background-image: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83L.83 55.457l-.83-.83L54.627 0zM59.17 5.373l.83.83L5.373 60l-.83-.83L59.17 5.373zM1.66 0l.83.83L0 2.49V.83L1.66 0z' fill='%23ffffff' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E");
         min-height: 100vh;
-        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-        padding: 50px 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        font-family: 'Inter', system-ui, sans-serif;
     }
 
     .edit-card {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 45px 40px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
-        max-width: 600px; /* Keeps the form from stretching too wide */
+        background: var(--glass-surface);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid var(--border-glow);
+        border-radius: 40px;
+        padding: 60px;
+        width: 100%;
+        max-width: 600px;
         position: relative;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
         overflow: hidden;
     }
 
-        /* Gradient Top Line */
+        /* Holographic Scanline Effect */
         .edit-card::before {
-            content: '';
+            content: " ";
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 2;
         }
 
-    /* Gradient Title */
+        /* Glowing Side Accents */
+        .edit-card::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            bottom: 20%;
+            width: 3px;
+            background: var(--neon-grad);
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
     .edit-title {
+        color: #fff;
         font-weight: 900;
-        font-size: 2.2rem;
-        letter-spacing: -0.5px;
-        margin-bottom: 10px;
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        display: inline-block;
+        font-size: 2.8rem;
+        letter-spacing: -2px;
+        margin-bottom: 8px;
+        text-align: center;
+        text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
     }
 
-    /* Input Field Styling */
-    .edit-label {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #64748b;
+    .edit-subtitle {
+        color: #94a3b8;
+        text-align: center;
+        margin-bottom: 50px;
+        font-size: 0.9rem;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 8px;
+        letter-spacing: 2px;
+    }
+
+    .form-group-neon {
+        margin-bottom: 40px;
+    }
+
+    .edit-label {
+        color: var(--neon-cyan);
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 15px;
         display: block;
+        opacity: 0.8;
     }
 
     .edit-input {
         width: 100%;
-        padding: 16px 20px;
-        border: 2px solid #e2e8f0;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
-        font-size: 16px;
-        font-weight: 500;
-        color: #334155;
-        background-color: #f8fafc;
+        padding: 20px;
+        color: #fff;
+        font-size: 1.2rem;
+        font-family: 'Fira Code', monospace; /* Modern tech look */
         transition: all 0.3s ease;
     }
 
-        /* Magenta Glow on Focus */
         .edit-input:focus {
             outline: none;
-            border-color: #C850C0;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
+            border-color: var(--neon-cyan);
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
         }
 
-    /* Gradient Submit Button */
+    .btn-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 15px;
+    }
+
     .edit-btn-save {
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-        color: #fff;
+        background: var(--neon-grad);
+        color: #000;
         border: none;
-        padding: 15px 35px;
-        font-size: 16px;
-        font-weight: 800;
+        padding: 18px;
         border-radius: 12px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1px;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 8px 20px rgba(200, 80, 192, 0.3);
-        display: inline-block;
-        text-align: center;
     }
 
         .edit-btn-save:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(200, 80, 192, 0.5);
-            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px var(--neon-cyan);
+            filter: brightness(1.2);
         }
 
-    /* Sleek Cancel Outline Button */
     .edit-btn-cancel {
         background: transparent;
-        color: #64748b;
-        border: 2px solid #e2e8f0;
-        padding: 13px 30px;
-        font-size: 16px;
-        font-weight: 700;
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        padding: 18px;
         border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-block;
         text-align: center;
+        text-decoration: none;
+        font-weight: 700;
+        transition: all 0.3s ease;
     }
 
         .edit-btn-cancel:hover {
-            border-color: #94a3b8;
-            color: #334155;
-            background-color: #f1f5f9;
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
         }
+
+    .validation-msg {
+        color: #fb7185;
+        font-size: 0.8rem;
+        margin-top: 10px;
+        display: block;
+        font-weight: 600;
+    }
 </style>
 
 <div class="d-flex">
-
     @await Html.PartialAsync("_AdminSidebar")
 
     <div class="edit-page-wrapper flex-fill">
 
         <div class="edit-card">
-
-            <h2 class="edit-title">Edit Category</h2>
-            <p class="text-muted mb-4 pb-2" style="border-bottom: 1px solid #f1f5f9;">Update the details for this event category below.</p>
+            <h2 class="edit-title">Data Refinement</h2>
+            <p class="edit-subtitle">Modifying Classification ID: @Model.Id</p>
 
             <form asp-action="EditCategory" method="post">
                 <input type="hidden" asp-for="Id" />
 
-                <div class="mb-5">
-                    <label class="edit-label">Category Name</label>
-                    <input asp-for="Name" class="edit-input" placeholder="e.g., Music, Workshop, Theatre" />
-                    <span asp-validation-for="Name" class="text-danger mt-2 d-block fw-bold" style="font-size: 0.85rem;"></span>
+                <div class="form-group-neon">
+                    <label class="edit-label">New Entry Value</label>
+                    <input asp-for="Name" class="edit-input" placeholder="OVERWRITE_NAME..." autocomplete="off" />
+                    <span asp-validation-for="Name" class="validation-msg"></span>
                 </div>
 
-                <div class="d-flex gap-3 mt-4">
+                <div class="btn-container">
                     <button type="submit" class="edit-btn-save">
-                        Save Changes
+                        Execute Override
                     </button>
 
                     <a asp-action="Categories" class="edit-btn-cancel">
-                        Cancel
+                        Abort
                     </a>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-﻿@model SEM.Models.ViewModels.MemberProfileViewModel
+﻿@model MCC.Models.ViewModels.MemberProfileViewModel
 
 @{
     ViewData["Title"] = "Profile";
@@ -7,119 +7,169 @@
 
 <style>
     /* ==========================================================
-           INLINE CSS: MEMBER PROFILE PAGE
+           NEON DARK MEMBER PROFILE SYSTEM
         ========================================================== */
+    :root {
+        --bg-void: #020617;
+        --glass-panel: rgba(15, 23, 42, 0.7);
+        --neon-primary: #8b5cf6; /* Electric Purple */
+        --neon-secondary: #06b6d4; /* Cyan Glow */
+        --neon-grad: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        --text-ghost: #f8fafc;
+        --text-slate: #94a3b8;
+        --border-glass: rgba(255, 255, 255, 0.08);
+        --input-focus: rgba(139, 92, 246, 0.2);
+    }
+
     .member-page-wrapper {
-        background-color: #f8fafc;
+        background-color: var(--bg-void);
+        background-image: radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
         min-height: 100vh;
-        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        font-family: 'Inter', system-ui, sans-serif;
         padding: 50px 40px;
+        color: var(--text-ghost);
     }
 
     .member-card {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 45px 40px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
-        max-width: 850px;
+        background: var(--glass-panel);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid var(--border-glass);
+        border-radius: 35px;
+        padding: 50px;
+        max-width: 900px;
+        margin: 0 auto;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         position: relative;
-        overflow: hidden;
     }
 
-        /* Gradient Top Line */
+        /* Holographic Top bar */
         .member-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+            left: 15%;
+            right: 15%;
+            height: 3px;
+            background: var(--neon-grad);
+            box-shadow: 0 0 20px var(--neon-primary);
+            filter: blur(1px);
         }
 
-    /* Gradient Title */
     .member-title {
         font-weight: 900;
-        font-size: 2.2rem;
-        letter-spacing: -0.5px;
-        margin-bottom: 5px;
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
+        font-size: 2.5rem;
+        letter-spacing: -1.5px;
+        background: var(--neon-grad);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        display: inline-block;
+        margin-bottom: 5px;
     }
 
-    /* Form Labels */
+    /* Input Field Evolution */
     .profile-label {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #64748b;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: var(--neon-secondary);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 8px;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
         display: block;
+        opacity: 0.8;
     }
 
-    /* Form Inputs & Textareas */
     .profile-input {
         width: 100%;
-        padding: 14px 18px;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        font-size: 15px;
-        font-weight: 500;
-        color: #334155;
-        background-color: #f8fafc;
-        transition: all 0.3s ease;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--border-glass);
+        border-radius: 16px;
+        padding: 16px 20px;
+        color: #fff;
+        font-size: 1rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     textarea.profile-input {
-        min-height: 100px;
+        min-height: 120px;
         resize: vertical;
     }
 
-    /* Magenta Glow on Focus */
     .profile-input:focus {
         outline: none;
-        border-color: #C850C0;
-        background-color: #ffffff;
-        box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
+        border-color: var(--neon-primary);
+        background: rgba(0, 0, 0, 0.6);
+        box-shadow: 0 0 20px var(--input-focus);
     }
 
-    /* Gradient Save Button */
-    .btn-save-gradient {
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-        color: #fff;
+    /* Neon Action Button */
+    .btn-save-neon {
+        background: var(--neon-grad);
+        color: #000;
         border: none;
-        padding: 15px 40px;
-        font-size: 16px;
-        font-weight: 800;
-        border-radius: 12px;
+        padding: 18px 50px;
+        font-size: 1rem;
+        font-weight: 900;
+        border-radius: 16px;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 8px 20px rgba(200, 80, 192, 0.3);
-        display: inline-block;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
     }
 
-        .btn-save-gradient:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(200, 80, 192, 0.5);
-            color: #fff;
+        .btn-save-neon:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(6, 182, 212, 0.5);
+            filter: brightness(1.1);
         }
 
-    /* Modern Success Alert */
+    /* Status Alert */
     .profile-alert {
-        padding: 16px 20px;
-        border-radius: 12px;
-        font-size: 15px;
-        font-weight: 600;
-        background-color: #f0fdf4;
-        color: #166534;
-        border-left: 5px solid #22c55e;
-        margin-bottom: 30px;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        padding: 18px 25px;
+        border-radius: 16px;
+        color: #34d399;
+        font-weight: 700;
+        margin-bottom: 35px;
         display: flex;
         align-items: center;
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+        animation: slideIn 0.5s ease-out;
     }
+
+    @@keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .section-divider {
+        border: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--border-glass), transparent);
+        margin: 40px 0;
+    }
+
+    .security-heading {
+        color: #fff;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .security-heading i {
+            color: var(--neon-primary);
+            font-size: 1.2rem;
+        }
 </style>
 
 <div class="d-flex">
@@ -130,70 +180,75 @@
 
         <div class="member-card">
 
-            <h2 class="member-title">My Profile</h2>
-            <p class="text-muted mb-4 pb-2" style="border-bottom: 1px solid #f1f5f9;">Manage your personal information, preferences, and security.</p>
+            <h2 class="member-title">Profile Identity</h2>
+            <p class="text-slate mb-5">Configure user telemetry and security parameters.</p>
 
             @if (TempData["StatusMessage"] != null)
             {
                 <div class="profile-alert">
-                    <i class="me-2 fs-5">✓</i> @TempData["StatusMessage"]
+                    <span class="me-3">⚡</span> @TempData["StatusMessage"]
                 </div>
             }
 
             <form asp-action="Profile" method="post">
 
-                <div class="row g-4 mb-4">
+                <div class="row g-4">
                     <div class="col-md-6">
-                        <label asp-for="FullName" class="profile-label">Full Name</label>
-                        <input asp-for="FullName" class="profile-input" placeholder="e.g., Jane Doe" />
-                        <span asp-validation-for="FullName" class="text-danger mt-1 d-block" style="font-size: 0.85rem; font-weight:600;"></span>
+                        <label asp-for="FullName" class="profile-label">Identity Label</label>
+                        <input asp-for="FullName" class="profile-input" placeholder="FULL NAME" />
+                        <span asp-validation-for="FullName" class="text-danger small fw-bold"></span>
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="PhoneNumber" class="profile-label">Phone Number</label>
-                        <input asp-for="PhoneNumber" class="profile-input" placeholder="e.g., +1 555-0192" />
-                        <span asp-validation-for="PhoneNumber" class="text-danger mt-1 d-block" style="font-size: 0.85rem; font-weight:600;"></span>
+                        <label asp-for="PhoneNumber" class="profile-label">Comms Frequency</label>
+                        <input asp-for="PhoneNumber" class="profile-input" placeholder="+0 000-0000" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger small fw-bold"></span>
                     </div>
 
                     <div class="col-md-12">
-                        <label asp-for="Email" class="profile-label">Email Address</label>
-                        <input asp-for="Email" class="profile-input" placeholder="name@example.com" />
-                        <span asp-validation-for="Email" class="text-danger mt-1 d-block" style="font-size: 0.85rem; font-weight:600;"></span>
+                        <label asp-for="Email" class="profile-label">Network Address (Email)</label>
+                        <input asp-for="Email" class="profile-input" placeholder="NODE@@SERVER.COM" />
+                        <span asp-validation-for="Email" class="text-danger small fw-bold"></span>
                     </div>
 
                     <div class="col-md-12">
-                        <label asp-for="Bio" class="profile-label">Short Bio</label>
-                        <textarea asp-for="Bio" class="profile-input" placeholder="Tell us a little bit about yourself..."></textarea>
+                        <label asp-for="Bio" class="profile-label">User Bio-Log</label>
+                        <textarea asp-for="Bio" class="profile-input" placeholder="Input biographical data strings..."></textarea>
                     </div>
 
                     <div class="col-md-12">
-                        <label asp-for="EventPreferences" class="profile-label">Event Preferences</label>
-                        <textarea asp-for="EventPreferences" class="profile-input" placeholder="e.g., Jazz Music, Modern Art, Theater..."></textarea>
+                        <label asp-for="EventPreferences" class="profile-label">Cultural Telemetry (Preferences)</label>
+                        <textarea asp-for="EventPreferences" class="profile-input" placeholder="e.g., TECH_ART, JAZZ_WAVES, CYBER_THEATRE..."></textarea>
                     </div>
                 </div>
 
-                <hr style="border-top: 2px dashed #e2e8f0; margin: 35px 0; opacity: 1;" />
+                <hr class="section-divider" />
 
-                <h4 class="mb-4" style="font-weight: 800; color: #1e293b; font-size: 1.25rem;">Change Password</h4>
-                <p class="text-muted" style="font-size: 0.9rem; margin-top: -15px; margin-bottom: 20px;">Leave these fields blank if you do not wish to change your password.</p>
+                <div class="mb-4">
+                    <h4 class="security-heading">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="mb-1"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" /></svg>
+                        Security Override
+                    </h4>
+                    <p class="text-slate small">Initiate password rotation protocols. Leave blank to maintain current encryption.</p>
+                </div>
 
                 <div class="row g-4 mb-5">
                     <div class="col-md-6">
-                        <label asp-for="NewPassword" class="profile-label">New Password</label>
-                        <input asp-for="NewPassword" type="password" class="profile-input" placeholder="Enter new password" />
-                        <span asp-validation-for="NewPassword" class="text-danger mt-1 d-block" style="font-size: 0.85rem; font-weight:600;"></span>
+                        <label asp-for="NewPassword" class="profile-label">New Access Key</label>
+                        <input asp-for="NewPassword" type="password" class="profile-input" placeholder="********" />
+                        <span asp-validation-for="NewPassword" class="text-danger small fw-bold"></span>
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="ConfirmPassword" class="profile-label">Confirm Password</label>
-                        <input asp-for="ConfirmPassword" type="password" class="profile-input" placeholder="Confirm new password" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger mt-1 d-block" style="font-size: 0.85rem; font-weight:600;"></span>
+                        <label asp-for="ConfirmPassword" class="profile-label">Confirm Key</label>
+                        <input asp-for="ConfirmPassword" type="password" class="profile-input" placeholder="********" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger small fw-bold"></span>
                     </div>
                 </div>
 
                 <div class="text-end">
-                    <button type="submit" class="btn-save-gradient">
-                        Save Changes
+                    <button type="submit" class="btn-save-neon">
+                        Commit Identity Sync
                     </button>
                 </div>
 

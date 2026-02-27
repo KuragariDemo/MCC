@@ -1,41 +1,210 @@
-﻿@model IEnumerable<SEM.Models.Category>
+﻿@model IEnumerable<MCC.Models.Category>
 
 @{
     ViewData["Title"] = "Manage Categories";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="d-flex">
+<style>
+    /* ==========================================================
+           NEON DARK CATEGORY MANAGEMENT SYSTEM
+        ========================================================== */
+    :root {
+        --bg-obsidian: #020617;
+        --glass-card: rgba(15, 23, 42, 0.7);
+        --neon-green: #4ade80;
+        --neon-gold: #fbbf24;
+        --neon-rose: #fb7185;
+        --neon-grad-primary: linear-gradient(135deg, #4ade80 0%, #2dd4bf 100%);
+        --text-ghost: #f8fafc;
+        --text-slate: #94a3b8;
+        --border-glass: rgba(255, 255, 255, 0.08);
+    }
 
+    .admin-content-wrapper {
+        background-color: var(--bg-obsidian);
+        background-image: radial-gradient(at 0% 100%, rgba(74, 222, 128, 0.05) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(45, 212, 191, 0.05) 0px, transparent 50%);
+        min-height: 100vh;
+        padding: 50px 30px;
+        color: var(--text-ghost);
+    }
+
+    .neon-admin-card {
+        background: var(--glass-card);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--border-glass);
+        border-radius: 30px;
+        padding: 40px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .neon-page-title {
+        font-weight: 900;
+        font-size: 2.2rem;
+        letter-spacing: -1px;
+        background: var(--neon-grad-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 5px;
+    }
+
+    /* Create Section Styling */
+    .neon-input-group {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border-glass);
+        border-radius: 20px;
+        padding: 10px;
+        transition: all 0.3s ease;
+    }
+
+        .neon-input-group:focus-within {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.15);
+        }
+
+    .neon-input {
+        background: transparent;
+        border: none;
+        color: white;
+        padding: 12px 20px;
+        width: 100%;
+        font-size: 1rem;
+    }
+
+        .neon-input:focus {
+            outline: none;
+        }
+
+    .btn-neon-add {
+        background: var(--neon-grad-primary);
+        color: var(--bg-obsidian);
+        border: none;
+        border-radius: 14px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 12px 25px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-neon-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(74, 222, 128, 0.4);
+        }
+
+    /* Table & Row Styling */
+    .neon-table thead th {
+        color: var(--text-slate);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border: none;
+        padding-bottom: 20px;
+    }
+
+    .neon-cat-row {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border-glass);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+    }
+
+        .neon-cat-row::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--neon-grad-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .neon-cat-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.005);
+        }
+
+            .neon-cat-row:hover::before {
+                opacity: 1;
+            }
+
+        .neon-cat-row td {
+            padding: 20px;
+            border: none;
+        }
+
+    .cat-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--neon-green);
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 0 10px var(--neon-green);
+    }
+
+    /* Action Buttons */
+    .btn-action-neon {
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .btn-edit-neon {
+        color: var(--neon-gold);
+        border: 1px solid var(--neon-gold);
+    }
+
+        .btn-edit-neon:hover {
+            background: var(--neon-gold);
+            color: var(--bg-obsidian);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+        }
+
+    .btn-delete-neon {
+        color: var(--neon-rose);
+        border: 1px solid var(--neon-rose);
+    }
+
+        .btn-delete-neon:hover {
+            background: var(--neon-rose);
+            color: var(--bg-obsidian);
+            box-shadow: 0 0 15px rgba(251, 113, 133, 0.4);
+        }
+</style>
+
+<div class="d-flex">
     @await Html.PartialAsync("_AdminSidebar")
 
     <div class="admin-content-wrapper flex-fill">
+        <div class="neon-admin-card mx-auto" style="max-width: 900px;">
 
-        <div class="admin-card" style="max-width: 800px;">
-            <h2 class="admin-page-title">Manage Categories</h2>
-            <p class="text-muted mb-4">Create, edit, or remove event categories for the SEM platform.</p>
+            <div class="mb-5">
+                <h2 class="neon-page-title">Category Nodes</h2>
+                <p class="text-slate small">Organize and tag event classifications within the system.</p>
+            </div>
 
             <form asp-action="CreateCategory" method="post" class="mb-5">
-                <div class="row g-3 align-items-center">
-                    <div class="col-md-8">
-                        <input name="Name" class="admin-input" placeholder="Enter new category name (e.g., Music, Art)" required />
-                    </div>
-                    <div class="col-md-4">
-                        <button type="submit" class="admin-btn-gradient w-100">
-                            + Add Category
-                        </button>
-                    </div>
+                <div class="neon-input-group d-flex align-items-center">
+                    <input name="Name" class="neon-input flex-fill" placeholder="Input New Category Label..." required />
+                    <button type="submit" class="btn-neon-add">
+                        Register Node
+                    </button>
                 </div>
             </form>
 
-            <hr style="border-top: 2px dashed #e2e8f0; margin-bottom: 30px; opacity: 1;" />
-
             <div class="table-responsive">
-                <table class="table align-middle" style="border-collapse: separate; border-spacing: 0 10px;">
+                <table class="table align-middle" style="border-collapse: separate; border-spacing: 0 12px;">
                     <thead>
-                        <tr style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: #94a3b8;">
-                            <th class="ps-3 border-0">Category Name</th>
-                            <th class="text-end pe-3 border-0" width="200">Actions</th>
+                        <tr>
+                            <th class="ps-4">Identifier</th>
+                            <th class="text-end pe-4">Protocol Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,26 +212,20 @@
                         {
                             @foreach (var item in Model)
                             {
-                                <tr style="background: #f8fafc; transition: all 0.3s ease; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-                                    <td class="ps-3 py-3 border-0 rounded-start font-weight-bold" style="color: #334155; font-weight: 600;">
-                                        @item.Name
+                                <tr class="neon-cat-row">
+                                    <td class="ps-4 rounded-start">
+                                        <div class="d-flex align-items-center">
+                                            <div class="cat-dot me-3"></div>
+                                            <span style="color: white; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px;">@item.Name</span>
+                                        </div>
                                     </td>
-                                    <td class="text-end pe-3 py-3 border-0 rounded-end">
-
-                                        <a asp-action="EditCategory"
-                                           asp-route-id="@item.Id"
-                                           class="btn btn-sm text-white me-2"
-                                           style="background: linear-gradient(135deg, #f6d365, #fda085); border: none; border-radius: 8px; font-weight: 600; padding: 6px 15px; box-shadow: 0 4px 10px rgba(253, 160, 133, 0.3);">
+                                    <td class="text-end pe-4 rounded-end">
+                                        <a asp-action="EditCategory" asp-route-id="@item.Id" class="btn-action-neon btn-edit-neon me-2">
                                             Edit
                                         </a>
-
-                                        <a asp-action="DeleteCategory"
-                                           asp-route-id="@item.Id"
-                                           class="btn btn-sm text-white"
-                                           style="background: linear-gradient(135deg, #ff0844, #ffb199); border: none; border-radius: 8px; font-weight: 600; padding: 6px 15px; box-shadow: 0 4px 10px rgba(255, 8, 68, 0.3);">
-                                            Delete
+                                        <a asp-action="DeleteCategory" asp-route-id="@item.Id" class="btn-action-neon btn-delete-neon">
+                                            Kill
                                         </a>
-
                                     </td>
                                 </tr>
                             }
@@ -70,8 +233,11 @@
                         else
                         {
                             <tr>
-                                <td colspan="2" class="text-center py-4 text-muted border-0">
-                                    <em>No categories found. Create one above to get started.</em>
+                                <td colspan="2" class="text-center py-5">
+                                    <div class="text-slate opacity-50">
+                                        <p class="mb-1">No data fragments found.</p>
+                                        <small>Initialize a new category above to begin syncing.</small>
+                                    </div>
                                 </td>
                             </tr>
                         }

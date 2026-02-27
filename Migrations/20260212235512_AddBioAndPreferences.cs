@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace SEM.Migrations
+namespace MCC.Migrations
 {
     /// <inheritdoc />
     public partial class AddBioAndPreferences : Migration

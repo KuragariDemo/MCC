@@ -1,4 +1,4 @@
-namespace SEM.Models
+namespace MCC.Models
 {
     public class ErrorViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SEM.Models
+namespace MCC.Models
 {
     public class Category
     {

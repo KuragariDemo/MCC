@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace SEM.Migrations
+namespace MCC.Migrations
 {
     /// <inheritdoc />
-    public partial class AddFeedback : Migration
+    public partial class AddSeatAndPriceFields : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

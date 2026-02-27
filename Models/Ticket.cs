@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SEM.Areas.Identity.Data;
+using MCC.Areas.Identity.Data;
 
-namespace SEM.Models
+namespace MCC.Models
 {
     public class Ticket
     {

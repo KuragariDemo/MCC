@@ -1,4 +1,4 @@
-﻿@model SEM.Models.Venue
+﻿@model MCC.Models.Venue
 
 @{
     ViewData["Title"] = "Edit Venue";
@@ -7,124 +7,172 @@
 
 <style>
     /* ==========================================================
-           INLINE CSS: EDIT VENUE PAGE
+           NEON DARK VENUE DESIGN SYSTEM
         ========================================================== */
+    :root {
+        --bg-obsidian: #020617;
+        --glass-panel: rgba(15, 23, 42, 0.8);
+        --neon-lime: #a3e635; /* Electric Lime */
+        --neon-gold: #fde047; /* Cyber Yellow */
+        --neon-grad: linear-gradient(135deg, #a3e635 0%, #fde047 100%);
+        --text-ghost: #f8fafc;
+        --text-slate: #94a3b8;
+        --border-glass: rgba(255, 255, 255, 0.05);
+    }
+
     .edit-page-wrapper {
-        background-color: #f8fafc;
+        background-color: var(--bg-obsidian);
+        background-image: radial-gradient(at 0% 0%, rgba(163, 230, 53, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(253, 224, 71, 0.1) 0px, transparent 50%);
         min-height: 100vh;
-        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-        padding: 50px 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        font-family: 'Inter', system-ui, sans-serif;
     }
 
     .edit-card {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 45px 40px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
-        max-width: 600px; /* Keeps the form perfectly sized and readable */
+        background: var(--glass-panel);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid var(--border-glass);
+        border-radius: 40px;
+        padding: 60px;
+        width: 100%;
+        max-width: 550px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         position: relative;
         overflow: hidden;
     }
 
-        /* Gradient Top Line */
-        .edit-card::before {
+        /* Holographic Edge Glow */
+        .edit-card::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--neon-grad);
+            z-index: -1;
+            border-radius: 42px;
+            opacity: 0.2;
+            filter: blur(8px);
         }
 
-    /* Gradient Title */
     .edit-title {
+        color: var(--text-ghost);
         font-weight: 900;
-        font-size: 2.2rem;
-        letter-spacing: -0.5px;
-        margin-bottom: 10px;
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        display: inline-block;
+        font-size: 2.5rem;
+        letter-spacing: -1.5px;
+        margin-bottom: 8px;
+        text-align: center;
+        text-shadow: 0 0 15px rgba(163, 230, 53, 0.3);
     }
 
-    /* Input Field Styling */
-    .edit-label {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #64748b;
-        text-transform: uppercase;
+    .edit-subtitle {
+        color: var(--text-slate);
+        text-align: center;
+        margin-bottom: 45px;
+        font-size: 0.95rem;
         letter-spacing: 0.5px;
-        margin-bottom: 8px;
-        display: block;
     }
+
+    .form-group-neon {
+        margin-bottom: 35px;
+    }
+
+    .edit-label {
+        color: var(--neon-lime);
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
+        display: block;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .edit-label svg {
+            opacity: 0.8;
+        }
 
     .edit-input {
         width: 100%;
-        padding: 16px 20px;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        font-size: 16px;
-        font-weight: 500;
-        color: #334155;
-        background-color: #f8fafc;
-        transition: all 0.3s ease;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 18px 25px;
+        color: white;
+        font-size: 1.1rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-        /* Magenta Glow on Focus */
         .edit-input:focus {
             outline: none;
-            border-color: #C850C0;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
+            border-color: var(--neon-lime);
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 20px rgba(163, 230, 53, 0.2);
         }
 
-    /* Gradient Submit Button */
+    .btn-container {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
     .edit-btn-save {
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-        color: #fff;
+        background: var(--neon-grad);
+        color: var(--bg-obsidian);
         border: none;
-        padding: 15px 35px;
-        font-size: 16px;
-        font-weight: 800;
-        border-radius: 12px;
+        padding: 18px;
+        border-radius: 16px;
+        font-weight: 900;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 8px 20px rgba(200, 80, 192, 0.3);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        box-shadow: 0 10px 20px rgba(163, 230, 53, 0.3);
     }
 
         .edit-btn-save:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(200, 80, 192, 0.5);
-            color: #fff;
+            box-shadow: 0 15px 30px rgba(253, 224, 71, 0.4);
+            filter: brightness(1.1);
         }
 
-    /* Sleek Cancel Outline Button */
     .edit-btn-cancel {
         background: transparent;
-        color: #64748b;
-        border: 2px solid #e2e8f0;
-        padding: 13px 30px;
-        font-size: 16px;
-        font-weight: 700;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
+        color: var(--text-slate);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        padding: 16px;
+        border-radius: 16px;
+        text-align: center;
         text-decoration: none;
-        display: inline-flex;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        display: flex;
         align-items: center;
         justify-content: center;
     }
 
         .edit-btn-cancel:hover {
-            border-color: #94a3b8;
-            color: #334155;
-            background-color: #f1f5f9;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-ghost);
+            border-color: var(--text-slate);
         }
+
+    .validation-msg {
+        color: #f87171;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-top: 10px;
+        display: block;
+    }
 </style>
 
 <div class="d-flex">
@@ -134,38 +182,41 @@
     <div class="edit-page-wrapper flex-fill">
 
         <div class="edit-card">
-
-            <h2 class="edit-title">Edit Venue</h2>
-            <p class="text-muted mb-4 pb-2" style="border-bottom: 1px solid #f1f5f9;">Update the name and location details for this venue.</p>
+            <h2 class="edit-title">Refine Venue</h2>
+            <p class="edit-subtitle">Update the coordinates and identity for this host node.</p>
 
             <form asp-action="EditVenue" method="post">
                 @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="Id" />
 
-                <div class="mb-4">
-                    <label class="edit-label">Venue Name</label>
-                    <input asp-for="Name" class="edit-input" placeholder="e.g., Central Park Amphitheater" />
-                    <span asp-validation-for="Name" class="text-danger mt-2 d-block fw-bold" style="font-size: 0.85rem;"></span>
+                <div class="form-group-neon">
+                    <label class="edit-label">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z" /></svg>
+                        Venue Identity
+                    </label>
+                    <input asp-for="Name" class="edit-input" placeholder="e.g., NEON PLAZA" autocomplete="off" />
+                    <span asp-validation-for="Name" class="validation-msg"></span>
                 </div>
 
-                <div class="mb-5">
-                    <label class="edit-label">Location</label>
-                    <input asp-for="Location" class="edit-input" placeholder="e.g., Downtown NY" />
-                    <span asp-validation-for="Location" class="text-danger mt-2 d-block fw-bold" style="font-size: 0.85rem;"></span>
+                <div class="form-group-neon">
+                    <label class="edit-label">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" /></svg>
+                        Coordinate Location
+                    </label>
+                    <input asp-for="Location" class="edit-input" placeholder="e.g., SECTOR 7G" autocomplete="off" />
+                    <span asp-validation-for="Location" class="validation-msg"></span>
                 </div>
 
-                <div class="d-flex gap-3">
+                <div class="btn-container">
                     <button type="submit" class="edit-btn-save">
-                        Save Changes
+                        Commit Sync
                     </button>
 
                     <a asp-action="Venues" class="edit-btn-cancel">
-                        Cancel
+                        Abort
                     </a>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>

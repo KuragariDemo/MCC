@@ -1,15 +1,15 @@
-﻿using SEM.Models;
+﻿using MCC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SEM.Areas.Identity.Data;
-using SEM.Models;
+using MCC.Areas.Identity.Data;
+using MCC.Models;
 
-namespace SEM.Data;
+namespace MCC.Data;
 
-public class SEMContext : IdentityDbContext<SEMUser>
+public class MCCContext : IdentityDbContext<SEMUser>
 {
-    public SEMContext(DbContextOptions<SEMContext> options)
+    public MCCContext(DbContextOptions<MCCContext> options)
         : base(options)
     {
     }

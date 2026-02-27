@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SEM.Areas.Identity.Data;
-using SEM.Data;
+using MCC.Areas.Identity.Data;
+using MCC.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ✅ use new connection string name
 var connectionString = builder.Configuration
-    .GetConnectionString("SEMContextConnection")
-    ?? throw new InvalidOperationException("Connection string 'SEMContextConnection' not found.");
+    .GetConnectionString("MCCContextConnection")
+    ?? throw new InvalidOperationException("Connection string 'MCCContextConnection' not found.");
 
-builder.Services.AddDbContext<SEMContext>(options =>
+builder.Services.AddDbContext<MCCContext>(options =>
     options.UseSqlServer(connectionString));
 
 // 🔐 Identity Configuration
@@ -17,7 +18,7 @@ builder.Services.AddIdentity<SEMUser, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
 })
-.AddEntityFrameworkStores<SEMContext>()
+.AddEntityFrameworkStores<MCCContext>()
 .AddDefaultTokenProviders()
 .AddDefaultUI();
 
@@ -48,7 +49,7 @@ using (var scope = app.Services.CreateScope())
     }
 
     // 2️⃣ Create Default Admin User
-    string adminEmail = "admin@sem.com";
+    string adminEmail = "admin@mcc.com";   // ✅ updated
     string adminPassword = "Admin123!";
 
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
@@ -60,9 +61,8 @@ using (var scope = app.Services.CreateScope())
             UserName = adminEmail,
             Email = adminEmail,
             EmailConfirmed = true,
-            FullName = "System Administrator"   // 👈 ADD THIS
+            FullName = "System Administrator"
         };
-
 
         var result = await userManager.CreateAsync(newAdmin, adminPassword);
 
@@ -72,7 +72,7 @@ using (var scope = app.Services.CreateScope())
         }
     }
 
-    var context = services.GetRequiredService<SEMContext>();
+    var context = services.GetRequiredService<MCCContext>();
 
     var events = context.Events.ToList();
 
@@ -102,7 +102,6 @@ using (var scope = app.Services.CreateScope())
     }
 
     await context.SaveChangesAsync();
-
 }
 
 // ---------------- PIPELINE ----------------
@@ -114,7 +113,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();   // ✅ Required
+app.UseStaticFiles();
 
 app.UseRouting();
 

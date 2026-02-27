@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using SEM.Areas.Identity.Data
+@using MCC.Areas.Identity.Data
 @inject SignInManager<SEMUser> SignInManager
 @inject UserManager<SEMUser> UserManager
 
@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SEM</title>
+    <title>@ViewData["Title"] - MCC</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -19,7 +19,7 @@
         <nav class="navbar navbar-expand-lg layout-navbar">
             <div class="container">
                 <a class="navbar-brand layout-brand fw-bold" asp-controller="Home" asp-action="Index">
-                    SEM
+                    MCC
                 </a>
 
                 <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
@@ -95,9 +95,9 @@
         <div class="container">
             <div class="row mb-4">
                 <div class="col-md-6 mb-4 mb-md-0">
-                    <h5 class="layout-footer-title">Smart Event Management (SEM)</h5>
+                    <h5 class="layout-footer-title">Smart Event Management (MCC)</h5>
                     <p class="layout-footer-text">
-                        SEM is a modern platform developed for the Metropolitan Cultural Council
+                        MCC is a modern platform developed for the Metropolitan Cultural Council
                         to manage events, ticketing, and community engagement efficiently.
                     </p>
                 </div>
@@ -115,7 +115,7 @@
             <hr class="layout-footer-divider" />
 
             <div class="text-center layout-footer-copy">
-                &copy; @DateTime.Now.Year - SEM. All Rights Reserved.
+                &copy; @DateTime.Now.Year - MCC. All Rights Reserved.
             </div>
         </div>
     </footer>

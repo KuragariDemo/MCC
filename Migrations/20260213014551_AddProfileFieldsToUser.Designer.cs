@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SEM.Data;
+using MCC.Data;
 
 #nullable disable
 
-namespace SEM.Migrations
+namespace MCC.Migrations
 {
-    [DbContext(typeof(SEMContext))]
+    [DbContext(typeof(MCCContext))]
     [Migration("20260213014551_AddProfileFieldsToUser")]
     partial class AddProfileFieldsToUser
     {
@@ -158,7 +158,7 @@ namespace SEM.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SEM.Areas.Identity.Data.SEMUser", b =>
+            modelBuilder.Entity("MCC.Areas.Identity.Data.SEMUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -237,7 +237,7 @@ namespace SEM.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("SEM.Models.Event", b =>
+            modelBuilder.Entity("MCC.Models.Event", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -279,7 +279,7 @@ namespace SEM.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SEM.Areas.Identity.Data.SEMUser", null)
+                    b.HasOne("MCC.Areas.Identity.Data.SEMUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -288,7 +288,7 @@ namespace SEM.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SEM.Areas.Identity.Data.SEMUser", null)
+                    b.HasOne("MCC.Areas.Identity.Data.SEMUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -303,7 +303,7 @@ namespace SEM.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SEM.Areas.Identity.Data.SEMUser", null)
+                    b.HasOne("MCC.Areas.Identity.Data.SEMUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -312,7 +312,7 @@ namespace SEM.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SEM.Areas.Identity.Data.SEMUser", null)
+                    b.HasOne("MCC.Areas.Identity.Data.SEMUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

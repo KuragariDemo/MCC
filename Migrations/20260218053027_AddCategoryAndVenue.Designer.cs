@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SEM.Data;
+using MCC.Data;
 
 #nullable disable
 
-namespace SEM.Migrations
+namespace MCC.Migrations
 {
-    [DbContext(typeof(SEMContext))]
+    [DbContext(typeof(MCCContext))]
     [Migration("20260218053027_AddCategoryAndVenue")]
     partial class AddCategoryAndVenue
     {
@@ -158,7 +158,7 @@ namespace SEM.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SEM.Areas.Identity.Data.SEMUser", b =>
+            modelBuilder.Entity("MCC.Areas.Identity.Data.SEMUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -234,7 +234,7 @@ namespace SEM.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("SEM.Models.Category", b =>
+            modelBuilder.Entity("MCC.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -251,7 +251,7 @@ namespace SEM.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("SEM.Models.Event", b =>
+            modelBuilder.Entity("MCC.Models.Event", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -303,7 +303,7 @@ namespace SEM.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("SEM.Models.Venue", b =>
+            modelBuilder.Entity("MCC.Models.Venue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -335,7 +335,7 @@ namespace SEM.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SEM.Areas.Identity.Data.SEMUser", null)
+                    b.HasOne("MCC.Areas.Identity.Data.SEMUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -344,7 +344,7 @@ namespace SEM.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SEM.Areas.Identity.Data.SEMUser", null)
+                    b.HasOne("MCC.Areas.Identity.Data.SEMUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -359,7 +359,7 @@ namespace SEM.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SEM.Areas.Identity.Data.SEMUser", null)
+                    b.HasOne("MCC.Areas.Identity.Data.SEMUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -368,22 +368,22 @@ namespace SEM.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SEM.Areas.Identity.Data.SEMUser", null)
+                    b.HasOne("MCC.Areas.Identity.Data.SEMUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SEM.Models.Event", b =>
+            modelBuilder.Entity("MCC.Models.Event", b =>
                 {
-                    b.HasOne("SEM.Models.Category", "Category")
+                    b.HasOne("MCC.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SEM.Models.Venue", "Venue")
+                    b.HasOne("MCC.Models.Venue", "Venue")
                         .WithMany()
                         .HasForeignKey("VenueId")
                         .OnDelete(DeleteBehavior.Cascade)

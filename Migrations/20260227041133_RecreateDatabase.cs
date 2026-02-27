@@ -5,7 +5,7 @@
 namespace MCC.Migrations
 {
     /// <inheritdoc />
-    public partial class AddProfileFieldsToUser : Migration
+    public partial class RecreateDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

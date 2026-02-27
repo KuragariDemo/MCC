@@ -1,37 +1,36 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SEM.Data;
-using SEM.Models;
-using SEM.Models.ViewModels;
+using MCC.Data;
+using MCC.Models;
+using MCC.Models.ViewModels;
 using System.Security.Claims;
 
-namespace SEM.Controllers
+namespace MCC.Controllers
 {
     [Authorize]
     public class EventsController : Controller
     {
-        private readonly SEMContext _context;
+        private readonly MCCContext _context;
 
-        public EventsController(SEMContext context)
+        public EventsController(MCCContext context)
         {
             _context = context;
         }
 
-        // =====================================
-        // EVENT LIST + FILTER
-        // =====================================
-        public IActionResult Index(string category, string location, DateTime? date, decimal? maxPrice)
+        #region ================= Event Listing & Filtering =================
+
+        public IActionResult Index(string? category, string? location, DateTime? date, decimal? maxPrice)
         {
             var events = _context.Events
-                .Include(e => e.Category)
-                .Include(e => e.Venue)
-                .AsQueryable();
+                                 .Include(e => e.Category)
+                                 .Include(e => e.Venue)
+                                 .AsQueryable();
 
-            if (!string.IsNullOrEmpty(category))
+            if (!string.IsNullOrWhiteSpace(category))
                 events = events.Where(e => e.Category.Name.Contains(category));
 
-            if (!string.IsNullOrEmpty(location))
+            if (!string.IsNullOrWhiteSpace(location))
                 events = events.Where(e => e.Venue.Location.Contains(location));
 
             if (date.HasValue)
@@ -48,37 +47,40 @@ namespace SEM.Controllers
             return View(events.ToList());
         }
 
-        // =====================================
-        // EVENT DETAILS
-        // =====================================
+        #endregion
+
+
+        #region ================= Event Details =================
+
         public IActionResult Details(int id)
         {
             var eventItem = _context.Events
-                .Include(e => e.Category)
-                .Include(e => e.Venue)
-                .FirstOrDefault(e => e.Id == id);
+                                    .Include(e => e.Category)
+                                    .Include(e => e.Venue)
+                                    .FirstOrDefault(e => e.Id == id);
 
-            if (eventItem == null)
-                return NotFound();
-
-            return View(eventItem);
+            return eventItem == null ? NotFound() : View(eventItem);
         }
 
-        // =====================================
-        // BUY TICKET (GET)
-        // =====================================
+        #endregion
+
+
+        #region ================= Buy Ticket =================
+
+        // GET: Buy Ticket
         [HttpGet]
         public async Task<IActionResult> Buy(int id, string seatType)
         {
             var eventItem = await _context.Events.FindAsync(id);
-            if (eventItem == null)
-                return NotFound();
+            if (eventItem == null) return NotFound();
 
-            decimal price = 0;
-
-            if (seatType == "Low") price = eventItem.LowPrice;
-            if (seatType == "Medium") price = eventItem.MediumPrice;
-            if (seatType == "High") price = eventItem.HighPrice;
+            decimal price = seatType switch
+            {
+                "Low" => eventItem.LowPrice,
+                "Medium" => eventItem.MediumPrice,
+                "High" => eventItem.HighPrice,
+                _ => 0
+            };
 
             var vm = new PaymentViewModel
             {
@@ -90,9 +92,7 @@ namespace SEM.Controllers
             return View(vm);
         }
 
-        // =====================================
-        // BUY TICKET (POST)
-        // =====================================
+        // POST: Buy Ticket
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Buy(PaymentViewModel vm)
@@ -101,21 +101,12 @@ namespace SEM.Controllers
                 return View(vm);
 
             var eventItem = await _context.Events.FindAsync(vm.EventId);
-            if (eventItem == null)
-                return NotFound();
+            if (eventItem == null) return NotFound();
 
-            if (vm.SeatType == "Low" && eventItem.LowSeats <= 0)
+            if (!HasAvailableSeat(eventItem, vm.SeatType))
                 return Content("No seats left.");
 
-            if (vm.SeatType == "Medium" && eventItem.MediumSeats <= 0)
-                return Content("No seats left.");
-
-            if (vm.SeatType == "High" && eventItem.HighSeats <= 0)
-                return Content("No seats left.");
-
-            if (vm.SeatType == "Low") eventItem.LowSeats--;
-            if (vm.SeatType == "Medium") eventItem.MediumSeats--;
-            if (vm.SeatType == "High") eventItem.HighSeats--;
+            DecreaseSeat(eventItem, vm.SeatType);
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -131,44 +122,42 @@ namespace SEM.Controllers
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Payment Successful! Ticket Purchased.";
-
             return RedirectToAction("MyTickets", "Member");
         }
 
-        // =====================================
-        // MY TICKET DETAILS
-        // =====================================
+        #endregion
+
+
+        #region ================= Ticket Details =================
+
         public async Task<IActionResult> MyTicketsDetails(int id)
         {
             var ticket = await _context.Tickets
-                .Include(t => t.Event)
-                .FirstOrDefaultAsync(t => t.Id == id);
+                                       .Include(t => t.Event)
+                                       .FirstOrDefaultAsync(t => t.Id == id);
 
-            if (ticket == null)
-                return NotFound();
-
-            return View(ticket);
+            return ticket == null ? NotFound() : View(ticket);
         }
 
-        // =====================================
-        // SUBMIT FEEDBACK
-        // =====================================
+        #endregion
+
+
+        #region ================= Feedback =================
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubmitFeedback(int eventId, int rating)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Validate rating
             if (rating < 1 || rating > 5)
             {
                 TempData["Error"] = "Invalid rating value.";
                 return RedirectToAction("MyTickets", "Member");
             }
 
-            // Check user bought ticket
             var hasTicket = await _context.Tickets
-                .AnyAsync(t => t.EventId == eventId && t.UserId == userId);
+                                          .AnyAsync(t => t.EventId == eventId && t.UserId == userId);
 
             if (!hasTicket)
             {
@@ -176,9 +165,8 @@ namespace SEM.Controllers
                 return RedirectToAction("MyTickets", "Member");
             }
 
-            // Ensure event is finished
             var eventItem = await _context.Events
-                .FirstOrDefaultAsync(e => e.Id == eventId);
+                                          .FirstOrDefaultAsync(e => e.Id == eventId);
 
             if (eventItem == null || eventItem.Date >= DateTime.Now)
             {
@@ -186,9 +174,8 @@ namespace SEM.Controllers
                 return RedirectToAction("MyTickets", "Member");
             }
 
-            // Prevent duplicate rating
             var existing = await _context.Feedbacks
-                .FirstOrDefaultAsync(f => f.EventId == eventId && f.UserId == userId);
+                                         .FirstOrDefaultAsync(f => f.EventId == eventId && f.UserId == userId);
 
             if (existing != null)
             {
@@ -207,8 +194,41 @@ namespace SEM.Controllers
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Thank you for your feedback!";
-
             return RedirectToAction("MyTicketsDetails", new { id = eventId });
         }
+
+        #endregion
+
+
+        #region ================= Private Helpers =================
+
+        private static bool HasAvailableSeat(Event eventItem, string seatType)
+        {
+            return seatType switch
+            {
+                "Low" => eventItem.LowSeats > 0,
+                "Medium" => eventItem.MediumSeats > 0,
+                "High" => eventItem.HighSeats > 0,
+                _ => false
+            };
+        }
+
+        private static void DecreaseSeat(Event eventItem, string seatType)
+        {
+            switch (seatType)
+            {
+                case "Low":
+                    eventItem.LowSeats--;
+                    break;
+                case "Medium":
+                    eventItem.MediumSeats--;
+                    break;
+                case "High":
+                    eventItem.HighSeats--;
+                    break;
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SEM.Models.Event>
+﻿@model IEnumerable<MCC.Models.Event>
 
 @{
     ViewData["Title"] = "All Events";
@@ -7,210 +7,247 @@
 
 <style>
     /* ==========================================================
-           INLINE CSS: ALL EVENTS / BROWSE EVENTS PAGE
+           NEON DARK DISCOVERY SYSTEM
         ========================================================== */
+    :root {
+        --bg-void: #020617;
+        --glass-panel: rgba(15, 23, 42, 0.7);
+        --neon-primary: #8b5cf6; /* Electric Purple */
+        --neon-secondary: #06b6d4; /* Cyan Glow */
+        --neon-grad: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        --text-ghost: #f8fafc;
+        --text-slate: #94a3b8;
+        --border-glass: rgba(255, 255, 255, 0.08);
+    }
+
     .events-page-wrapper {
-        background-color: #f8fafc;
+        background-color: var(--bg-void);
+        background-image: radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
         min-height: 100vh;
-        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-        padding: 50px 0; /* Padding top and bottom */
+        padding: 60px 0;
+        color: var(--text-ghost);
+        font-family: 'Inter', system-ui, sans-serif;
     }
 
     /* Gradient Title */
     .events-page-title {
         font-weight: 900;
-        font-size: 2.5rem;
-        letter-spacing: -0.5px;
-        margin-bottom: 5px;
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
+        font-size: 3rem;
+        letter-spacing: -2px;
+        background: var(--neon-grad);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        margin-bottom: 5px;
         display: inline-block;
+        text-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
     }
 
-    /* Floating Filter Card */
+    /* Floating Neon Search Card */
     .filter-card {
-        background: #ffffff;
-        border-radius: 16px;
-        padding: 25px 30px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-        margin-bottom: 40px;
-        border: 1px solid rgba(0,0,0,0.02);
+        background: var(--glass-panel);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 35px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        margin-bottom: 50px;
+        border: 1px solid var(--border-glass);
     }
 
     .filter-input {
         width: 100%;
-        padding: 12px 18px;
-        border: 2px solid #e2e8f0;
-        border-radius: 10px;
+        padding: 14px 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--border-glass);
+        border-radius: 12px;
         font-size: 15px;
         font-weight: 500;
-        color: #334155;
-        background-color: #f8fafc;
+        color: #fff;
         transition: all 0.3s ease;
     }
 
         .filter-input:focus {
             outline: none;
-            border-color: #C850C0;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
+            border-color: var(--neon-secondary);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+        }
+
+        .filter-input::placeholder {
+            color: var(--text-slate);
         }
 
     /* Gradient Search Button */
     .btn-search-gradient {
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 100%);
+        background: var(--neon-grad);
         color: #fff;
         border: none;
-        padding: 12px 30px;
+        padding: 14px 35px;
         font-size: 15px;
-        font-weight: 700;
-        border-radius: 10px;
+        font-weight: 800;
+        border-radius: 12px;
         transition: all 0.3s ease;
-        box-shadow: 0 6px 15px rgba(200, 80, 192, 0.3);
-        display: inline-block;
+        box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
         .btn-search-gradient:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(200, 80, 192, 0.4);
-            color: #fff;
+            box-shadow: 0 15px 30px rgba(6, 182, 212, 0.4);
+            filter: brightness(1.1);
         }
 
-    /* Outline Reset Button */
     .btn-reset-outline {
-        border: 2px solid #e2e8f0;
-        color: #64748b;
-        padding: 10px 25px;
+        border: 1px solid var(--border-glass);
+        color: var(--text-slate);
+        padding: 12px 25px;
         font-weight: 700;
-        border-radius: 10px;
+        border-radius: 12px;
         transition: all 0.3s ease;
         text-decoration: none;
         display: inline-block;
+        text-transform: uppercase;
+        font-size: 14px;
     }
 
         .btn-reset-outline:hover {
-            border-color: #94a3b8;
-            background: #f1f5f9;
-            color: #334155;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-color: var(--text-slate);
         }
 
-    /* Modern Floating Table */
+    /* Modern Neon Table */
     .events-table {
         border-collapse: separate;
-        border-spacing: 0 12px;
+        border-spacing: 0 15px;
         width: 100%;
     }
 
         .events-table th {
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            color: #94a3b8;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--text-slate);
             border: none;
-            padding: 0 20px 10px 20px;
-            font-weight: 700;
+            padding: 0 25px 10px 25px;
+            font-weight: 800;
         }
 
     .event-row {
-        background: #ffffff;
-        transition: all 0.3s ease;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        background: var(--glass-panel);
+        backdrop-filter: blur(10px);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid var(--border-glass);
     }
 
         .event-row:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.06);
+            transform: scale(1.01);
+            border-color: var(--neon-secondary);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.15);
+            background: rgba(30, 41, 59, 0.8);
         }
 
     .events-table td {
-        padding: 20px;
+        padding: 25px;
         border: none;
         vertical-align: middle;
-        color: #475569;
-        font-weight: 500;
+        color: var(--text-ghost);
     }
 
         .events-table td:first-child {
-            border-top-left-radius: 12px;
-            border-bottom-left-radius: 12px;
-            color: #1e293b;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
         }
 
         .events-table td:last-child {
-            border-top-right-radius: 12px;
-            border-bottom-right-radius: 12px;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
         }
 
     /* Badges & Buttons */
     .badge-category {
-        background: rgba(200, 80, 192, 0.1);
-        color: #C850C0;
-        padding: 6px 14px;
-        border-radius: 50px;
-        font-size: 0.85rem;
-        font-weight: 700;
+        background: rgba(139, 92, 246, 0.15);
+        color: var(--neon-primary);
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 1px;
+        border: 1px solid rgba(139, 92, 246, 0.3);
     }
 
     .btn-details {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 10px 24px;
-        font-weight: 700;
-        font-size: 0.9rem;
+        background: transparent;
+        color: var(--neon-secondary);
+        border: 2px solid var(--neon-secondary);
+        border-radius: 12px;
+        padding: 12px 24px;
+        font-weight: 800;
+        font-size: 0.85rem;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 242, 254, 0.3);
         text-decoration: none;
         display: inline-block;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
         .btn-details:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 242, 254, 0.4);
-            color: white;
+            background: var(--neon-secondary);
+            color: #000;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
         }
+
+    .empty-state {
+        background: var(--glass-panel);
+        border-radius: 24px;
+        border: 1px dashed var(--border-glass);
+        padding: 60px;
+        text-align: center;
+    }
 </style>
 
 <div class="events-page-wrapper">
     <div class="container">
 
-        <div class="mb-4 text-center text-md-start">
+        <div class="mb-5 text-center text-md-start">
             <h2 class="events-page-title">Discover Events</h2>
-            <p class="text-muted fs-5">Find the best cultural events, music festivals, and exhibitions.</p>
+            <p class="text-slate fs-5">Scan the MCC network for upcoming cultural experiences.</p>
         </div>
 
         <div class="filter-card">
-            <form method="get" class="row g-3 align-items-center">
+            <form method="get" class="row g-4 align-items-end">
 
                 <div class="col-md-3">
-                    <input type="text" name="category" class="filter-input" placeholder="Search by Category..." />
+                    <label class="small fw-bold text-uppercase mb-2 d-block opacity-75">Classification</label>
+                    <input type="text" name="category" class="filter-input" placeholder="e.g. Music" />
                 </div>
 
                 <div class="col-md-3">
-                    <input type="text" name="location" class="filter-input" placeholder="City or Venue..." />
+                    <label class="small fw-bold text-uppercase mb-2 d-block opacity-75">Node / Location</label>
+                    <input type="text" name="location" class="filter-input" placeholder="e.g. Bangkok" />
                 </div>
 
                 <div class="col-md-3">
+                    <label class="small fw-bold text-uppercase mb-2 d-block opacity-75">Date</label>
                     <input type="date" name="date" class="filter-input" />
                 </div>
 
                 <div class="col-md-3">
-                    <input type="number" name="maxPrice" class="filter-input" placeholder="Max Price ($)" />
+                    <label class="small fw-bold text-uppercase mb-2 d-block opacity-75">Max Credits (THB)</label>
+                    <input type="number" name="maxPrice" class="filter-input" placeholder="0.00" />
                 </div>
 
-                <div class="col-12 mt-4 d-flex gap-3 justify-content-end">
+                <div class="col-12 mt-4 d-flex gap-3 justify-content-center justify-content-md-end">
                     <a asp-action="Index" class="btn-reset-outline">
-                        Reset Filters
+                        Reset Cache
                     </a>
                     <button type="submit" class="btn-search-gradient">
-                        Apply Search
+                        Initiate Search
                     </button>
                 </div>
             </form>
@@ -220,11 +257,11 @@
             <table class="events-table">
                 <thead>
                     <tr>
-                        <th class="ps-4">Event Title</th>
-                        <th>Category</th>
-                        <th>Location</th>
-                        <th>Date</th>
-                        <th class="text-end pe-4">Action</th>
+                        <th class="ps-4">Protocol Title</th>
+                        <th>Classification</th>
+                        <th>Location Node</th>
+                        <th>Timestamp</th>
+                        <th class="text-end pe-4">Command</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -240,20 +277,18 @@
                                     <span class="badge-category">@item.Category?.Name</span>
                                 </td>
                                 <td>
-                                    <div class="text-muted fw-bold">
-                                        <i class="me-1 opacity-50">📍</i> @item.Venue?.Location
+                                    <div class="text-slate fw-bold">
+                                        <span style="color: var(--neon-secondary)">📍</span> @item.Venue?.Location
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="text-muted fw-bold">
-                                        <i class="me-1 opacity-50">📅</i> @item.Date.ToString("dd MMM yyyy")
+                                    <div class="text-slate fw-bold">
+                                        <span style="color: var(--neon-primary)">📅</span> @item.Date.ToString("dd MMM yyyy")
                                     </div>
                                 </td>
                                 <td class="text-end pe-4">
-                                    <a asp-action="Details"
-                                       asp-route-id="@item.Id"
-                                       class="btn-details">
-                                        View Details
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-details">
+                                        Sync Details
                                     </a>
                                 </td>
                             </tr>
@@ -262,9 +297,12 @@
                     else
                     {
                         <tr>
-                            <td colspan="5" class="text-center py-5 text-muted" style="background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1;">
-                                <div class="mb-2" style="font-size: 2.5rem;">🎭</div>
-                                <em class="fs-5">No events found matching your search criteria.</em>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <div class="mb-3" style="font-size: 3rem; filter: drop-shadow(0 0 10px var(--neon-primary));">📡</div>
+                                    <h4 class="text-white fw-bold">No Data Streams Found</h4>
+                                    <p class="text-slate">Adjust your search parameters to reconnect with event nodes.</p>
+                                </div>
                             </td>
                         </tr>
                     }

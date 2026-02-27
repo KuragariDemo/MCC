@@ -1,40 +1,207 @@
 ﻿@page
-@model SEM.Areas.Identity.Pages.Account.RegisterModel
+@model MCC.Areas.Identity.Pages.Account.RegisterModel
 @{
     ViewData["Title"] = "Register";
 }
 
+<style>
+    /* ==========================================================
+           NEON DARK REGISTRATION DESIGN SYSTEM
+        ========================================================== */
+    :root {
+        --bg-void: #020617;
+        --glass-panel: rgba(15, 23, 42, 0.8);
+        --neon-primary: #8b5cf6; /* Electric Purple */
+        --neon-secondary: #06b6d4; /* Cyan Glow */
+        --neon-grad: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        --text-ghost: #f8fafc;
+        --text-slate: #94a3b8;
+        --border-glass: rgba(255, 255, 255, 0.08);
+    }
+
+    .register-css-wrapper {
+        background-color: var(--bg-void);
+        background-image: radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 40%), radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.15) 0px, transparent 40%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+        font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    .register-css-card {
+        background: var(--glass-panel);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid var(--border-glass);
+        border-radius: 32px;
+        padding: 50px 40px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        position: relative;
+        overflow: hidden;
+    }
+
+        /* Side Glow Indicator */
+        .register-css-card::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 0;
+            bottom: 20%;
+            width: 3px;
+            background: var(--neon-grad);
+            box-shadow: 0 0 15px var(--neon-primary);
+            filter: blur(1px);
+        }
+
+    .register-css-title {
+        font-weight: 900;
+        font-size: 2.25rem;
+        letter-spacing: -1.5px;
+        color: var(--text-ghost);
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    .register-css-subtitle {
+        color: var(--neon-secondary);
+        text-align: center;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 40px;
+        font-weight: 800;
+        opacity: 0.8;
+    }
+
+    .register-css-group {
+        margin-bottom: 22px;
+    }
+
+    .register-css-label {
+        color: var(--neon-primary);
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .register-css-input {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--border-glass);
+        border-radius: 14px;
+        padding: 15px 18px;
+        color: #fff;
+        font-size: 1rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+        .register-css-input:focus {
+            outline: none;
+            border-color: var(--neon-secondary);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+        }
+
+        .register-css-input::placeholder {
+            color: rgba(255,255,255,0.15);
+            font-size: 0.9rem;
+        }
+
+    .register-css-error {
+        color: #fb7185;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-top: 6px;
+        display: block;
+    }
+
+    .register-css-btn {
+        background: var(--neon-grad);
+        color: #000;
+        border: none;
+        padding: 18px;
+        width: 100%;
+        font-weight: 900;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        margin-top: 15px;
+    }
+
+        .register-css-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+            filter: brightness(1.1);
+        }
+
+    .login-link-container {
+        margin-top: 25px;
+        text-align: center;
+        color: var(--text-slate);
+        font-size: 0.85rem;
+    }
+
+        .login-link-container a {
+            color: var(--neon-secondary);
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+            .login-link-container a:hover {
+                text-shadow: 0 0 10px var(--neon-secondary);
+            }
+</style>
+
 <div class="register-css-wrapper">
     <div class="register-css-card">
-        <h2 class="register-css-title">Create Account</h2>
+        <h2 class="register-css-title">Join MCC</h2>
+        <p class="register-css-subtitle">Initialize Identity Protocol</p>
 
         <form method="post">
+            <div asp-validation-summary="ModelOnly" class="register-css-error mb-3" role="alert"></div>
+
             <div class="register-css-group">
-                <label asp-for="Input.FullName" class="register-css-label"></label>
-                <input asp-for="Input.FullName" class="register-css-input" placeholder="e.g. John Doe" />
+                <label asp-for="Input.FullName" class="register-css-label">Identity Label</label>
+                <input asp-for="Input.FullName" class="register-css-input" placeholder="FULL NAME" autocomplete="name" />
                 <span asp-validation-for="Input.FullName" class="register-css-error"></span>
             </div>
 
             <div class="register-css-group">
-                <label asp-for="Input.Email" class="register-css-label"></label>
-                <input asp-for="Input.Email" class="register-css-input" placeholder="e.g. name@example.com" />
+                <label asp-for="Input.Email" class="register-css-label">Network Address</label>
+                <input asp-for="Input.Email" class="register-css-input" placeholder="EMAIL@DOMAIN.COM" autocomplete="email" />
                 <span asp-validation-for="Input.Email" class="register-css-error"></span>
             </div>
 
             <div class="register-css-group">
-                <label asp-for="Input.Password" class="register-css-label"></label>
-                <input asp-for="Input.Password" class="register-css-input" placeholder="Create a password" />
+                <label asp-for="Input.Password" class="register-css-label">Access Key</label>
+                <input asp-for="Input.Password" type="password" class="register-css-input" placeholder="********" autocomplete="new-password" />
                 <span asp-validation-for="Input.Password" class="register-css-error"></span>
             </div>
 
             <div class="register-css-group">
-                <label asp-for="Input.ConfirmPassword" class="register-css-label"></label>
-                <input asp-for="Input.ConfirmPassword" class="register-css-input" placeholder="Confirm your password" />
+                <label asp-for="Input.ConfirmPassword" class="register-css-label">Verify Key</label>
+                <input asp-for="Input.ConfirmPassword" type="password" class="register-css-input" placeholder="********" autocomplete="new-password" />
                 <span asp-validation-for="Input.ConfirmPassword" class="register-css-error"></span>
             </div>
 
-            <button type="submit" class="register-css-btn">Register</button>
+            <button type="submit" class="register-css-btn">Synthesize Identity</button>
         </form>
+
+        <div class="login-link-container">
+            Already verified? <a asp-page="./Login">Establish Link</a>
+        </div>
     </div>
 </div>
 

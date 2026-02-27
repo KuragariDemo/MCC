@@ -1,4 +1,4 @@
-﻿@model SEM.Models.Event
+﻿@model MCC.Models.Event
 
 @{
     ViewData["Title"] = "Edit Event";
@@ -7,156 +7,187 @@
 
 <style>
     /* ==========================================================
-           INLINE CSS: EDIT EVENT PAGE
+           NEON DARK EVENT EDITOR SYSTEM
         ========================================================== */
+    :root {
+        --bg-void: #020617;
+        --glass-panel: rgba(15, 23, 42, 0.8);
+        --neon-primary: #00d2ff; /* Electric Cyan */
+        --neon-purple: #9333ea;
+        --neon-grad: linear-gradient(135deg, #00d2ff 0%, #9333ea 100%);
+        --tier-low-glow: #3b82f6;
+        --tier-med-glow: #f59e0b;
+        --tier-high-glow: #f43f5e;
+        --text-ghost: #f8fafc;
+        --text-dim: #64748b;
+        --border-glass: rgba(255, 255, 255, 0.08);
+    }
+
     .edit-page-wrapper {
-        background-color: #f8fafc;
+        background-color: var(--bg-void);
+        background-image: radial-gradient(at 0% 0%, rgba(0, 210, 255, 0.07) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(147, 51, 234, 0.07) 0px, transparent 50%);
         min-height: 100vh;
-        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-        padding: 50px 40px;
+        padding: 50px 20px;
+        color: var(--text-ghost);
+        font-family: 'Inter', system-ui, sans-serif;
     }
 
     .edit-card {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 45px 40px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
-        max-width: 950px; /* Wider card to fit the 3-column pricing grid */
+        background: var(--glass-panel);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--border-glass);
+        border-radius: 35px;
+        padding: 50px;
+        max-width: 1000px;
         margin: 0 auto;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
         position: relative;
-        overflow: hidden;
     }
 
-        /* Gradient Top Line */
+        /* Holographic Top Bar */
         .edit-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+            left: 15%;
+            right: 15%;
+            height: 3px;
+            background: var(--neon-grad);
+            filter: blur(2px);
+            box-shadow: 0 0 15px var(--neon-primary);
         }
 
-    /* Gradient Title */
     .edit-title {
         font-weight: 900;
-        font-size: 2.2rem;
-        letter-spacing: -0.5px;
-        margin-bottom: 10px;
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
+        font-size: 2.5rem;
+        letter-spacing: -1.5px;
+        background: var(--neon-grad);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        display: inline-block;
+        margin-bottom: 5px;
     }
 
-    /* Input Field Styling */
     .edit-label {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #64748b;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: var(--neon-primary);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 8px;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
         display: block;
     }
 
     .edit-input {
         width: 100%;
-        padding: 14px 18px;
-        border: 2px solid #e2e8f0;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--border-glass);
         border-radius: 12px;
+        padding: 14px 18px;
+        color: #fff;
         font-size: 15px;
-        font-weight: 500;
-        color: #334155;
-        background-color: #f8fafc;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Custom Dropdown Arrow */
+        .edit-input:focus {
+            outline: none;
+            border-color: var(--neon-primary);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+        }
+
+    /* Select Styling */
     .edit-select {
         appearance: none;
-        -webkit-appearance: none;
-        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2300d2ff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 1rem center;
-        background-size: 16px 12px;
-        padding-right: 2.5rem;
     }
 
-    /* Magenta Glow on Focus */
-    .edit-input:focus {
-        outline: none;
-        border-color: #C850C0;
-        background-color: #ffffff;
-        box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
-    }
-
-    /* Pricing Tier Boxes */
-    .tier-box {
-        background: #f1f5f9;
-        border-radius: 15px;
-        padding: 25px 20px;
-        border: 1px solid rgba(0,0,0,0.02);
-        transition: all 0.3s ease;
+    /* Neon Tier Boxes */
+    .tier-neon-box {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border-glass);
+        border-radius: 24px;
+        padding: 30px;
         height: 100%;
+        transition: all 0.3s ease;
+        position: relative;
     }
 
-        .tier-box:hover {
+        .tier-neon-box:hover {
+            background: rgba(255, 255, 255, 0.04);
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            background: #ffffff;
-            border-color: #e2e8f0;
+            border-color: rgba(255, 255, 255, 0.15);
         }
+
+    .tier-low {
+        border-bottom: 4px solid var(--tier-low-glow);
+    }
+
+    .tier-med {
+        border-bottom: 4px solid var(--tier-med-glow);
+    }
+
+    .tier-high {
+        border-bottom: 4px solid var(--tier-high-glow);
+    }
 
     .tier-title {
         font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 20px;
-        font-size: 1rem;
+        letter-spacing: 1.5px;
+        margin-bottom: 25px;
+        font-size: 0.9rem;
         text-align: center;
     }
 
     /* Action Buttons */
-    .edit-btn-save {
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-        color: #fff;
+    .btn-neon-save {
+        background: var(--neon-grad);
+        color: white;
         border: none;
-        padding: 15px 40px;
-        font-size: 16px;
+        padding: 16px 45px;
+        font-size: 14px;
         font-weight: 800;
-        border-radius: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        border-radius: 14px;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 8px 20px rgba(200, 80, 192, 0.3);
+        box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3);
     }
 
-        .edit-btn-save:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(200, 80, 192, 0.5);
+        .btn-neon-save:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(147, 51, 234, 0.4);
         }
 
-    .edit-btn-cancel {
+    .btn-neon-cancel {
         background: transparent;
-        color: #64748b;
-        border: 2px solid #e2e8f0;
-        padding: 13px 30px;
-        font-size: 16px;
+        color: var(--text-dim);
+        border: 1px solid var(--border-glass);
+        padding: 14px 35px;
+        font-size: 14px;
         font-weight: 700;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
+        border-radius: 14px;
         text-decoration: none;
-        display: inline-flex;
-        align-items: center;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
     }
 
-        .edit-btn-cancel:hover {
-            border-color: #94a3b8;
-            color: #334155;
-            background-color: #f1f5f9;
+        .btn-neon-cancel:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-color: var(--text-dim);
         }
+
+    hr.neon-divider {
+        border: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--border-glass), transparent);
+        margin: 40px 0;
+    }
 </style>
 
 <div class="d-flex">
@@ -166,95 +197,84 @@
     <div class="edit-page-wrapper flex-fill">
 
         <div class="edit-card">
-
-            <h2 class="edit-title">Edit Event</h2>
-            <p class="text-muted mb-4 pb-2" style="border-bottom: 1px solid #f1f5f9;">Update details, location, and ticket pricing tiers below.</p>
+            <h2 class="edit-title">Refine Event</h2>
+            <p class="text-dim mb-4 pb-2">Modify event parameters, logistics, and pricing architecture.</p>
 
             <form asp-action="EditEvent" method="post">
                 <input type="hidden" asp-for="Id" />
 
                 <div class="row g-4 mb-4">
                     <div class="col-md-12">
-                        <label class="edit-label">Event Title</label>
+                        <label class="edit-label">Protocol Identity (Title)</label>
                         <input asp-for="Title" class="edit-input" placeholder="e.g., Summer Jazz Festival" />
                     </div>
 
                     <div class="col-md-4">
-                        <label class="edit-label">Category</label>
+                        <label class="edit-label">Classification</label>
                         <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="edit-input edit-select">
                             <option value="">-- Select Category --</option>
                         </select>
                     </div>
 
                     <div class="col-md-4">
-                        <label class="edit-label">Venue</label>
+                        <label class="edit-label">Deployment Node (Venue)</label>
                         <select asp-for="VenueId" asp-items="ViewBag.Venues" class="edit-input edit-select">
                             <option value="">-- Select Venue --</option>
                         </select>
                     </div>
 
                     <div class="col-md-4">
-                        <label class="edit-label">Date</label>
+                        <label class="edit-label">Schedule Timestamp</label>
                         <input asp-for="Date" type="date" class="edit-input" />
                     </div>
                 </div>
 
-                <hr style="border-top: 2px dashed #e2e8f0; margin: 30px 0; opacity: 1;" />
+                <hr class="neon-divider" />
 
-                <h4 class="mb-4" style="font-weight: 800; color: #1e293b; font-size: 1.25rem;">Ticket Pricing & Inventory</h4>
+                <h4 class="mb-4" style="font-weight: 800; color: #fff; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">Pricing & Capacity Matrices</h4>
 
                 <div class="row g-4 mb-5">
-
                     <div class="col-md-4">
-                        <div class="tier-box">
-                            <h5 class="tier-title text-primary">Low Tier</h5>
-
-                            <label class="edit-label">Price ($)</label>
-                            <input asp-for="LowPrice" type="number" step="0.01" class="edit-input mb-3" placeholder="0.00" />
-
-                            <label class="edit-label">Total Seats</label>
-                            <input asp-for="LowSeats" type="number" class="edit-input" placeholder="0" />
+                        <div class="tier-neon-box tier-low">
+                            <h5 class="tier-title" style="color: var(--tier-low-glow)">Budget Tier</h5>
+                            <label class="edit-label opacity-50">Unit Price ($)</label>
+                            <input asp-for="LowPrice" type="number" step="0.01" class="edit-input mb-3" />
+                            <label class="edit-label opacity-50">Seat Capacity</label>
+                            <input asp-for="LowSeats" type="number" class="edit-input" />
                         </div>
                     </div>
 
                     <div class="col-md-4">
-                        <div class="tier-box">
-                            <h5 class="tier-title text-warning">Medium Tier</h5>
-
-                            <label class="edit-label">Price ($)</label>
-                            <input asp-for="MediumPrice" type="number" step="0.01" class="edit-input mb-3" placeholder="0.00" />
-
-                            <label class="edit-label">Total Seats</label>
-                            <input asp-for="MediumSeats" type="number" class="edit-input" placeholder="0" />
+                        <div class="tier-neon-box tier-med">
+                            <h5 class="tier-title" style="color: var(--tier-med-glow)">Standard Tier</h5>
+                            <label class="edit-label opacity-50">Unit Price ($)</label>
+                            <input asp-for="MediumPrice" type="number" step="0.01" class="edit-input mb-3" />
+                            <label class="edit-label opacity-50">Seat Capacity</label>
+                            <input asp-for="MediumSeats" type="number" class="edit-input" />
                         </div>
                     </div>
 
                     <div class="col-md-4">
-                        <div class="tier-box">
-                            <h5 class="tier-title text-danger">High Tier</h5>
-
-                            <label class="edit-label">Price ($)</label>
-                            <input asp-for="HighPrice" type="number" step="0.01" class="edit-input mb-3" placeholder="0.00" />
-
-                            <label class="edit-label">Total Seats</label>
-                            <input asp-for="HighSeats" type="number" class="edit-input" placeholder="0" />
+                        <div class="tier-neon-box tier-high">
+                            <h5 class="tier-title" style="color: var(--tier-high-glow)">Premium Tier</h5>
+                            <label class="edit-label opacity-50">Unit Price ($)</label>
+                            <input asp-for="HighPrice" type="number" step="0.01" class="edit-input mb-3" />
+                            <label class="edit-label opacity-50">Seat Capacity</label>
+                            <input asp-for="HighSeats" type="number" class="edit-input" />
                         </div>
                     </div>
-
                 </div>
 
-                <div class="d-flex justify-content-end gap-3 pt-2">
-                    <a asp-controller="Admin" asp-action="Dashboard" class="edit-btn-cancel">
-                        Cancel
+                <div class="d-flex justify-content-end align-items-center gap-3">
+                    <a asp-controller="Admin" asp-action="Dashboard" class="btn-neon-cancel">
+                        Abort
                     </a>
 
-                    <button type="submit" class="edit-btn-save">
-                        Save Changes
+                    <button type="submit" class="btn-neon-save">
+                        Commit Changes
                     </button>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>

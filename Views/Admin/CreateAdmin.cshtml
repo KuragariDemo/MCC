@@ -3,44 +3,212 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    /* ==========================================================
+           NEON DARK SECURITY DESIGN SYSTEM
+        ========================================================== */
+    :root {
+        --bg-obsidian: #020617;
+        --glass-panel: rgba(15, 23, 42, 0.8);
+        --neon-primary: #a855f7; /* Electric Purple */
+        --neon-secondary: #6366f1; /* Indigo Glow */
+        --neon-grad: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+        --input-dark: rgba(0, 0, 0, 0.4);
+        --text-ghost: #f8fafc;
+        --text-slate: #94a3b8;
+        --border-glass: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Background with deep radial nebulas */
+    .admin-content-wrapper {
+        background-color: var(--bg-obsidian);
+        background-image: radial-gradient(at 10% 10%, rgba(168, 85, 247, 0.1) 0px, transparent 40%), radial-gradient(at 90% 90%, rgba(99, 102, 241, 0.1) 0px, transparent 40%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    .admin-card {
+        background: var(--glass-panel);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid var(--border-glass);
+        border-radius: 32px;
+        padding: 50px;
+        width: 100%;
+        max-width: 550px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        position: relative;
+    }
+
+        /* Top Accent Glow Line */
+        .admin-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: var(--neon-grad);
+            filter: blur(5px);
+            box-shadow: 0 0 15px var(--neon-primary);
+        }
+
+    .admin-page-title {
+        font-weight: 900;
+        font-size: 2.4rem;
+        letter-spacing: -1.5px;
+        color: var(--text-ghost);
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    .subtitle-neon {
+        color: var(--text-slate);
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+    }
+
+    /* Specialized Input Styling */
+    .form-group-neon {
+        margin-bottom: 25px;
+    }
+
+    .admin-label-neon {
+        color: var(--neon-primary);
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
+        display: block;
+    }
+
+    .admin-input-neon {
+        width: 100%;
+        background: var(--input-dark);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 16px 20px;
+        color: #fff;
+        font-size: 1rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+        .admin-input-neon:focus {
+            outline: none;
+            border-color: var(--neon-primary);
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+        }
+
+    /* Button Styling */
+    .admin-btn-neon {
+        background: var(--neon-grad);
+        color: white;
+        border: none;
+        padding: 18px;
+        border-radius: 16px;
+        font-weight: 800;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3);
+        margin-top: 15px;
+    }
+
+        .admin-btn-neon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(168, 85, 247, 0.5);
+            filter: brightness(1.1);
+        }
+
+    /* Alert Styling */
+    .admin-alert {
+        border-radius: 16px;
+        padding: 18px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: 1px solid transparent;
+        margin-top: 30px;
+        animation: neonFadeIn 0.5s ease-out;
+    }
+
+    .admin-alert-success {
+        background: rgba(16, 185, 129, 0.1);
+        color: #34d399;
+        border-color: rgba(16, 185, 129, 0.2);
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
+    }
+
+    .admin-alert-danger {
+        background: rgba(244, 63, 94, 0.1);
+        color: #fb7185;
+        border-color: rgba(244, 63, 94, 0.2);
+        box-shadow: 0 0 15px rgba(244, 63, 94, 0.1);
+    }
+
+    @@keyframes neonFadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+</style>
+
 <div class="d-flex">
 
     <partial name="_AdminSidebar" />
 
     <div class="admin-content-wrapper flex-fill">
         <div class="admin-card">
-            <h2 class="admin-page-title">Create Admin</h2>
-            <p class="text-muted mb-4">Add a new administrator to the SEM platform.</p>
+            <h2 class="admin-page-title">Admin Access</h2>
+            <p class="subtitle-neon">Authorize a new system administrator for MCC.</p>
 
-            <form asp-action="CreateAdmin" method="post" class="admin-form">
+            <form asp-action="CreateAdmin" method="post">
                 @Html.AntiForgeryToken()
 
-                <div class="form-group mb-3">
-                    <input name="fullName" class="admin-input" placeholder="Full Name" required />
+                <div class="form-group-neon">
+                    <label class="admin-label-neon">Identity Label</label>
+                    <input name="fullName" class="admin-input-neon" placeholder="FULL NAME" required />
                 </div>
 
-                <div class="form-group mb-3">
-                    <input name="email" type="email" class="admin-input" placeholder="Email Address" required />
+                <div class="form-group-neon">
+                    <label class="admin-label-neon">Network Email</label>
+                    <input name="email" type="email" class="admin-input-neon" placeholder="EMAIL ADDRESS" required />
                 </div>
 
-                <div class="form-group mb-4">
-                    <input name="password" type="password" class="admin-input" placeholder="Secure Password" required />
+                <div class="form-group-neon">
+                    <label class="admin-label-neon">Security Key</label>
+                    <input name="password" type="password" class="admin-input-neon" placeholder="••••••••" required />
                 </div>
 
-                <button type="submit" class="admin-btn-gradient w-100">Create Admin Account</button>
+                <button type="submit" class="admin-btn-neon w-100">Grant Privileges</button>
             </form>
 
             @if (ViewBag.Success != null)
             {
-                <div class="admin-alert admin-alert-success mt-4">
-                    <strong>Success!</strong> @ViewBag.Success
+                <div class="admin-alert admin-alert-success">
+                    <span class="me-2">⚡</span> <strong>PROTOCOL SUCCESS:</strong> @ViewBag.Success
                 </div>
             }
 
             @if (ViewBag.Error != null)
             {
-                <div class="admin-alert admin-alert-danger mt-4">
-                    <strong>Error!</strong> @ViewBag.Error
+                <div class="admin-alert admin-alert-danger">
+                    <span class="me-2">🚫</span> <strong>PROTOCOL DENIED:</strong> @ViewBag.Error
                 </div>
             }
         </div>

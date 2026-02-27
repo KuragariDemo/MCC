@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace SEM.Areas.Identity.Data
+namespace MCC.Areas.Identity.Data
 {
     public class SEMUser : IdentityUser
     {

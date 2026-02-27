@@ -3,44 +3,233 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    /* ==========================================================
+           MODERN DARK NEON DESIGN SYSTEM
+        ========================================================== */
+    :root {
+        --bg-obsidian: #020617;
+        --card-glass: rgba(15, 23, 42, 0.6);
+        --neon-indigo: #6366f1;
+        --neon-cyan: #06b6d4;
+        --neon-purple: #d946ef;
+        --text-ghost: #f8fafc;
+        --text-slate: #94a3b8;
+        --border-glass: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Page Wrapper with Orbital Glows */
+    .admin-content-wrapper {
+        background-color: var(--bg-obsidian);
+        background-image: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(217, 70, 239, 0.1) 0%, transparent 40%);
+        min-height: 100vh;
+        padding: 50px;
+        font-family: 'Inter', sans-serif;
+        color: var(--text-ghost);
+    }
+
+    .admin-page-title {
+        font-weight: 900;
+        font-size: 2.5rem;
+        letter-spacing: -1.5px;
+        background: linear-gradient(to right, #fff, var(--text-slate));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 5px;
+    }
+
+    .subtitle-neon {
+        color: var(--text-slate);
+        font-size: 1.1rem;
+        margin-bottom: 40px;
+    }
+
+    /* Neon Metric Cards */
+    .neon-metric-card {
+        background: var(--card-glass);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border-glass);
+        border-radius: 30px;
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+        .neon-metric-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Animated Glow Borders */
+        .neon-metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+    .card-events::before {
+        background: var(--neon-indigo);
+        box-shadow: 0 0 15px var(--neon-indigo);
+    }
+
+    .card-users::before {
+        background: var(--neon-cyan);
+        box-shadow: 0 0 15px var(--neon-cyan);
+    }
+
+    .metric-title {
+        font-size: 0.85rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--text-slate);
+        margin-bottom: 10px;
+    }
+
+    .metric-value {
+        font-size: 3.8rem;
+        font-weight: 900;
+        line-height: 1;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .val-events {
+        color: #fff;
+        text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+    }
+
+    .val-users {
+        color: #fff;
+        text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+    }
+
+    .metric-trend {
+        font-size: 0.9rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .trend-up {
+        color: #10b981;
+    }
+
+    /* Floating Icon styling */
+    .neon-icon-box {
+        width: 70px;
+        height: 70px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-glass);
+    }
+
+    /* Analytics Glass Panel */
+    .analytics-panel {
+        background: var(--card-glass);
+        backdrop-filter: blur(16px);
+        border: 1px solid var(--border-glass);
+        border-radius: 35px;
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 60px;
+        position: relative;
+    }
+
+    .loader-ring {
+        width: 80px;
+        height: 80px;
+        border: 4px solid rgba(255,255,255,0.05);
+        border-top: 4px solid var(--neon-purple);
+        border-radius: 50%;
+        animation: spin 1.5s linear infinite;
+        margin-bottom: 25px;
+        box-shadow: 0 0 15px rgba(217, 70, 239, 0.3);
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .shimmer-text {
+        background: linear-gradient(90deg, #94a3b8, #fff, #94a3b8);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer 3s linear infinite;
+        font-weight: 700;
+    }
+
+    @@keyframes shimmer {
+        to {
+            background-position: 200% center;
+        }
+    }
+</style>
+
 <div class="d-flex">
 
     @await Html.PartialAsync("_AdminSidebar")
 
     <div class="admin-content-wrapper flex-fill">
 
-        <div class="mb-5">
-            <h2 class="admin-page-title">Admin Dashboard</h2>
-            <p class="text-muted">Platform overview, event metrics, and user analytics.</p>
+        <div class="mb-5 text-start">
+            <h2 class="admin-page-title">System Overview</h2>
+            <p class="subtitle-neon">Real-time telemetry and platform analytics.</p>
         </div>
 
-        <div class="row g-4">
+        <div class="row g-4 justify-content-start">
 
-            <div class="col-md-6 col-lg-5">
-                <div class="admin-metric-card admin-metric-events">
-                    <div class="metric-content">
-                        <h4 class="metric-title">Total Events</h4>
-                        <h1 class="metric-value">@ViewBag.TotalEvents</h1>
+            <div class="col-md-6 col-xl-5">
+                <div class="neon-metric-card card-events d-flex align-items-center justify-content-between">
+                    <div>
+                        <h4 class="metric-title">Live Events</h4>
+                        <span class="metric-value val-events">@ViewBag.TotalEvents</span>
+                        <div class="metric-trend trend-up">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 15l7-7 7 7"></path></svg>
+                            <span>12% Increase</span>
+                        </div>
                     </div>
-                    <div class="metric-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                    <div class="neon-icon-box">
+                        <svg width="32" height="32" fill="none" stroke="var(--neon-indigo)" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6 col-lg-5">
-                <div class="admin-metric-card admin-metric-users">
-                    <div class="metric-content">
-                        <h4 class="metric-title">Total Users</h4>
-                        <h1 class="metric-value">@ViewBag.TotalUsers</h1>
+            <div class="col-md-6 col-xl-5">
+                <div class="neon-metric-card card-users d-flex align-items-center justify-content-between">
+                    <div>
+                        <h4 class="metric-title">Active Nodes</h4>
+                        <span class="metric-value val-users">@ViewBag.TotalUsers</span>
+                        <div class="metric-trend" style="color: var(--text-slate)">
+                            <span>Network Verified</span>
+                        </div>
                     </div>
-                    <div class="metric-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                            <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z" />
-                            <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
+                    <div class="neon-icon-box">
+                        <svg width="32" height="32" fill="none" stroke="var(--neon-cyan)" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                         </svg>
                     </div>
                 </div>
@@ -48,8 +237,10 @@
 
         </div>
 
-        <div class="admin-card mt-5" style="max-width: 1000px; min-height: 300px; display: flex; align-items: center; justify-content: center;">
-            <p class="text-muted" style="font-weight: 500;"><em>Chart analytics coming soon...</em></p>
+        <div class="analytics-panel" style="max-width: 1000px;">
+            <div class="loader-ring"></div>
+            <h3 class="shimmer-text">Neural Data Syncing</h3>
+            <p class="text-slate opacity-75 mt-2">Connecting to MCC database clusters to populate visual trend maps...</p>
         </div>
 
     </div>

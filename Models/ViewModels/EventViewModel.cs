@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using SEM.Models;
+using MCC.Models;
 
-namespace SEM.Models.ViewModels
+namespace MCC.Models.ViewModels
 {
     public class EventViewModel
     {

@@ -1,57 +1,224 @@
-﻿@model IEnumerable<SEM.Models.Venue>
+﻿@model IEnumerable<MCC.Models.Venue>
 
 @{
     ViewData["Title"] = "Manage Venues";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="d-flex">
+<style>
+    /* ==========================================================
+           NEON DARK VENUE MANAGEMENT SYSTEM
+        ========================================================== */
+    :root {
+        --bg-obsidian: #020617;
+        --glass-panel: rgba(15, 23, 42, 0.7);
+        --neon-lime: #a3e635; /* Electric Lime */
+        --neon-yellow: #fde047; /* Cyber Yellow */
+        --neon-grad: linear-gradient(135deg, #a3e635 0%, #fde047 100%);
+        --text-ghost: #f8fafc;
+        --text-slate: #94a3b8;
+        --border-glass: rgba(255, 255, 255, 0.05);
+    }
 
+    .admin-content-wrapper {
+        background-color: var(--bg-obsidian);
+        background-image: radial-gradient(at 0% 100%, rgba(163, 230, 53, 0.05) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(253, 224, 71, 0.05) 0px, transparent 50%);
+        min-height: 100vh;
+        padding: 50px 30px;
+        color: var(--text-ghost);
+    }
+
+    .neon-card {
+        background: var(--glass-panel);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--border-glass);
+        border-radius: 30px;
+        padding: 40px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .neon-page-title {
+        font-weight: 900;
+        font-size: 2.2rem;
+        letter-spacing: -1px;
+        background: var(--neon-grad);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Input & Label Styling */
+    .neon-label {
+        color: var(--neon-lime);
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .neon-input {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--border-glass);
+        border-radius: 12px;
+        padding: 14px 18px;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+        .neon-input:focus {
+            outline: none;
+            border-color: var(--neon-lime);
+            box-shadow: 0 0 15px rgba(163, 230, 53, 0.2);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+    .btn-neon-add {
+        background: var(--neon-grad);
+        color: var(--bg-obsidian);
+        border: none;
+        border-radius: 12px;
+        padding: 14px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(163, 230, 53, 0.2);
+    }
+
+        .btn-neon-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(163, 230, 53, 0.4);
+            filter: brightness(1.1);
+        }
+
+    /* Table System */
+    .neon-table thead th {
+        color: var(--text-slate);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border: none;
+        padding-bottom: 20px;
+    }
+
+    .neon-row {
+        background: rgba(255, 255, 255, 0.02);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid transparent;
+    }
+
+        .neon-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(163, 230, 53, 0.2);
+            transform: scale(1.005);
+        }
+
+        .neon-row td {
+            padding: 20px 15px;
+            border: none;
+        }
+
+            .neon-row td:first-child {
+                border-radius: 15px 0 0 15px;
+            }
+
+            .neon-row td:last-child {
+                border-radius: 0 15px 15px 0;
+            }
+
+    /* Action Buttons */
+    .btn-action {
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .btn-edit-neon {
+        color: var(--neon-yellow);
+        border: 1px solid var(--neon-yellow);
+    }
+
+        .btn-edit-neon:hover {
+            background: var(--neon-yellow);
+            color: var(--bg-obsidian);
+            box-shadow: 0 0 15px rgba(253, 224, 71, 0.4);
+        }
+
+    .btn-delete-neon {
+        color: #fb7185;
+        border: 1px solid #fb7185;
+        background: transparent;
+    }
+
+        .btn-delete-neon:hover {
+            background: #fb7185;
+            color: var(--bg-obsidian);
+            box-shadow: 0 0 15px rgba(251, 113, 133, 0.4);
+        }
+
+    .location-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-slate);
+        font-size: 0.9rem;
+    }
+
+        .location-tag svg {
+            color: var(--neon-lime);
+        }
+</style>
+
+<div class="d-flex">
     @await Html.PartialAsync("_AdminSidebar")
 
     <div class="admin-content-wrapper flex-fill">
 
-        <div class="admin-card mb-5" style="max-width: 900px;">
-            <h2 class="admin-page-title">Manage Venues</h2>
-            <p class="text-muted mb-4">Add new event locations and manage your existing venues.</p>
+        <div class="neon-card mb-5 mx-auto" style="max-width: 900px;">
+            <div class="mb-4">
+                <h2 class="neon-page-title">Register Venue</h2>
+                <p class="text-slate small">Establish a new coordinate node for MCC events.</p>
+            </div>
 
             <form asp-action="Venues" method="post">
                 @Html.AntiForgeryToken()
-
-                <div class="row g-3 align-items-center">
+                <div class="row g-3 align-items-end">
                     <div class="col-md-5">
-                        <input name="Name"
-                               class="admin-input"
-                               placeholder="Venue Name (e.g., Central Park)"
-                               required />
+                        <label class="neon-label">Node Identity (Name)</label>
+                        <input name="Name" class="neon-input" placeholder="e.g., Central Park" required />
                     </div>
 
                     <div class="col-md-4">
-                        <input name="Location"
-                               class="admin-input"
-                               placeholder="Location (e.g., Downtown NY)"
-                               required />
+                        <label class="neon-label">Geometric Location</label>
+                        <input name="Location" class="neon-input" placeholder="e.g., Downtown NY" required />
                     </div>
 
                     <div class="col-md-3">
-                        <button type="submit" class="admin-btn-gradient w-100">
-                            + Add Venue
+                        <button type="submit" class="btn-neon-add w-100">
+                            + Sync Venue
                         </button>
                     </div>
                 </div>
             </form>
         </div>
 
-        <div class="admin-card" style="max-width: 900px;">
-            <h4 class="admin-section-subtitle mb-4">Existing Venues</h4>
+        <div class="neon-card mx-auto" style="max-width: 900px;">
+            <h4 class="neon-label mb-4" style="font-size: 0.9rem;">Verified Host Nodes</h4>
 
             <div class="table-responsive">
-                <table class="table align-middle" style="border-collapse: separate; border-spacing: 0 10px;">
+                <table class="table align-middle" style="border-collapse: separate; border-spacing: 0 12px;">
                     <thead>
-                        <tr style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: #94a3b8;">
-                            <th class="ps-3 border-0">Name</th>
-                            <th class="border-0">Location</th>
-                            <th class="text-end pe-3 border-0" width="200">Actions</th>
+                        <tr>
+                            <th class="ps-4">Identifier</th>
+                            <th>Coordinates</th>
+                            <th class="text-end pe-4">Protocol</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,32 +226,29 @@
                         {
                             @foreach (var item in Model)
                             {
-                                <tr style="background: #f8fafc; transition: all 0.3s ease; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-                                    <td class="ps-3 py-3 border-0 rounded-start font-weight-bold" style="color: #334155; font-weight: 600;">
-                                        @item.Name
+                                <tr class="neon-row">
+                                    <td class="ps-4">
+                                        <div style="color: white; font-weight: 700; font-size: 1.1rem; letter-spacing: 0.5px;">@item.Name</div>
                                     </td>
-                                    <td class="py-3 border-0 text-muted">
-                                        <i class="text-primary me-1"></i> @item.Location
+                                    <td>
+                                        <div class="location-tag">
+                                            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" /></svg>
+                                            @item.Location
+                                        </div>
                                     </td>
-                                    <td class="text-end pe-3 py-3 border-0 rounded-end">
+                                    <td class="text-end pe-4">
                                         <div class="d-flex justify-content-end gap-2">
-
-                                            <a asp-action="EditVenue"
-                                               asp-route-id="@item.Id"
-                                               class="btn btn-sm text-white"
-                                               style="background: linear-gradient(135deg, #f6d365, #fda085); border: none; border-radius: 8px; font-weight: 600; padding: 6px 15px; box-shadow: 0 4px 10px rgba(253, 160, 133, 0.3);">
+                                            <a asp-action="EditVenue" asp-route-id="@item.Id" class="btn-action btn-edit-neon">
                                                 Edit
                                             </a>
 
                                             <form asp-action="DeleteVenue" method="post" style="display:inline;">
                                                 @Html.AntiForgeryToken()
                                                 <input type="hidden" name="id" value="@item.Id" />
-                                                <button type="submit" class="btn btn-sm text-white"
-                                                        style="background: linear-gradient(135deg, #ff0844, #ffb199); border: none; border-radius: 8px; font-weight: 600; padding: 6px 15px; box-shadow: 0 4px 10px rgba(255, 8, 68, 0.3);">
-                                                    Delete
+                                                <button type="submit" class="btn-action btn-delete-neon" onclick="return confirm('Archive node?')">
+                                                    Kill
                                                 </button>
                                             </form>
-
                                         </div>
                                     </td>
                                 </tr>
@@ -93,8 +257,11 @@
                         else
                         {
                             <tr>
-                                <td colspan="3" class="text-center py-4 text-muted border-0">
-                                    <em>No venues found. Add one above to get started.</em>
+                                <td colspan="3" class="text-center py-5">
+                                    <div class="text-slate opacity-50">
+                                        <p class="mb-1">No host nodes detected.</p>
+                                        <small>Initialize a venue to begin broadcasting.</small>
+                                    </div>
                                 </td>
                             </tr>
                         }

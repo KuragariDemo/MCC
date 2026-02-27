@@ -1,4 +1,4 @@
-﻿@model SEM.Models.ViewModels.PaymentViewModel
+﻿@model MCC.Models.ViewModels.PaymentViewModel
 
 @{
     ViewData["Title"] = "Secure Checkout";
@@ -7,181 +7,215 @@
 
 <style>
     /* ==========================================================
-           INLINE CSS: SECURE PAYMENT CHECKOUT
+           NEON DARK PAYMENT DESIGN SYSTEM
         ========================================================== */
+    :root {
+        --bg-void: #020617;
+        --glass-panel: rgba(15, 23, 42, 0.7);
+        --neon-primary: #8b5cf6; /* Electric Purple */
+        --neon-secondary: #06b6d4; /* Cyan Glow */
+        --neon-accent: #10b981; /* Emerald Success */
+        --neon-grad: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        --text-ghost: #f8fafc;
+        --text-slate: #94a3b8;
+        --border-glass: rgba(255, 255, 255, 0.08);
+    }
+
     .payment-page-wrapper {
-        background-color: #f8fafc;
+        background-color: var(--bg-void);
+        background-image: radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
         min-height: 100vh;
-        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-        padding: 60px 20px;
         display: flex;
         justify-content: center;
-        align-items: flex-start;
+        align-items: center;
+        padding: 40px 20px;
+        font-family: 'Inter', system-ui, sans-serif;
     }
 
     .payment-card {
-        background: #ffffff;
-        border-radius: 20px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
-        max-width: 550px;
+        background: var(--glass-panel);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid var(--border-glass);
+        border-radius: 32px;
+        max-width: 500px;
         width: 100%;
         overflow: hidden;
-        border: 1px solid rgba(0,0,0,0.02);
-    }
-
-    /* Vibrant Gradient Header */
-    .payment-header {
-        background: linear-gradient(135deg, #4158D0 0%, #C850C0 100%);
-        padding: 30px;
-        text-align: center;
-        color: white;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         position: relative;
     }
 
-        .payment-header::after {
+        /* Holographic Top Line */
+        .payment-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at top right, rgba(255,255,255,0.15) 0%, transparent 60%);
-            pointer-events: none;
+            height: 4px;
+            background: var(--neon-grad);
+            box-shadow: 0 0 15px var(--neon-primary);
+            z-index: 10;
         }
+
+    .payment-header {
+        padding: 40px 40px 20px 40px;
+        text-align: center;
+    }
 
     .payment-title {
         font-weight: 900;
-        font-size: 1.8rem;
+        font-size: 2.2rem;
+        letter-spacing: -1.5px;
+        color: var(--text-ghost);
         margin-bottom: 5px;
-        letter-spacing: -0.5px;
+        text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
     }
 
     .payment-subtitle {
-        font-size: 0.95rem;
-        opacity: 0.9;
-        font-weight: 500;
+        color: var(--neon-secondary);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 700;
     }
 
-    /* Body & Order Summary */
     .payment-body {
-        padding: 40px;
+        padding: 0 40px 40px 40px;
     }
 
+    /* Order Summary: Neon Glass Style */
     .order-summary-box {
-        background: #f1f5f9;
-        border-radius: 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--border-glass);
+        border-radius: 20px;
         padding: 20px 25px;
-        margin-bottom: 35px;
+        margin-bottom: 30px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border: 1px dashed #cbd5e1;
     }
 
     .summary-label {
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: #64748b;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: var(--text-slate);
         text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 5px;
+        letter-spacing: 1.5px;
+        margin-bottom: 4px;
         display: block;
     }
 
     .summary-value {
-        font-size: 1.15rem;
-        font-weight: 800;
-        color: #1e293b;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-ghost);
     }
 
     .summary-price {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
         font-weight: 900;
-        color: #10b981; /* Premium Emerald */
+        color: var(--neon-accent);
+        text-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
         text-align: right;
     }
 
-    /* Form Inputs */
+    /* Input Field Styling */
+    .form-group-custom {
+        margin-bottom: 22px;
+    }
+
     .payment-label {
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: #475569;
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: var(--neon-primary);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 8px;
+        letter-spacing: 1.5px;
+        margin-bottom: 10px;
         display: block;
     }
 
     .payment-input {
         width: 100%;
-        padding: 14px 18px;
-        border: 2px solid #e2e8f0;
-        border-radius: 10px;
-        font-size: 15px;
-        font-weight: 500;
-        color: #1e293b;
-        background-color: #f8fafc;
-        transition: all 0.3s ease;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--border-glass);
+        border-radius: 14px;
+        padding: 15px 18px;
+        color: #fff;
+        font-size: 1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-        .payment-input::placeholder {
-            color: #94a3b8;
-        }
-
-        /* Magenta Glow on Focus */
         .payment-input:focus {
             outline: none;
-            border-color: #C850C0;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
+            border-color: var(--neon-secondary);
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
         }
 
-    /* Gradient Pay Button */
+        .payment-input::placeholder {
+            color: rgba(255,255,255,0.2);
+        }
+
+    /* Gradient Submit Button */
     .btn-pay {
-        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-        color: #fff;
+        background: var(--neon-grad);
+        color: white;
         border: none;
-        padding: 16px;
-        font-size: 1.1rem;
+        padding: 18px;
+        font-size: 1rem;
         font-weight: 800;
-        border-radius: 12px;
+        border-radius: 16px;
         cursor: pointer;
         width: 100%;
         transition: all 0.3s ease;
-        box-shadow: 0 10px 25px rgba(200, 80, 192, 0.35);
-        margin-top: 15px;
-        letter-spacing: 0.5px;
+        box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        margin-top: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
     }
 
         .btn-pay:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(200, 80, 192, 0.5);
-            color: #fff;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(6, 182, 212, 0.4);
+            filter: brightness(1.1);
         }
 
+    /* Security Footer */
     .secure-badge {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        color: #64748b;
-        font-size: 0.85rem;
+        gap: 10px;
+        color: var(--text-slate);
+        font-size: 0.8rem;
         font-weight: 600;
-        margin-top: 25px;
+        margin-top: 30px;
+        opacity: 0.8;
+    }
+
+        .secure-badge svg {
+            color: var(--neon-accent);
+        }
+
+    .validation-msg {
+        color: #fb7185;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-top: 6px;
+        display: block;
     }
 </style>
 
 <div class="payment-page-wrapper">
 
     <div class="payment-card">
-
         <div class="payment-header">
-            <h2 class="payment-title">Secure Checkout</h2>
-            <div class="payment-subtitle">Complete your ticket purchase</div>
+            <h2 class="payment-title">Secure Hub</h2>
+            <div class="payment-subtitle">Encrypted Ticket Acquisition</div>
         </div>
 
         <div class="payment-body">
-
             <form method="post">
                 <input type="hidden" asp-for="EventId" />
                 <input type="hidden" asp-for="SeatType" />
@@ -189,55 +223,55 @@
 
                 <div class="order-summary-box">
                     <div>
-                        <span class="summary-label">Ticket Type</span>
-                        <div class="summary-value">@Model.SeatType Pass</div>
+                        <span class="summary-label">Access Level</span>
+                        <div class="summary-value">@Model.SeatType.ToUpper() NODE</div>
                     </div>
                     <div>
-                        <span class="summary-label text-end">Total Due</span>
-                        <div class="summary-price">@Model.Price <span style="font-size: 1rem; color: #94a3b8;">THB</span></div>
+                        <span class="summary-label text-end">Requirement</span>
+                        <div class="summary-price">@Model.Price <span style="font-size: 0.8rem; color: var(--text-slate);">THB</span></div>
                     </div>
                 </div>
 
-                <h5 style="font-weight: 800; color: #1e293b; margin-bottom: 20px;">Payment Details</h5>
-
-                <div class="mb-4">
-                    <label class="payment-label">Cardholder Name</label>
-                    <input asp-for="CardName" class="payment-input" placeholder="e.g., Jane Doe" autocomplete="cc-name" />
-                    <span asp-validation-for="CardName" class="text-danger mt-1 d-block fw-bold" style="font-size: 0.85rem;"></span>
+                <div class="form-group-custom">
+                    <label class="payment-label">Identity Label (Cardholder)</label>
+                    <input asp-for="CardName" class="payment-input" placeholder="FULL NAME" autocomplete="cc-name" />
+                    <span asp-validation-for="CardName" class="validation-msg"></span>
                 </div>
 
-                <div class="mb-4">
-                    <label class="payment-label">Card Number</label>
+                <div class="form-group-custom">
+                    <label class="payment-label">Digital Asset ID (Card Number)</label>
                     <input asp-for="CardNumber" class="payment-input" placeholder="0000 0000 0000 0000" autocomplete="cc-number" />
-                    <span asp-validation-for="CardNumber" class="text-danger mt-1 d-block fw-bold" style="font-size: 0.85rem;"></span>
+                    <span asp-validation-for="CardNumber" class="validation-msg"></span>
                 </div>
 
-                <div class="row g-3 mb-4">
+                <div class="row g-3">
                     <div class="col-6">
-                        <label class="payment-label">Expiry Date</label>
-                        <input asp-for="Expiry" class="payment-input" placeholder="MM/YY" autocomplete="cc-exp" />
-                        <span asp-validation-for="Expiry" class="text-danger mt-1 d-block fw-bold" style="font-size: 0.85rem;"></span>
+                        <div class="form-group-custom">
+                            <label class="payment-label">Exp. Key</label>
+                            <input asp-for="Expiry" class="payment-input" placeholder="MM/YY" autocomplete="cc-exp" />
+                            <span asp-validation-for="Expiry" class="validation-msg"></span>
+                        </div>
                     </div>
-
                     <div class="col-6">
-                        <label class="payment-label">CVV</label>
-                        <input asp-for="CVV" type="password" class="payment-input" placeholder="123" autocomplete="cc-csc" maxlength="4" />
-                        <span asp-validation-for="CVV" class="text-danger mt-1 d-block fw-bold" style="font-size: 0.85rem;"></span>
+                        <div class="form-group-custom">
+                            <label class="payment-label">Security CVV</label>
+                            <input asp-for="CVV" type="password" class="payment-input" placeholder="***" autocomplete="cc-csc" maxlength="4" />
+                            <span asp-validation-for="CVV" class="validation-msg"></span>
+                        </div>
                     </div>
                 </div>
 
                 <button type="submit" class="btn-pay">
-                    Pay @Model.Price THB Now
+                    Execute Payment System
                 </button>
 
                 <div class="secure-badge">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
                     </svg>
-                    Payments are secure and encrypted
+                    <span>SSL 256-BIT ENCRYPTION ACTIVE</span>
                 </div>
             </form>
-
         </div>
     </div>
 

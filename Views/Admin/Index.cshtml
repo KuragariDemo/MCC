@@ -2,10 +2,195 @@
     ViewData["Title"] = "Admin Panel";
 }
 
-<h2>Admin Panel</h2>
+<style>
+    /* ==========================================================
+           NEON HUB DESIGN SYSTEM
+        ========================================================== */
+    :root {
+        --bg-void: #020617;
+        --neon-indigo: #6366f1;
+        --neon-cyan: #22d3ee;
+        --neon-rose: #fb7185;
+        --glass-panel: rgba(15, 23, 42, 0.7);
+        --text-ghost: #f8fafc;
+        --border-subtle: rgba(255, 255, 255, 0.08);
+    }
 
-<div class="list-group">
-    <a asp-action="Dashboard" class="list-group-item">Dashboard</a>
-    <a asp-action="CreateEvent" class="list-group-item">Manage Events</a>
-    <a asp-action="CreateAdmin" class="list-group-item">Create Admin</a>
+    body {
+        background-color: var(--bg-void);
+        margin: 0;
+    }
+
+    .hub-wrapper {
+        background-color: var(--bg-void);
+        background-image: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(34, 211, 238, 0.15) 0%, transparent 50%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    .hub-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .hub-title {
+        font-weight: 900;
+        font-size: 3.5rem;
+        letter-spacing: -2px;
+        color: var(--text-ghost);
+        margin: 0;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .hub-subtitle {
+        color: var(--neon-cyan);
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-size: 0.8rem;
+        font-weight: 800;
+        margin-top: 10px;
+    }
+
+    /* Command Grid */
+    .command-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        width: 100%;
+        max-width: 1000px;
+    }
+
+    .hub-item {
+        background: var(--glass-panel);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--border-subtle);
+        border-radius: 24px;
+        padding: 40px;
+        text-decoration: none;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+        /* Hover Glow Effects */
+        .hub-item:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .hub-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            opacity: 0.6;
+        }
+
+    /* Tile-specific colors */
+    .tile-dash::before {
+        background: var(--neon-indigo);
+        box-shadow: 0 0 15px var(--neon-indigo);
+    }
+
+    .tile-events::before {
+        background: var(--neon-cyan);
+        box-shadow: 0 0 15px var(--neon-cyan);
+    }
+
+    .tile-admin::before {
+        background: var(--neon-rose);
+        box-shadow: 0 0 15px var(--neon-rose);
+    }
+
+    .hub-icon-wrapper {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-subtle);
+        transition: all 0.3s ease;
+    }
+
+    .hub-item:hover .hub-icon-wrapper {
+        background: rgba(255, 255, 255, 0.1);
+        transform: rotate(-5deg) scale(1.1);
+    }
+
+    .hub-item-title {
+        color: #fff;
+        font-weight: 800;
+        font-size: 1.25rem;
+        margin-bottom: 8px;
+    }
+
+    .hub-item-desc {
+        color: var(--text-dim);
+        font-size: 0.85rem;
+        line-height: 1.5;
+        opacity: 0.7;
+    }
+
+    .text-dim {
+        color: #94a3b8;
+    }
+</style>
+
+<div class="hub-wrapper">
+    <header class="hub-header">
+        <h2 class="hub-title">MCC Mainframe</h2>
+        <div class="hub-subtitle">Administrative Control Interface</div>
+    </header>
+
+    <div class="command-grid">
+        <a asp-action="Dashboard" class="hub-item tile-dash">
+            <div class="hub-icon-wrapper">
+                <svg width="28" height="28" fill="none" stroke="var(--neon-indigo)" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M4 5a1 1 0 011-1h4a1 1 0 011 1v5a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1v-2z"></path>
+                </svg>
+            </div>
+            <span class="hub-item-title">Dashboard</span>
+            <span class="hub-item-desc">Access real-time telemetry and system analytics.</span>
+        </a>
+
+        <a asp-action="CreateEvent" class="hub-item tile-events">
+            <div class="hub-icon-wrapper">
+                <svg width="28" height="28" fill="none" stroke="var(--neon-cyan)" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+            <span class="hub-item-title">Manage Events</span>
+            <span class="hub-item-desc">Deploy new event nodes and configure logistics.</span>
+        </a>
+
+        <a asp-action="CreateAdmin" class="hub-item tile-admin">
+            <div class="hub-icon-wrapper">
+                <svg width="28" height="28" fill="none" stroke="var(--neon-rose)" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+            </div>
+            <span class="hub-item-title">Create Admin</span>
+            <span class="hub-item-desc">Authorize new security clearances for the platform.</span>
+        </a>
+    </div>
+
+    <footer class="mt-5">
+        <p class="text-dim opacity-50 small">MCC CORE v2.0 // SYSTEM SECURED</p>
+    </footer>
 </div>
