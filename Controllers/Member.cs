@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SEM.Areas.Identity.Data;
+using SEM.Data;
 using SEM.Models.ViewModels;
+using System.Security.Claims;
 
 namespace SEM.Controllers
 {
@@ -11,13 +14,17 @@ namespace SEM.Controllers
     {
         private readonly UserManager<SEMUser> _userManager;
         private readonly SignInManager<SEMUser> _signInManager;
+        private readonly SEMContext _context;
+
 
         public MemberController(
             UserManager<SEMUser> userManager,
-            SignInManager<SEMUser> signInManager)
+            SignInManager<SEMUser> signInManager,
+            SEMContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         // =========================
@@ -99,9 +106,44 @@ namespace SEM.Controllers
         // =========================
         // Booked Tickets
         // =========================
-        public IActionResult BookedTickets()
+
+        public async Task<IActionResult> MyTickets()
         {
-            return View();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var tickets = await _context.Tickets
+                .Include(t => t.Event)
+                    .ThenInclude(e => e.Category)
+                .Include(t => t.Event)
+                    .ThenInclude(e => e.Venue)
+                .Where(t => t.UserId == userId)
+                .ToListAsync();
+
+            return View(tickets);
         }
+
+        // =========================
+        // Ticket Event Details
+        // =========================
+        public async Task<IActionResult> MyTicketsDetails(int id)
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            // Check that ticket belongs to this user
+            var ticket = await _context.Tickets
+                .Include(t => t.Event)
+                    .ThenInclude(e => e.Category)
+                .Include(t => t.Event)
+                    .ThenInclude(e => e.Venue)
+                .FirstOrDefaultAsync(t => t.EventId == id && t.UserId == userId);
+
+            if (ticket == null)
+                return NotFound();
+
+            return View(ticket);
+        }
+
+
+
     }
 }

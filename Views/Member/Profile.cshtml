@@ -2,75 +2,207 @@
 
 @{
     ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container-fluid">
-    <div class="row">
+<style>
+    /* ==========================================================
+           INLINE CSS: MEMBER PROFILE PAGE
+        ========================================================== */
+    .member-page-wrapper {
+        background-color: #f8fafc;
+        min-height: 100vh;
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        padding: 50px 40px;
+    }
 
-        @await Html.PartialAsync("_MemberSidebar")
+    .member-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 45px 40px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+        max-width: 850px;
+        position: relative;
+        overflow: hidden;
+    }
 
-        <div class="col-md-9 p-4">
-            <h2>My Profile</h2>
-            <hr />
+        /* Gradient Top Line */
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+        }
+
+    /* Gradient Title */
+    .member-title {
+        font-weight: 900;
+        font-size: 2.2rem;
+        letter-spacing: -0.5px;
+        margin-bottom: 5px;
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
+
+    /* Form Labels */
+    .profile-label {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    /* Form Inputs & Textareas */
+    .profile-input {
+        width: 100%;
+        padding: 14px 18px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #334155;
+        background-color: #f8fafc;
+        transition: all 0.3s ease;
+    }
+
+    textarea.profile-input {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    /* Magenta Glow on Focus */
+    .profile-input:focus {
+        outline: none;
+        border-color: #C850C0;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
+    }
+
+    /* Gradient Save Button */
+    .btn-save-gradient {
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+        color: #fff;
+        border: none;
+        padding: 15px 40px;
+        font-size: 16px;
+        font-weight: 800;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(200, 80, 192, 0.3);
+        display: inline-block;
+    }
+
+        .btn-save-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(200, 80, 192, 0.5);
+            color: #fff;
+        }
+
+    /* Modern Success Alert */
+    .profile-alert {
+        padding: 16px 20px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        background-color: #f0fdf4;
+        color: #166534;
+        border-left: 5px solid #22c55e;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<div class="d-flex">
+
+    @await Html.PartialAsync("_MemberSidebar")
+
+    <div class="member-page-wrapper flex-fill">
+
+        <div class="member-card">
+
+            <h2 class="member-title">My Profile</h2>
+            <p class="text-muted mb-4 pb-2" style="border-bottom: 1px solid #f1f5f9;">Manage your personal information, preferences, and security.</p>
 
             @if (TempData["StatusMessage"] != null)
             {
-                <div class="alert alert-success">
-                    @TempData["StatusMessage"]
+                <div class="profile-alert">
+                    <i class="me-2 fs-5">✓</i> @TempData["StatusMessage"]
                 </div>
             }
 
             <form asp-action="Profile" method="post">
-                <div class="form-group mb-3">
-                    <label asp-for="FullName"></label>
-                    <input asp-for="FullName" class="form-control" />
-                    <span asp-validation-for="FullName" class="text-danger"></span>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label asp-for="FullName" class="profile-label">Full Name</label>
+                        <input asp-for="FullName" class="profile-input" placeholder="e.g., Jane Doe" />
+                        <span asp-validation-for="FullName" class="text-danger mt-1 d-block" style="font-size: 0.85rem; font-weight:600;"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="PhoneNumber" class="profile-label">Phone Number</label>
+                        <input asp-for="PhoneNumber" class="profile-input" placeholder="e.g., +1 555-0192" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger mt-1 d-block" style="font-size: 0.85rem; font-weight:600;"></span>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label asp-for="Email" class="profile-label">Email Address</label>
+                        <input asp-for="Email" class="profile-input" placeholder="name@example.com" />
+                        <span asp-validation-for="Email" class="text-danger mt-1 d-block" style="font-size: 0.85rem; font-weight:600;"></span>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label asp-for="Bio" class="profile-label">Short Bio</label>
+                        <textarea asp-for="Bio" class="profile-input" placeholder="Tell us a little bit about yourself..."></textarea>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label asp-for="EventPreferences" class="profile-label">Event Preferences</label>
+                        <textarea asp-for="EventPreferences" class="profile-input" placeholder="e.g., Jazz Music, Modern Art, Theater..."></textarea>
+                    </div>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                <hr style="border-top: 2px dashed #e2e8f0; margin: 35px 0; opacity: 1;" />
+
+                <h4 class="mb-4" style="font-weight: 800; color: #1e293b; font-size: 1.25rem;">Change Password</h4>
+                <p class="text-muted" style="font-size: 0.9rem; margin-top: -15px; margin-bottom: 20px;">Leave these fields blank if you do not wish to change your password.</p>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <label asp-for="NewPassword" class="profile-label">New Password</label>
+                        <input asp-for="NewPassword" type="password" class="profile-input" placeholder="Enter new password" />
+                        <span asp-validation-for="NewPassword" class="text-danger mt-1 d-block" style="font-size: 0.85rem; font-weight:600;"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="ConfirmPassword" class="profile-label">Confirm Password</label>
+                        <input asp-for="ConfirmPassword" type="password" class="profile-input" placeholder="Confirm new password" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger mt-1 d-block" style="font-size: 0.85rem; font-weight:600;"></span>
+                    </div>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="PhoneNumber"></label>
-                    <input asp-for="PhoneNumber" class="form-control" />
-                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                <div class="text-end">
+                    <button type="submit" class="btn-save-gradient">
+                        Save Changes
+                    </button>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="Bio"></label>
-                    <textarea asp-for="Bio" class="form-control"></textarea>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label asp-for="EventPreferences"></label>
-                    <textarea asp-for="EventPreferences" class="form-control"></textarea>
-                </div>
-
-                <hr />
-
-                <h4>Change Password</h4>
-
-                <div class="form-group mb-3">
-                    <label asp-for="NewPassword"></label>
-                    <input asp-for="NewPassword" class="form-control" />
-                    <span asp-validation-for="NewPassword" class="text-danger"></span>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label asp-for="ConfirmPassword"></label>
-                    <input asp-for="ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
-
-                <button type="submit" class="btn btn-primary">
-                    Save Changes
-                </button>
             </form>
 
         </div>
-
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

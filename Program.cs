@@ -59,8 +59,10 @@ using (var scope = app.Services.CreateScope())
         {
             UserName = adminEmail,
             Email = adminEmail,
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            FullName = "System Administrator"   // 👈 ADD THIS
         };
+
 
         var result = await userManager.CreateAsync(newAdmin, adminPassword);
 
@@ -101,10 +103,7 @@ using (var scope = app.Services.CreateScope())
 
     await context.SaveChangesAsync();
 
-
 }
-
-
 
 // ---------------- PIPELINE ----------------
 

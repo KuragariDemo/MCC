@@ -1,0 +1,215 @@
+﻿@model IEnumerable<SEM.Models.Ticket>
+
+@{
+    ViewData["Title"] = "My Tickets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* ==========================================================
+           INLINE CSS: MEMBER TICKETS PAGE
+        ========================================================== */
+    .member-page-wrapper {
+        background-color: #f8fafc; /* Soft slate background to contrast the white card */
+        min-height: 100vh;
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        padding: 50px 40px;
+    }
+
+    .member-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 45px 40px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+        max-width: 1100px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        /* Gradient Top Line */
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+        }
+
+    /* Gradient Title */
+    .member-title {
+        font-weight: 900;
+        font-size: 2.2rem;
+        letter-spacing: -0.5px;
+        margin-bottom: 5px;
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
+
+    /* Modern Table Design */
+    .ticket-table {
+        border-collapse: separate;
+        border-spacing: 0 12px; /* Creates the gap between rows */
+        width: 100%;
+        margin-top: 10px;
+    }
+
+        .ticket-table th {
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            border: none;
+            padding: 0 15px 10px 15px;
+            font-weight: 700;
+        }
+
+    .ticket-row {
+        background: #ffffff;
+        transition: all 0.3s ease;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        border: 1px solid #f1f5f9;
+    }
+
+        .ticket-row:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+            border-color: #e2e8f0;
+        }
+
+    .ticket-table td {
+        padding: 20px 15px;
+        border: none;
+        vertical-align: middle;
+        color: #475569;
+        font-weight: 500;
+    }
+
+        /* Rounded corners for the floating rows */
+        .ticket-table td:first-child {
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .ticket-table td:last-child {
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+    /* Typography & Badges */
+    .seat-badge {
+        background: #f1f5f9;
+        color: #64748b;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+
+    .price-tag {
+        font-weight: 800;
+        color: #10b981; /* Premium Emerald Green */
+        font-size: 1.1rem;
+    }
+
+    /* Gradient Action Button */
+    .btn-ticket-action {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 15px rgba(0, 242, 254, 0.3);
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+
+        .btn-ticket-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.5);
+            color: white;
+        }
+</style>
+
+<div class="d-flex">
+
+    @await Html.PartialAsync("_MemberSidebar")
+
+    <div class="member-page-wrapper flex-fill">
+
+        <div class="member-card">
+
+            <h2 class="member-title">My Tickets</h2>
+            <p class="text-muted mb-4 pb-2" style="border-bottom: 1px solid #f1f5f9;">View and manage your booked event tickets.</p>
+
+            <div class="table-responsive">
+                <table class="ticket-table">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Event</th>
+                            <th>Seat Type</th>
+                            <th>Price</th>
+                            <th>Purchase Date</th>
+                            <th class="text-end pe-4">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var ticket in Model)
+                            {
+                                <tr class="ticket-row">
+                                    <td class="ps-4">
+                                        @ticket.Event.Title
+                                    </td>
+                                    <td>
+                                        <span class="seat-badge">@ticket.SeatType</span>
+                                    </td>
+                                    <td>
+                                        <span class="price-tag">$@ticket.Price</span>
+                                    </td>
+                                    <td>
+                                        <div class="text-muted" style="font-size: 0.95rem;">
+                                            <i class="me-1 opacity-50"></i> @ticket.PurchaseDate.ToString("dd MMM yyyy")
+                                        </div>
+                                    </td>
+                                    <td class="text-end pe-4">
+                                        <a asp-controller="Member"
+                                           asp-action="MyTicketsDetails"
+                                           asp-route-id="@ticket.EventId"
+                                           class="btn btn-info btn-sm">
+                                            Event Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted" style="background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                                    <div class="mb-2" style="font-size: 2rem;">🎫</div>
+                                    <em>You haven't booked any tickets yet.</em>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

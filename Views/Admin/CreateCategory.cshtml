@@ -1,0 +1,84 @@
+﻿@model IEnumerable<SEM.Models.Category>
+
+@{
+    ViewData["Title"] = "Manage Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex">
+
+    @await Html.PartialAsync("_AdminSidebar")
+
+    <div class="admin-content-wrapper flex-fill">
+
+        <div class="admin-card" style="max-width: 800px;">
+            <h2 class="admin-page-title">Manage Categories</h2>
+            <p class="text-muted mb-4">Create, edit, or remove event categories for the SEM platform.</p>
+
+            <form asp-action="CreateCategory" method="post" class="mb-5">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-8">
+                        <input name="Name" class="admin-input" placeholder="Enter new category name (e.g., Music, Art)" required />
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="admin-btn-gradient w-100">
+                            + Add Category
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <hr style="border-top: 2px dashed #e2e8f0; margin-bottom: 30px; opacity: 1;" />
+
+            <div class="table-responsive">
+                <table class="table align-middle" style="border-collapse: separate; border-spacing: 0 10px;">
+                    <thead>
+                        <tr style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: #94a3b8;">
+                            <th class="ps-3 border-0">Category Name</th>
+                            <th class="text-end pe-3 border-0" width="200">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr style="background: #f8fafc; transition: all 0.3s ease; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+                                    <td class="ps-3 py-3 border-0 rounded-start font-weight-bold" style="color: #334155; font-weight: 600;">
+                                        @item.Name
+                                    </td>
+                                    <td class="text-end pe-3 py-3 border-0 rounded-end">
+
+                                        <a asp-action="EditCategory"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm text-white me-2"
+                                           style="background: linear-gradient(135deg, #f6d365, #fda085); border: none; border-radius: 8px; font-weight: 600; padding: 6px 15px; box-shadow: 0 4px 10px rgba(253, 160, 133, 0.3);">
+                                            Edit
+                                        </a>
+
+                                        <a asp-action="DeleteCategory"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm text-white"
+                                           style="background: linear-gradient(135deg, #ff0844, #ffb199); border: none; border-radius: 8px; font-weight: 600; padding: 6px 15px; box-shadow: 0 4px 10px rgba(255, 8, 68, 0.3);">
+                                            Delete
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="2" class="text-center py-4 text-muted border-0">
+                                    <em>No categories found. Create one above to get started.</em>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

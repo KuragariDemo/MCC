@@ -2,143 +2,337 @@
     ViewData["Title"] = "Home";
 }
 
-<!-- ===== HERO SECTION ===== -->
-<div class="text-center p-5 bg-light rounded">
-    <h1 class="display-4 fw-bold">Welcome to SEM</h1>
-    <p class="lead">
-        Smart Event Management & Ticketing System for the Metropolitan Cultural Council.
-    </p>
+<style>
+    /* --- home-css Styles --- */
+    .home-css-container {
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
 
-    <a class="btn btn-primary btn-lg me-2"
-       asp-controller="Events"
-       asp-action="Index">
-        Browse Events
-    </a>
+    /* ✨ ULTRA MODERN FULL SCREEN HERO ✨ */
+    .home-css-hero {
+        /* Premium multi-stop modern gradient */
+        background-color: #4158D0;
+        background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+        padding: 140px 20px 120px 20px;
+        color: white;
+        margin-bottom: 80px;
+        position: relative;
+        overflow: hidden;
+        /* Forces edge-to-edge full width */
+        width: 100vw;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        border-radius: 0;
+        /* Removes the ASP.NET layout gap */
+        margin-top: -1.5rem !important;
+    }
 
-</div>
+        /* Subtle mesh glow overlay */
+        .home-css-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
 
-<!-- ===== UPCOMING EVENTS PREVIEW ===== -->
-<div class="mt-5">
-    <h2 class="mb-4">Upcoming Events</h2>
+    .home-css-hero-title {
+        font-weight: 900;
+        letter-spacing: -1px;
+        margin-bottom: 25px;
+        font-size: 4rem;
+        text-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
 
-    <div class="row">
+    .home-css-hero-text {
+        font-size: 1.35rem;
+        opacity: 0.95;
+        margin-bottom: 45px;
+        font-weight: 400;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+    }
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">City Music Festival</h5>
-                    <p class="card-text">
-                        Category: Music <br />
-                        Date: 15 March 2026 <br />
-                        Venue: Central Park
-                    </p>
-                    <a href="#" class="btn btn-sm btn-outline-primary">View Details</a>
-                </div>
-            </div>
-        </div>
+    /* Premium Hero Button (White/Glass) */
+    .home-css-hero-btn {
+        background: #ffffff;
+        color: #C850C0; /* Matches the middle of the gradient */
+        border: none;
+        padding: 16px 45px;
+        font-size: 18px;
+        font-weight: 800;
+        border-radius: 50px;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Modern Art Exhibition</h5>
-                    <p class="card-text">
-                        Category: Exhibition <br />
-                        Date: 22 March 2026 <br />
-                        Venue: Art Gallery Hall
-                    </p>
-                    <a href="#" class="btn btn-sm btn-outline-primary">View Details</a>
-                </div>
-            </div>
-        </div>
+        .home-css-hero-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.3);
+            color: #4158D0;
+        }
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Drama Theatre Night</h5>
-                    <p class="card-text">
-                        Category: Theatre <br />
-                        Date: 30 March 2026 <br />
-                        Venue: City Theatre
-                    </p>
-                    <a href="#" class="btn btn-sm btn-outline-primary">View Details</a>
-                </div>
-            </div>
-        </div>
+    /* Gradient Section Titles */
+    .home-css-section-title {
+        font-weight: 800;
+        margin-bottom: 40px;
+        letter-spacing: -0.5px;
+        /* Renders the text itself as a gradient */
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
 
-    </div>
-</div>
+    /* Refined Modern Cards */
+    .home-css-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 35px 25px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+        border: none;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        z-index: 1;
+    }
 
-<!-- ===== HOW TO BECOME A MEMBER SECTION ===== -->
-<div class="mt-5">
-    <div class="text-center mb-4">
-        <h2 class="fw-bold">How to Become a SEM Member</h2>
-        <p class="text-muted">
-            Join our community and start booking your favorite cultural events in just a few steps.
+        /* Top Accent Line on Cards */
+        .home-css-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #4158D0, #C850C0);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .home-css-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+        }
+
+            .home-css-card:hover::before {
+                opacity: 1; /* Shows the colorful line on hover */
+            }
+
+    .home-css-card-title {
+        font-weight: 800;
+        color: #1a1a1a;
+        margin-bottom: 15px;
+        font-size: 1.35rem;
+    }
+
+    .home-css-card-text {
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 25px;
+        flex-grow: 1;
+        font-size: 0.95rem;
+    }
+
+    /* Outline Button for Cards */
+    .home-css-btn-outline {
+        border: 2px solid #e1e5ee;
+        color: #555;
+        padding: 10px 25px;
+        border-radius: 50px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        background: transparent;
+        width: 100%;
+        text-align: center;
+    }
+
+        .home-css-btn-outline:hover {
+            border-color: #C850C0;
+            color: #C850C0;
+            background: rgba(200, 80, 192, 0.05);
+        }
+
+    /* Step Badges - Modern Pastel/Neon */
+    .home-css-badge {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px; /* Squircle shape instead of perfect circle */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        font-weight: 900;
+        margin: 0 auto 25px auto;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transform: rotate(-5deg);
+        transition: transform 0.3s ease;
+    }
+
+    .home-css-card:hover .home-css-badge {
+        transform: rotate(0deg) scale(1.1);
+    }
+
+    .home-css-badge-1 {
+        background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%);
+        color: #D6326C;
+    }
+    /* Soft Pink */
+    .home-css-badge-2 {
+        background: linear-gradient(135deg, #A18CD1 0%, #FBC2EB 100%);
+        color: #6A11CB;
+    }
+    /* Soft Purple */
+    .home-css-badge-3 {
+        background: linear-gradient(135deg, #84FAB0 0%, #8FD3F4 100%);
+        color: #00887A;
+    }
+    /* Mint / Cyan */
+    .home-css-badge-4 {
+        background: linear-gradient(135deg, #FCCB90 0%, #D57EEB 100%);
+        color: #C850C0;
+    }
+    /* Sunset */
+
+    /* Bottom Call to Action Button */
+    .home-css-btn-gradient {
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+        color: #fff;
+        border: none;
+        padding: 18px 50px;
+        font-size: 20px;
+        font-weight: 800;
+        border-radius: 50px;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(200, 80, 192, 0.4);
+    }
+
+        .home-css-btn-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(200, 80, 192, 0.6);
+            color: #fff;
+        }
+</style>
+
+<div class="home-css-container">
+
+    <div class="text-center home-css-hero">
+        <h1 class="home-css-hero-title">Welcome to SEM</h1>
+        <p class="home-css-hero-text">
+            Smart Event Management & Ticketing System for the Metropolitan Cultural Council.
         </p>
-    </div>
 
-    <div class="row text-center">
-
-        <!-- Step 1 -->
-        <div class="col-md-3">
-            <div class="p-4 border rounded shadow-sm h-100">
-                <div class="mb-3">
-                    <span class="badge bg-primary fs-5">1</span>
-                </div>
-                <h5 class="fw-bold">Sign Up</h5>
-                <p class="text-muted">
-                    Create your SEM account by providing your personal information.
-                </p>
-            </div>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="col-md-3">
-            <div class="p-4 border rounded shadow-sm h-100">
-                <div class="mb-3">
-                    <span class="badge bg-success fs-5">2</span>
-                </div>
-                <h5 class="fw-bold">Set Preferences</h5>
-                <p class="text-muted">
-                    Select your favorite event categories like music, theatre, or exhibitions.
-                </p>
-            </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="col-md-3">
-            <div class="p-4 border rounded shadow-sm h-100">
-                <div class="mb-3">
-                    <span class="badge bg-warning text-dark fs-5">3</span>
-                </div>
-                <h5 class="fw-bold">Browse Events</h5>
-                <p class="text-muted">
-                    Search events by date, location, category, or price.
-                </p>
-            </div>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="col-md-3">
-            <div class="p-4 border rounded shadow-sm h-100">
-                <div class="mb-3">
-                    <span class="badge bg-danger fs-5">4</span>
-                </div>
-                <h5 class="fw-bold">Book Tickets</h5>
-                <p class="text-muted">
-                    Reserve your seats and enjoy amazing cultural experiences.
-                </p>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Call to Action -->
-    <div class="text-center mt-4">
-        <a class="btn btn-primary btn-lg"
-           asp-area="Identity"
-           asp-page="/Account/Register">
-            Become a Member Now
+        <a class="home-css-hero-btn"
+           asp-controller="Events"
+           asp-action="Index">
+            Browse Events
         </a>
     </div>
+
+    <div class="mt-5 mb-5 container">
+        <h2 class="home-css-section-title">Upcoming Events</h2>
+
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <div class="home-css-card d-flex flex-column h-100">
+                        <h5 class="home-css-card-title">@item.Title</h5>
+
+                        <p class="home-css-card-text">
+                            <strong>Category:</strong> @item.Category?.Name
+                            <strong>Date:</strong> @item.Date.ToString("dd MMMM yyyy") <br />
+                            <strong>Venue:</strong> @item.Venue?.Name
+                        </p>
+
+                        <div class="mt-auto">
+                            <a asp-controller="Event"
+                               asp-action="Details"
+                               asp-route-id="@item.Id"
+                               class="home-css-btn-outline">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="mt-5 mb-5 pt-5 container">
+        <div class="text-center mb-5">
+            <h2 class="home-css-section-title">How to Become a SEM Member</h2>
+            <p class="text-muted fs-5" style="max-width: 600px; margin: 0 auto;">
+                Join our community and start booking your favorite cultural events in just a few steps.
+            </p>
+        </div>
+
+        <div class="row g-4 text-center">
+            <div class="col-md-3">
+                <div class="home-css-card">
+                    <div class="home-css-badge home-css-badge-1">1</div>
+                    <h5 class="home-css-card-title">Sign Up</h5>
+                    <p class="home-css-card-text">
+                        Create your SEM account by providing your personal information.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="home-css-card">
+                    <div class="home-css-badge home-css-badge-2">2</div>
+                    <h5 class="home-css-card-title">Set Preferences</h5>
+                    <p class="home-css-card-text">
+                        Select your favorite event categories like music, theatre, or exhibitions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="home-css-card">
+                    <div class="home-css-badge home-css-badge-3">3</div>
+                    <h5 class="home-css-card-title">Browse Events</h5>
+                    <p class="home-css-card-text">
+                        Search events by date, location, category, or price.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="home-css-card">
+                    <div class="home-css-badge home-css-badge-4">4</div>
+                    <h5 class="home-css-card-title">Book Tickets</h5>
+                    <p class="home-css-card-text">
+                        Reserve your seats and enjoy amazing cultural experiences.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5 pt-4">
+            <a class="home-css-btn-gradient"
+               asp-area="Identity"
+               asp-page="/Account/Register">
+                Become a Member Now
+            </a>
+        </div>
+    </div>
+
 </div>

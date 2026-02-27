@@ -1,0 +1,38 @@
+﻿<div class="admin-sidebar p-4">
+    <h4 class="admin-sidebar-title">Admin Panel</h4>
+    <hr class="admin-sidebar-divider" />
+
+    <ul class="nav flex-column admin-nav-list">
+
+        <li class="nav-item">
+            <a class="nav-link admin-nav-link" asp-controller="Admin" asp-action="Dashboard">
+                <span class="admin-nav-text">Dashboard</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link admin-nav-link" asp-controller="Admin" asp-action="CreateAdmin">
+                <span class="admin-nav-text">Admin Account Creation</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link admin-nav-link" asp-controller="Admin" asp-action="CreateEvent">
+                <span class="admin-nav-text">Event Creation</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link admin-nav-link" asp-controller="Admin" asp-action="CreateCategory">
+                <span class="admin-nav-text">Category Management</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link admin-nav-link" asp-controller="Admin" asp-action="Venues">
+                <span class="admin-nav-text">Venue Management</span>
+            </a>
+        </li>
+
+    </ul>
+</div>

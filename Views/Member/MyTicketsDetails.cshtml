@@ -1,0 +1,334 @@
+﻿@model SEM.Models.Ticket
+
+@{
+    ViewData["Title"] = "Event Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* ==========================================================
+           INLINE CSS: VIP DIGITAL TICKET & FEEDBACK PAGE
+        ========================================================== */
+    .member-page-wrapper {
+        background-color: #f8fafc;
+        min-height: 100vh;
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        padding: 50px 40px;
+    }
+
+    /* Gradient Title */
+    .member-title {
+        font-weight: 900;
+        font-size: 2.2rem;
+        letter-spacing: -0.5px;
+        margin-bottom: 25px;
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
+
+    /* --- THE DIGITAL TICKET --- */
+    .vip-ticket-card {
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+        max-width: 600px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+
+    .ticket-header {
+        background: linear-gradient(135deg, #4158D0 0%, #C850C0 100%);
+        color: white;
+        padding: 40px 35px;
+        position: relative;
+    }
+
+        .ticket-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(255,255,255,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+    .ticket-event-title {
+        font-size: 1.8rem;
+        font-weight: 900;
+        margin-bottom: 10px;
+        line-height: 1.2;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .ticket-category-badge {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
+        padding: 6px 15px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: inline-block;
+    }
+
+    .ticket-body {
+        padding: 35px 35px;
+        background: #ffffff;
+    }
+
+    .detail-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .detail-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 25px;
+    }
+
+    .detail-price {
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: #10b981;
+    }
+
+    .ticket-divider {
+        position: relative;
+        border-top: 3px dashed #cbd5e1;
+        margin: 10px 0 35px 0;
+    }
+
+        .ticket-divider::before,
+        .ticket-divider::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            width: 30px;
+            height: 30px;
+            background-color: #f8fafc;
+            border-radius: 50%;
+            box-shadow: inset 0 5px 10px rgba(0,0,0,0.03);
+        }
+
+        .ticket-divider::before {
+            left: -50px;
+        }
+
+        .ticket-divider::after {
+            right: -50px;
+        }
+
+    /* Back Button */
+    .btn-back {
+        background: #ffffff;
+        color: #64748b;
+        border: 2px solid #e2e8f0;
+        padding: 12px 25px;
+        font-size: 15px;
+        font-weight: 700;
+        border-radius: 12px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        margin-bottom: 40px;
+    }
+
+        .btn-back:hover {
+            border-color: #4158D0;
+            color: #4158D0;
+            background-color: #f1f5f9;
+            transform: translateX(-3px);
+        }
+
+    /* --- FEEDBACK SECTION --- */
+    .feedback-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        max-width: 600px;
+        border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .feedback-title {
+        font-weight: 800;
+        color: #1e293b;
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+    }
+
+    /* Interactive 5-Star Rating System */
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse; /* Allows hover to fill preceding stars */
+        justify-content: flex-end;
+        gap: 5px;
+        margin-bottom: 20px;
+    }
+
+        .star-rating input {
+            display: none; /* Hide standard radio buttons */
+        }
+
+        .star-rating label {
+            font-size: 2.5rem;
+            color: #cbd5e1; /* Default grey star */
+            cursor: pointer;
+            transition: color 0.2s ease;
+            line-height: 1;
+        }
+
+            /* Hover & Checked state logic */
+            .star-rating input:checked ~ label,
+            .star-rating label:hover,
+            .star-rating label:hover ~ label {
+                color: #f59e0b; /* Bright Gold/Yellow */
+                text-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+            }
+
+    .feedback-textarea {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #334155;
+        background-color: #f8fafc;
+        transition: all 0.3s ease;
+        min-height: 120px;
+        resize: vertical;
+        margin-bottom: 20px;
+    }
+
+        .feedback-textarea:focus {
+            outline: none;
+            border-color: #C850C0;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
+        }
+
+    .btn-feedback-submit {
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+        color: #fff;
+        border: none;
+        padding: 14px 30px;
+        font-size: 15px;
+        font-weight: 800;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(200, 80, 192, 0.3);
+    }
+
+        .btn-feedback-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(200, 80, 192, 0.5);
+        }
+
+    /* Existing Feedback View */
+    .existing-feedback-box {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 20px;
+        border-left: 4px solid #f59e0b;
+    }
+</style>
+
+<div class="d-flex">
+
+    @await Html.PartialAsync("_MemberSidebar")
+
+    <div class="member-page-wrapper flex-fill">
+
+        <h2 class="member-title">Your Digital Pass</h2>
+        <p class="text-muted mb-4">Present this digital ticket at the venue for entry.</p>
+
+        <div class="vip-ticket-card">
+
+            <div class="ticket-header">
+                <span class="ticket-category-badge mb-3">@Model.Event.Category.Name</span>
+                <h3 class="ticket-event-title">@Model.Event.Title</h3>
+                <div style="font-size: 1.1rem; font-weight: 600; opacity: 0.9;">
+                    <i class="me-2">📅</i> @Model.Event.Date.ToString("dd MMMM yyyy")
+                </div>
+            </div>
+
+            <div class="ticket-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="detail-label">Location / Venue</span>
+                        <div class="detail-value">@Model.Event.Venue.Name</div>
+                    </div>
+                </div>
+
+                <div class="ticket-divider"></div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <span class="detail-label">Seat Type</span>
+                        <div class="detail-value">@Model.SeatType</div>
+                    </div>
+                    <div class="col-6 text-end">
+                        <span class="detail-label">Total Paid</span>
+                        <div class="detail-value detail-price">@Model.Price THB</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 text-center mt-3">
+                        <span class="detail-label">Purchase Date: @Model.PurchaseDate.ToString("dd MMM yyyy, HH:mm")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a asp-action="MyTickets" class="btn-back">
+            &larr; Back to My Tickets
+        </a>
+
+        @if (Model.Event.Date < DateTime.Now)
+        {
+            <hr />
+            <h4>Rate This Event</h4>
+
+            <form asp-controller="Events"
+                  asp-action="SubmitFeedback"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" name="eventId" value="@Model.Event.Id" />
+
+                <div class="star-rating mb-3">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <input type="radio" id="star@i"
+                               name="rating"
+                               value="@i" required />
+                        <label for="star@i">★</label>
+                    }
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Submit Rating
+                </button>
+            </form>
+        }
+
+    </div>
+</div>

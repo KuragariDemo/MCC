@@ -1,68 +1,311 @@
 ﻿@model SEM.Models.Event
 
-<h2>@Model.Title</h2>
-<hr />
+@{
+    ViewData["Title"] = "Event Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<div class="card mb-4">
-    <div class="card-body">
-        <p><strong>Category:</strong> @Model.Category</p>
-        <p><strong>Location:</strong> @Model.Location</p>
-        <p><strong>Date:</strong> @Model.Date.ToString("dd MMM yyyy")</p>
+<style>
+    /* ==========================================================
+           INLINE CSS: EVENT DETAILS & TICKETING PAGE
+        ========================================================== */
+    .details-page-wrapper {
+        background-color: #f8fafc;
+        min-height: 100vh;
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        padding: 50px 0;
+    }
+
+    /* Event Hero Card */
+    .event-hero-card {
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+        margin-bottom: 40px;
+        border: 1px solid rgba(0,0,0,0.02);
+    }
+
+    .event-hero-banner {
+        background: linear-gradient(135deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+        padding: 40px 40px;
+        color: white;
+        position: relative;
+    }
+
+        .event-hero-banner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(255,255,255,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+    .event-hero-title {
+        font-weight: 900;
+        font-size: 2.5rem;
+        margin-bottom: 0;
+        text-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        letter-spacing: -0.5px;
+    }
+
+    .event-info-bar {
+        padding: 25px 40px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        background: #ffffff;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+    }
+
+    .info-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .badge-category {
+        background: rgba(200, 80, 192, 0.1);
+        color: #C850C0;
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 0.9rem;
+    }
+
+    /* Section Title */
+    .section-title {
+        font-weight: 900;
+        font-size: 1.8rem;
+        color: #1e293b;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    /* Pricing Tier Cards */
+    .pricing-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 35px 25px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba(0,0,0,0.03);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+    /* Individual Accents for Tiers */
+    .tier-low::before {
+        background: linear-gradient(90deg, #4facfe, #00f2fe);
+    }
+
+    .tier-medium::before {
+        background: linear-gradient(90deg, #f6d365, #fda085);
+    }
+
+    .tier-high::before {
+        background: linear-gradient(90deg, #ff0844, #ffb199);
+    }
+
+    .pricing-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+    }
+
+    .pricing-tier-name {
+        font-size: 1.2rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #64748b;
+        margin-bottom: 15px;
+    }
+
+    .pricing-price {
+        font-size: 2.8rem;
+        font-weight: 900;
+        color: #1e293b;
+        margin-bottom: 5px;
+        line-height: 1;
+    }
+
+    .pricing-currency {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #94a3b8;
+        vertical-align: super;
+    }
+
+    .pricing-seats {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #10b981; /* Emerald green */
+        margin-bottom: 30px;
+        background: #f0fdf4;
+        padding: 6px 15px;
+        border-radius: 50px;
+        display: inline-block;
+    }
+
+    /* Purchase Buttons matching their tiers */
+    .btn-buy {
+        color: white;
+        border: none;
+        padding: 14px 20px;
+        font-size: 16px;
+        font-weight: 800;
+        border-radius: 12px;
+        text-decoration: none;
+        display: block;
+        width: 100%;
+        transition: all 0.3s ease;
+        margin-top: auto; /* Pushes button to bottom */
+    }
+
+    .btn-buy-low {
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        box-shadow: 0 8px 20px rgba(0, 242, 254, 0.3);
+    }
+
+    .btn-buy-medium {
+        background: linear-gradient(135deg, #f6d365, #fda085);
+        box-shadow: 0 8px 20px rgba(253, 160, 133, 0.3);
+    }
+
+    .btn-buy-high {
+        background: linear-gradient(135deg, #ff0844, #ffb199);
+        box-shadow: 0 8px 20px rgba(255, 8, 68, 0.3);
+    }
+
+    .btn-buy:hover {
+        transform: translateY(-2px);
+        color: white;
+        filter: brightness(1.05);
+    }
+</style>
+
+<div class="details-page-wrapper">
+    <div class="container" style="max-width: 1000px;">
+
+        <div class="mb-4">
+            <a href="javascript:history.back()" class="text-decoration-none fw-bold" style="color: #64748b; font-size: 0.95rem;">
+                &larr; Back to Events
+            </a>
+        </div>
+
+        <div class="event-hero-card">
+            <div class="event-hero-banner">
+                <h1 class="event-hero-title">@Model.Title</h1>
+            </div>
+
+            <div class="event-info-bar">
+                <div class="info-item">
+                    <span class="info-label">Category</span>
+                    <span class="info-value badge-category">@Model.Category?.Name</span>
+                </div>
+
+                <div class="info-item" style="border-left: 2px dashed #f1f5f9; padding-left: 30px;">
+                    <span class="info-label">Location / Venue</span>
+                    <span class="info-value">📍 @Model.Venue?.Location</span>
+                </div>
+
+                <div class="info-item" style="border-left: 2px dashed #f1f5f9; padding-left: 30px;">
+                    <span class="info-label">Date & Time</span>
+                    <span class="info-value">📅 @Model.Date.ToString("dd MMMM yyyy")</span>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="section-title">Select Your Tickets</h3>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="pricing-card tier-low">
+                    <div class="pricing-tier-name">Standard</div>
+                    <div class="pricing-price">
+                        @Model.LowPrice <span class="pricing-currency">THB</span>
+                    </div>
+                    <div>
+                        <span class="pricing-seats">@Model.LowSeats Seats Left</span>
+                    </div>
+
+                    <a asp-action="Buy"
+                       asp-route-id="@Model.Id"
+                       asp-route-seatType="Low"
+                       class="btn-buy btn-buy-low">
+                        Buy Standard
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="pricing-card tier-medium">
+                    <div class="pricing-tier-name">Premium</div>
+                    <div class="pricing-price">
+                        @Model.MediumPrice <span class="pricing-currency">THB</span>
+                    </div>
+                    <div>
+                        <span class="pricing-seats">@Model.MediumSeats Seats Left</span>
+                    </div>
+
+                    <a asp-action="Buy"
+                       asp-route-id="@Model.Id"
+                       asp-route-seatType="Medium"
+                       class="btn-buy btn-buy-medium">
+                        Buy Premium
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="pricing-card tier-high">
+                    <div class="pricing-tier-name">VIP Access</div>
+                    <div class="pricing-price">
+                        @Model.HighPrice <span class="pricing-currency">THB</span>
+                    </div>
+                    <div>
+                        <span class="pricing-seats">@Model.HighSeats Seats Left</span>
+                    </div>
+
+                    <a asp-action="Buy"
+                       asp-route-id="@Model.Id"
+                       asp-route-seatType="High"
+                       class="btn-buy btn-buy-high">
+                        Buy VIP
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </div>
-
-<h4>Seat Types</h4>
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Seat Type</th>
-            <th>Price (THB)</th>
-            <th>Seats Left</th>
-            <th>Buy</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Low</td>
-            <td>@Model.LowPrice</td>
-            <td>@Model.LowSeats</td>
-            <td>
-                <a asp-action="Buy"
-                   asp-route-id="@Model.Id"
-                   asp-route-seatType="Low"
-                   class="btn btn-success btn-sm">
-                    Buy
-                </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Medium</td>
-            <td>@Model.MediumPrice</td>
-            <td>@Model.MediumSeats</td>
-            <td>
-                <a asp-action="Buy"
-                   asp-route-id="@Model.Id"
-                   asp-route-seatType="Medium"
-                   class="btn btn-success btn-sm">
-                    Buy
-                </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>High</td>
-            <td>@Model.HighPrice</td>
-            <td>@Model.HighSeats</td>
-            <td>
-                <a asp-action="Buy"
-                   asp-route-id="@Model.Id"
-                   asp-route-seatType="High"
-                   class="btn btn-success btn-sm">
-                    Buy
-                </a>
-            </td>
-        </tr>
-    </tbody>
-</table>

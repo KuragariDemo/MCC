@@ -3,7 +3,6 @@
 @inject SignInManager<SEMUser> SignInManager
 @inject UserManager<SEMUser> UserManager
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,61 +11,57 @@
     <title>@ViewData["Title"] - SEM</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body>
+<body class="layout-body">
 
-    <!-- ===== HEADER / NAVBAR ===== -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <header class="layout-header">
+        <nav class="navbar navbar-expand-lg layout-navbar">
             <div class="container">
-                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                <a class="navbar-brand layout-brand fw-bold" asp-controller="Home" asp-action="Index">
                     SEM
                 </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarContent">
 
-                    <!-- Left Menu -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link layout-nav-link" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Events" asp-action="Index">Events</a>
+                            <a class="nav-link layout-nav-link" asp-controller="Events" asp-action="Index">Events</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Member" asp-action="Index">Member</a>
+                            <a class="nav-link layout-nav-link" asp-controller="Member" asp-action="Index">Member</a>
                         </li>
                     </ul>
 
-                    <!-- Right Menu -->
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav align-items-center">
 
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                   asp-controller="Member"
-                                   asp-action="Index">
-                                    Profile
-                                </a>
+                            <li class="nav-item me-3">
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a class="nav-link layout-nav-link" asp-controller="Admin" asp-action="Dashboard">
+                                        Admin Dashboard
+                                    </a>
+                                }
+                                else if (User.IsInRole("Member"))
+                                {
+                                    <a class="nav-link layout-nav-link" asp-controller="Member" asp-action="Index">
+                                        Member Dashboard
+                                    </a>
+                                }
                             </li>
-
                             <li class="nav-item">
-                                <form asp-area="Identity"
-                                      asp-page="/Account/Logout"
-                                      method="post"
-                                      class="d-inline">
-                                    <button type="submit"
-                                            class="nav-link btn btn-link"
-                                            style="border:none;">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post" class="d-inline">
+                                    <button type="submit" class="btn layout-btn-outline">
                                         Logout
                                     </button>
                                 </form>
@@ -74,71 +69,58 @@
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                   asp-area="Identity"
-                                   asp-page="/Account/Login">
+                            <li class="nav-item me-2">
+                                <a class="nav-link layout-nav-link" asp-area="Identity" asp-page="/Account/Login">
                                     Sign In
                                 </a>
                             </li>
-
                             <li class="nav-item">
-                                <a class="nav-link btn btn-primary text-white ms-2"
-                                   asp-area="Identity"
-                                   asp-page="/Account/Register">
+                                <a class="btn layout-btn-gradient" asp-area="Identity" asp-page="/Account/Register">
                                     Sign Up
                                 </a>
                             </li>
                         }
 
                     </ul>
-
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- ===== MAIN CONTENT ===== -->
-    <div class="container mt-4">
+    <main class="layout-main">
         @RenderBody()
-    </div>
+    </main>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="bg-dark text-white mt-5 pt-4 pb-3">
+    <footer class="layout-footer mt-5 pt-5 pb-4">
         <div class="container">
-            <div class="row">
-
-                <!-- Company Info -->
-                <div class="col-md-6">
-                    <h5>Smart Event Management (SEM)</h5>
-                    <p>
+            <div class="row mb-4">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <h5 class="layout-footer-title">Smart Event Management (SEM)</h5>
+                    <p class="layout-footer-text">
                         SEM is a modern platform developed for the Metropolitan Cultural Council
                         to manage events, ticketing, and community engagement efficiently.
                     </p>
                 </div>
 
-                <!-- Social Links -->
                 <div class="col-md-6 text-md-end">
-                    <h5>Follow Us</h5>
-                    <a href="#" class="text-white me-3">Facebook</a>
-                    <a href="#" class="text-white me-3">Instagram</a>
-                    <a href="#" class="text-white">Twitter</a>
+                    <h5 class="layout-footer-title">Follow Us</h5>
+                    <div class="layout-social-links">
+                        <a href="#" class="layout-social-link">Facebook</a>
+                        <a href="#" class="layout-social-link">Instagram</a>
+                        <a href="#" class="layout-social-link">Twitter</a>
+                    </div>
                 </div>
-
             </div>
 
-            <hr class="border-light" />
+            <hr class="layout-footer-divider" />
 
-            <div class="text-center">
+            <div class="text-center layout-footer-copy">
                 &copy; @DateTime.Now.Year - SEM. All Rights Reserved.
             </div>
         </div>
     </footer>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
     @RenderSection("Scripts", required: false)
-
-
 </body>
 </html>

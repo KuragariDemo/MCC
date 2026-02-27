@@ -1,31 +1,786 @@
-html {
-  font-size: 14px;
+
+
+/* --- login-css Styles --- */
+.login-css-wrapper {
+    /* Premium multi-stop modern gradient matching the Home page */
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    min-height: 90vh; /* Stretches the background down nicely */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    /* Forces edge-to-edge full width */
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    position: relative;
+    /* Removes the ASP.NET layout gap */
+    margin-top: -1.5rem !important;
 }
 
-@media (min-width: 768px) {
-  html {
+.login-css-card {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 45px 35px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    overflow: hidden;
+}
+
+    /* Top Accent Line on Card */
+    .login-css-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+    }
+
+.login-css-title {
+    font-weight: 800;
+    font-size: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+    letter-spacing: -0.5px;
+    /* Gradient Text */
+    background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    width: 100%;
+}
+
+.login-css-group {
+    margin-bottom: 22px;
+}
+
+.login-css-label {
+    font-weight: 700;
+    color: #444;
+    margin-bottom: 8px;
+    display: block;
+    font-size: 14px;
+}
+
+.login-css-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e1e5ee;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #f9fafb;
+    box-sizing: border-box;
+    color: #333;
+}
+
+    .login-css-input:focus {
+        outline: none;
+        border-color: #C850C0;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
+    }
+
+.login-css-check-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.login-css-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #C850C0;
+    margin-right: 10px;
+}
+
+.login-css-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    color: white;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(200, 80, 192, 0.3);
+}
+
+    .login-css-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(200, 80, 192, 0.5);
+    }
+
+    .login-css-btn:active {
+        transform: translateY(0);
+    }
+
+.login-css-error {
+    font-size: 13px;
+    color: #ff4d4f;
+    margin-top: 6px;
+    display: block;
+    font-weight: 600;
+}
+
+/* --- register-css Styles --- */
+.register-css-wrapper {
+    /* Premium multi-stop modern gradient matching the Home/Login pages */
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    min-height: 90vh; /* Stretches the background down nicely */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    /* Forces edge-to-edge full width */
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    position: relative;
+    /* Removes the ASP.NET layout gap */
+    margin-top: -1.5rem !important;
+}
+
+.register-css-card {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 45px 35px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 480px; /* Slightly wider to accommodate 4 form fields gracefully */
+    position: relative;
+    overflow: hidden;
+}
+
+    /* Top Accent Line on Card */
+    .register-css-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+    }
+
+.register-css-title {
+    font-weight: 800;
+    font-size: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+    letter-spacing: -0.5px;
+    /* Gradient Text */
+    background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    width: 100%;
+}
+
+.register-css-group {
+    margin-bottom: 22px;
+}
+
+.register-css-label {
+    font-weight: 700;
+    color: #444;
+    margin-bottom: 8px;
+    display: block;
+    font-size: 14px;
+}
+
+.register-css-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e1e5ee;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #f9fafb;
+    box-sizing: border-box;
+    color: #333;
+}
+
+    .register-css-input:focus {
+        outline: none;
+        border-color: #C850C0;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
+    }
+
+.register-css-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    color: white;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(200, 80, 192, 0.3);
+}
+
+    .register-css-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(200, 80, 192, 0.5);
+    }
+
+    .register-css-btn:active {
+        transform: translateY(0);
+    }
+
+.register-css-error {
+    font-size: 13px;
+    color: #ff4d4f;
+    margin-top: 6px;
+    display: block;
+    font-weight: 600;
+}
+
+/* ==========================================================
+   PREMIUM GLOBAL LAYOUT STYLES (Navbar & Footer)
+========================================================== */
+
+/* Set global font to match our modern cards */
+.layout-body {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: #f9fafb; /* Soft off-white background for the whole site */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.layout-main {
+    flex: 1; /* Pushes the footer to the bottom of the page */
+}
+
+/* --- Premium Navbar --- */
+.layout-header {
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+    /* Adds a glowing gradient line under the navbar */
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+    border-image-slice: 1;
+}
+
+.layout-navbar {
+    background-color: rgba(15, 23, 42, 0.95); /* Deep sleek navy/dark mode color */
+    backdrop-filter: blur(12px); /* Glass effect */
+    padding: 15px 0;
+}
+
+/* Gradient Logo Brand */
+.layout-brand {
+    font-size: 26px;
+    font-weight: 900 !important;
+    letter-spacing: -1px;
+    background: linear-gradient(43deg, #C850C0 0%, #FFCC70 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.3s ease;
+}
+
+    .layout-brand:hover {
+        transform: scale(1.05);
+    }
+
+/* Nav Links */
+.layout-nav-link {
+    color: #e2e8f0 !important;
+    font-weight: 600;
+    font-size: 15px;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+    .layout-nav-link:hover {
+        color: #ffffff !important;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    /* Glowing underline effect on hover */
+    .layout-nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        display: block;
+        margin-top: 5px;
+        right: 0;
+        background: linear-gradient(90deg, #C850C0, #FFCC70);
+        transition: width 0.3s ease;
+        -webkit-transition: width 0.3s ease;
+    }
+
+    .layout-nav-link:hover::after {
+        width: 100%;
+        left: 0;
+        background: linear-gradient(90deg, #4158D0, #C850C0);
+    }
+
+/* --- Header Buttons --- */
+.layout-btn-gradient {
+    background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    color: #fff !important;
+    border: none;
+    padding: 10px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 50px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(200, 80, 192, 0.4);
+}
+
+    .layout-btn-gradient:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(200, 80, 192, 0.6);
+    }
+
+.layout-btn-outline {
+    background: transparent;
+    color: #e2e8f0;
+    border: 2px solid rgba(255,255,255,0.2);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+    .layout-btn-outline:hover {
+        border-color: #C850C0;
+        color: #fff;
+        background: rgba(200, 80, 192, 0.1);
+    }
+
+/* Mobile Toggler Customization */
+.custom-toggler {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+    .custom-toggler .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+    }
+
+/* --- Premium Footer --- */
+.layout-footer {
+    background-color: #0f172a; /* Deep navy to match header */
+    color: #94a3b8;
+    position: relative;
+}
+
+    /* Gradient line across the top of the footer */
+    .layout-footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+    }
+
+.layout-footer-title {
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+.layout-footer-text {
+    line-height: 1.7;
+    font-size: 0.95rem;
+    max-width: 450px;
+}
+
+.layout-social-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+    .layout-social-links a:first-child {
+        margin-left: 0;
+    }
+
+    .layout-social-links a:hover {
+        color: #FFCC70; /* Peach highlight on hover */
+    }
+
+.layout-footer-divider {
+    border-color: rgba(255, 255, 255, 0.1);
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.layout-footer-copy {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+/* ==========================================================
+   PREMIUM ADMIN SIDEBAR STYLES
+========================================================== */
+
+/* The Sidebar Container */
+.admin-sidebar {
+    width: 280px;
+    min-height: 100vh;
+    background-color: #0f172a; /* Matches your premium dark footer/navbar */
+    border-right: 1px solid rgba(255, 255, 255, 0.05); /* Subtle separation line */
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    position: relative;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+}
+
+    /* Glowing right border accent */
+    .admin-sidebar::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(180deg, #4158D0, #C850C0, #FFCC70);
+        opacity: 0.8;
+    }
+
+/* Gradient Title */
+.admin-sidebar-title {
+    font-weight: 900;
+    font-size: 1.4rem;
+    letter-spacing: -0.5px;
+    margin-bottom: 5px;
+    background: linear-gradient(43deg, #C850C0 0%, #FFCC70 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+/* Custom Soft Divider */
+.admin-sidebar-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(200, 80, 192, 0.5), transparent);
+    margin: 15px 0 25px 0;
+    opacity: 1;
+}
+
+/* Sidebar Links */
+.admin-nav-list {
+    gap: 8px; /* Adds perfect spacing between links */
+}
+
+.admin-nav-link {
+    color: #94a3b8; /* Soft silver text */
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 20px;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+}
+
+    /* Hover Animation Effects */
+    .admin-nav-link:hover {
+        color: #ffffff; /* Brightens text on hover */
+        transform: translateX(6px); /* Gently slides the link to the right */
+        background: rgba(200, 80, 192, 0.08); /* Soft magenta tinted background */
+    }
+
+    /* Glowing Indicator Line on Hover */
+    .admin-nav-link::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 15%;
+        height: 70%;
+        width: 4px;
+        border-radius: 0 4px 4px 0;
+        background: linear-gradient(180deg, #4158D0, #C850C0);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .admin-nav-link:hover::before {
+        opacity: 1;
+    }
+
+/* ==========================================================
+   PREMIUM ADMIN CONTENT STYLES 
+========================================================== */
+
+/* The canvas next to your sidebar */
+.admin-content-wrapper {
+    padding: 50px 40px;
+    background-color: #f8fafc; /* Very soft slate background to make the white card pop */
+    min-height: 100vh;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* Floating White Card */
+.admin-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 45px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+    max-width: 550px; /* Prevents the form from stretching too wide on big screens */
+    margin: 0 auto; /* Centers the card horizontally */
+    position: relative;
+    overflow: hidden;
+}
+
+    /* Gradient Accent Line on Top of Card */
+    .admin-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+    }
+
+/* Gradient Page Title */
+.admin-page-title {
+    font-weight: 800;
+    font-size: 2rem;
+    margin-bottom: 5px;
+    letter-spacing: -0.5px;
+    background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+/* Premium Input Fields */
+.admin-input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #f8fafc;
+    color: #334155;
+    font-weight: 500;
+}
+
+    .admin-input::placeholder {
+        color: #94a3b8;
+    }
+
+    /* Magenta Glow on Focus */
+    .admin-input:focus {
+        outline: none;
+        border-color: #C850C0;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
+    }
+
+/* Action Button */
+.admin-btn-gradient {
+    background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    color: #fff;
+    border: none;
+    padding: 16px;
     font-size: 16px;
-  }
+    font-weight: 800;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(200, 80, 192, 0.3);
+    letter-spacing: 0.5px;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    .admin-btn-gradient:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(200, 80, 192, 0.5);
+    }
+
+/* Modern Alerts */
+.admin-alert {
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    border-left: 5px solid; /* Bold side accent */
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.admin-alert-success {
+    background-color: #f0fdf4;
+    color: #166534;
+    border-left-color: #22c55e;
 }
 
-body {
-  margin-bottom: 60px;
+.admin-alert-danger {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-left-color: #ef4444;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* ==========================================================
+   ADDITIONAL ADMIN STYLES (For Manage Events Page)
+========================================================== */
+
+/* Form Labels */
+.admin-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    display: block;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* Custom Select Dropdown Arrow */
+.admin-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px 12px;
+    padding-right: 2.5rem;
 }
+
+/* Section Subtitles */
+.admin-section-subtitle {
+    font-weight: 800;
+    color: #1e293b;
+    font-size: 1.25rem;
+}
+
+/* Pricing Tier Highlight Boxes */
+.admin-tier-box {
+    background: #f1f5f9;
+    border-radius: 15px;
+    padding: 25px 20px;
+    border: 1px solid rgba(0,0,0,0.02);
+    transition: all 0.3s ease;
+}
+
+    .admin-tier-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        background: #ffffff;
+        border-color: #e2e8f0;
+    }
+
+.tier-title {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+/* ==========================================================
+   ADMIN DASHBOARD METRIC CARDS
+========================================================== */
+
+.admin-metric-card {
+    border-radius: 20px;
+    padding: 35px 30px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1;
+}
+
+    /* Hover Lift Effect */
+    .admin-metric-card:hover {
+        transform: translateY(-8px);
+    }
+
+/* Specific Gradient Colors for the Cards */
+.admin-metric-events {
+    background: linear-gradient(135deg, #4158D0 0%, #C850C0 100%);
+}
+
+    .admin-metric-events:hover {
+        box-shadow: 0 20px 40px rgba(200, 80, 192, 0.4);
+    }
+
+.admin-metric-users {
+    background: linear-gradient(135deg, #C850C0 0%, #FFCC70 100%);
+}
+
+    .admin-metric-users:hover {
+        box-shadow: 0 20px 40px rgba(255, 204, 112, 0.4);
+    }
+
+/* Metric Text Styling */
+.metric-content {
+    position: relative;
+    z-index: 2; /* Keeps text above the icon */
+}
+
+.metric-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+.metric-value {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin: 0;
+    line-height: 1;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Decorative Background SVG Styling */
+.metric-icon {
+    position: absolute;
+    right: -10px;
+    bottom: -15px;
+    opacity: 0.15; /* Makes it a subtle watermark */
+    transform: rotate(-10deg); /* Slight angle for a dynamic feel */
+    transition: all 0.4s ease;
+    z-index: 0;
+}
+
+.admin-metric-card:hover .metric-icon {
+    transform: scale(1.1) rotate(0deg); /* Animates the icon on hover */
+    opacity: 0.25;
+}
+

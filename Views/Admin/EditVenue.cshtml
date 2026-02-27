@@ -1,0 +1,171 @@
+﻿@model SEM.Models.Venue
+
+@{
+    ViewData["Title"] = "Edit Venue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* ==========================================================
+           INLINE CSS: EDIT VENUE PAGE
+        ========================================================== */
+    .edit-page-wrapper {
+        background-color: #f8fafc;
+        min-height: 100vh;
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        padding: 50px 40px;
+    }
+
+    .edit-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 45px 40px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+        max-width: 600px; /* Keeps the form perfectly sized and readable */
+        position: relative;
+        overflow: hidden;
+    }
+
+        /* Gradient Top Line */
+        .edit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+        }
+
+    /* Gradient Title */
+    .edit-title {
+        font-weight: 900;
+        font-size: 2.2rem;
+        letter-spacing: -0.5px;
+        margin-bottom: 10px;
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
+
+    /* Input Field Styling */
+    .edit-label {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .edit-input {
+        width: 100%;
+        padding: 16px 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #334155;
+        background-color: #f8fafc;
+        transition: all 0.3s ease;
+    }
+
+        /* Magenta Glow on Focus */
+        .edit-input:focus {
+            outline: none;
+            border-color: #C850C0;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
+        }
+
+    /* Gradient Submit Button */
+    .edit-btn-save {
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+        color: #fff;
+        border: none;
+        padding: 15px 35px;
+        font-size: 16px;
+        font-weight: 800;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(200, 80, 192, 0.3);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .edit-btn-save:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(200, 80, 192, 0.5);
+            color: #fff;
+        }
+
+    /* Sleek Cancel Outline Button */
+    .edit-btn-cancel {
+        background: transparent;
+        color: #64748b;
+        border: 2px solid #e2e8f0;
+        padding: 13px 30px;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .edit-btn-cancel:hover {
+            border-color: #94a3b8;
+            color: #334155;
+            background-color: #f1f5f9;
+        }
+</style>
+
+<div class="d-flex">
+
+    @await Html.PartialAsync("_AdminSidebar")
+
+    <div class="edit-page-wrapper flex-fill">
+
+        <div class="edit-card">
+
+            <h2 class="edit-title">Edit Venue</h2>
+            <p class="text-muted mb-4 pb-2" style="border-bottom: 1px solid #f1f5f9;">Update the name and location details for this venue.</p>
+
+            <form asp-action="EditVenue" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-4">
+                    <label class="edit-label">Venue Name</label>
+                    <input asp-for="Name" class="edit-input" placeholder="e.g., Central Park Amphitheater" />
+                    <span asp-validation-for="Name" class="text-danger mt-2 d-block fw-bold" style="font-size: 0.85rem;"></span>
+                </div>
+
+                <div class="mb-5">
+                    <label class="edit-label">Location</label>
+                    <input asp-for="Location" class="edit-input" placeholder="e.g., Downtown NY" />
+                    <span asp-validation-for="Location" class="text-danger mt-2 d-block fw-bold" style="font-size: 0.85rem;"></span>
+                </div>
+
+                <div class="d-flex gap-3">
+                    <button type="submit" class="edit-btn-save">
+                        Save Changes
+                    </button>
+
+                    <a asp-action="Venues" class="edit-btn-cancel">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

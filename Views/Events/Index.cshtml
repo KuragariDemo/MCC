@@ -2,59 +2,275 @@
 
 @{
     ViewData["Title"] = "All Events";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="mb-4">All Events</h2>
+<style>
+    /* ==========================================================
+           INLINE CSS: ALL EVENTS / BROWSE EVENTS PAGE
+        ========================================================== */
+    .events-page-wrapper {
+        background-color: #f8fafc;
+        min-height: 100vh;
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        padding: 50px 0; /* Padding top and bottom */
+    }
 
-<form method="get" class="row g-3 mb-4">
-    <div class="col-md-3">
-        <input type="text" name="category" class="form-control" placeholder="Category" />
-    </div>
+    /* Gradient Title */
+    .events-page-title {
+        font-weight: 900;
+        font-size: 2.5rem;
+        letter-spacing: -0.5px;
+        margin-bottom: 5px;
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
 
-    <div class="col-md-3">
-        <input type="text" name="location" class="form-control" placeholder="Location" />
-    </div>
+    /* Floating Filter Card */
+    .filter-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 25px 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        margin-bottom: 40px;
+        border: 1px solid rgba(0,0,0,0.02);
+    }
 
-    <div class="col-md-3">
-        <input type="date" name="date" class="form-control" />
-    </div>
+    .filter-input {
+        width: 100%;
+        padding: 12px 18px;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #334155;
+        background-color: #f8fafc;
+        transition: all 0.3s ease;
+    }
 
-    <div class="col-md-3">
-        <input type="number" name="maxPrice" class="form-control" placeholder="Max Price" />
-    </div>
-
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary">Search</button>
-        <a asp-action="Index" class="btn btn-secondary">Reset</a>
-    </div>
-</form>
-
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Category</th>
-            <th>Location</th>
-            <th>Date</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Title</td>
-                <td>@item.Category</td>
-                <td>@item.Location</td>
-                <td>@item.Date.ToString("dd MMM yyyy")</td>
-                <td>
-                    <a asp-action="Details"
-                       asp-route-id="@item.Id"
-                       class="btn btn-info btn-sm">
-                        Details
-                    </a>
-                </td>
-            </tr>
+        .filter-input:focus {
+            outline: none;
+            border-color: #C850C0;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
         }
-    </tbody>
-</table>
+
+    /* Gradient Search Button */
+    .btn-search-gradient {
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 100%);
+        color: #fff;
+        border: none;
+        padding: 12px 30px;
+        font-size: 15px;
+        font-weight: 700;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 15px rgba(200, 80, 192, 0.3);
+        display: inline-block;
+    }
+
+        .btn-search-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(200, 80, 192, 0.4);
+            color: #fff;
+        }
+
+    /* Outline Reset Button */
+    .btn-reset-outline {
+        border: 2px solid #e2e8f0;
+        color: #64748b;
+        padding: 10px 25px;
+        font-weight: 700;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-reset-outline:hover {
+            border-color: #94a3b8;
+            background: #f1f5f9;
+            color: #334155;
+        }
+
+    /* Modern Floating Table */
+    .events-table {
+        border-collapse: separate;
+        border-spacing: 0 12px;
+        width: 100%;
+    }
+
+        .events-table th {
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            border: none;
+            padding: 0 20px 10px 20px;
+            font-weight: 700;
+        }
+
+    .event-row {
+        background: #ffffff;
+        transition: all 0.3s ease;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    }
+
+        .event-row:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.06);
+        }
+
+    .events-table td {
+        padding: 20px;
+        border: none;
+        vertical-align: middle;
+        color: #475569;
+        font-weight: 500;
+    }
+
+        .events-table td:first-child {
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+            color: #1e293b;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .events-table td:last-child {
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+    /* Badges & Buttons */
+    .badge-category {
+        background: rgba(200, 80, 192, 0.1);
+        color: #C850C0;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .btn-details {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 24px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 242, 254, 0.3);
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-details:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 242, 254, 0.4);
+            color: white;
+        }
+</style>
+
+<div class="events-page-wrapper">
+    <div class="container">
+
+        <div class="mb-4 text-center text-md-start">
+            <h2 class="events-page-title">Discover Events</h2>
+            <p class="text-muted fs-5">Find the best cultural events, music festivals, and exhibitions.</p>
+        </div>
+
+        <div class="filter-card">
+            <form method="get" class="row g-3 align-items-center">
+
+                <div class="col-md-3">
+                    <input type="text" name="category" class="filter-input" placeholder="Search by Category..." />
+                </div>
+
+                <div class="col-md-3">
+                    <input type="text" name="location" class="filter-input" placeholder="City or Venue..." />
+                </div>
+
+                <div class="col-md-3">
+                    <input type="date" name="date" class="filter-input" />
+                </div>
+
+                <div class="col-md-3">
+                    <input type="number" name="maxPrice" class="filter-input" placeholder="Max Price ($)" />
+                </div>
+
+                <div class="col-12 mt-4 d-flex gap-3 justify-content-end">
+                    <a asp-action="Index" class="btn-reset-outline">
+                        Reset Filters
+                    </a>
+                    <button type="submit" class="btn-search-gradient">
+                        Apply Search
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-responsive">
+            <table class="events-table">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Event Title</th>
+                        <th>Category</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th class="text-end pe-4">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr class="event-row">
+                                <td class="ps-4">
+                                    @item.Title
+                                </td>
+                                <td>
+                                    <span class="badge-category">@item.Category?.Name</span>
+                                </td>
+                                <td>
+                                    <div class="text-muted fw-bold">
+                                        <i class="me-1 opacity-50">📍</i> @item.Venue?.Location
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="text-muted fw-bold">
+                                        <i class="me-1 opacity-50">📅</i> @item.Date.ToString("dd MMM yyyy")
+                                    </div>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.Id"
+                                       class="btn-details">
+                                        View Details
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted" style="background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                                <div class="mb-2" style="font-size: 2.5rem;">🎭</div>
+                                <em class="fs-5">No events found matching your search criteria.</em>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

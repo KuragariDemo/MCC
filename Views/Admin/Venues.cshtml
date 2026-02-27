@@ -1,0 +1,107 @@
+﻿@model IEnumerable<SEM.Models.Venue>
+
+@{
+    ViewData["Title"] = "Manage Venues";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex">
+
+    @await Html.PartialAsync("_AdminSidebar")
+
+    <div class="admin-content-wrapper flex-fill">
+
+        <div class="admin-card mb-5" style="max-width: 900px;">
+            <h2 class="admin-page-title">Manage Venues</h2>
+            <p class="text-muted mb-4">Add new event locations and manage your existing venues.</p>
+
+            <form asp-action="Venues" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-5">
+                        <input name="Name"
+                               class="admin-input"
+                               placeholder="Venue Name (e.g., Central Park)"
+                               required />
+                    </div>
+
+                    <div class="col-md-4">
+                        <input name="Location"
+                               class="admin-input"
+                               placeholder="Location (e.g., Downtown NY)"
+                               required />
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="submit" class="admin-btn-gradient w-100">
+                            + Add Venue
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="admin-card" style="max-width: 900px;">
+            <h4 class="admin-section-subtitle mb-4">Existing Venues</h4>
+
+            <div class="table-responsive">
+                <table class="table align-middle" style="border-collapse: separate; border-spacing: 0 10px;">
+                    <thead>
+                        <tr style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: #94a3b8;">
+                            <th class="ps-3 border-0">Name</th>
+                            <th class="border-0">Location</th>
+                            <th class="text-end pe-3 border-0" width="200">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr style="background: #f8fafc; transition: all 0.3s ease; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+                                    <td class="ps-3 py-3 border-0 rounded-start font-weight-bold" style="color: #334155; font-weight: 600;">
+                                        @item.Name
+                                    </td>
+                                    <td class="py-3 border-0 text-muted">
+                                        <i class="text-primary me-1"></i> @item.Location
+                                    </td>
+                                    <td class="text-end pe-3 py-3 border-0 rounded-end">
+                                        <div class="d-flex justify-content-end gap-2">
+
+                                            <a asp-action="EditVenue"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-sm text-white"
+                                               style="background: linear-gradient(135deg, #f6d365, #fda085); border: none; border-radius: 8px; font-weight: 600; padding: 6px 15px; box-shadow: 0 4px 10px rgba(253, 160, 133, 0.3);">
+                                                Edit
+                                            </a>
+
+                                            <form asp-action="DeleteVenue" method="post" style="display:inline;">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@item.Id" />
+                                                <button type="submit" class="btn btn-sm text-white"
+                                                        style="background: linear-gradient(135deg, #ff0844, #ffb199); border: none; border-radius: 8px; font-weight: 600; padding: 6px 15px; box-shadow: 0 4px 10px rgba(255, 8, 68, 0.3);">
+                                                    Delete
+                                                </button>
+                                            </form>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center py-4 text-muted border-0">
+                                    <em>No venues found. Add one above to get started.</em>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,29 +1,123 @@
-﻿<div class="col-md-3 bg-light p-3 min-vh-100">
-    <h4 class="mb-4">Member Panel</h4>
+﻿<style>
+    /* ==========================================================
+           INLINE CSS: PREMIUM MEMBER SIDEBAR (Dark/Gradient Theme)
+        ========================================================== */
 
-    <ul class="nav flex-column">
+    /* The Sidebar Container - Fixed Width and Position */
+    .member-sidebar {
+        width: 280px; /* Fixed width fixes the huge gap from the screenshot! */
+        min-width: 280px;
+        flex-shrink: 0;
+        min-height: 100vh;
+        /* Sleek dark gradient background to match the header */
+        background: linear-gradient(180deg, #0f172a 0%, #1e1e38 100%);
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        position: relative;
+        box-shadow: 4px 0 30px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+    }
 
-        <li class="nav-item mb-2">
-            <a class="nav-link"
-               asp-controller="Member"
-               asp-action="Index">
-                Dashboard
+        /* Glowing right border accent */
+        .member-sidebar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, #4158D0, #C850C0, #FFCC70);
+            opacity: 1;
+        }
+
+    /* Gradient Title */
+    .member-sidebar-title {
+        font-weight: 900;
+        font-size: 1.5rem;
+        letter-spacing: -0.5px;
+        margin-bottom: 5px;
+        background: linear-gradient(43deg, #C850C0 0%, #FFCC70 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
+
+    /* Custom Soft Divider */
+    .member-sidebar-divider {
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(200, 80, 192, 0.5), transparent);
+        margin: 15px 0 25px 0;
+        opacity: 1;
+    }
+
+    /* Sidebar Links */
+    .member-nav-list {
+        gap: 8px; /* Spacing between links */
+    }
+
+    .member-nav-link {
+        color: #94a3b8; /* Soft silver text */
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 14px 20px;
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+    }
+
+        /* Hover Animation Effects */
+        .member-nav-link:hover {
+            color: #ffffff; /* Turns pure white */
+            transform: translateX(6px); /* Gently slides to the right */
+            /* Vibrant gradient background on hover */
+            background: linear-gradient(43deg, rgba(65, 88, 208, 0.15) 0%, rgba(200, 80, 192, 0.25) 46%, rgba(255, 204, 112, 0.15) 100%);
+            box-shadow: 0 4px 15px rgba(200, 80, 192, 0.1);
+        }
+
+        /* Glowing Indicator Line on Hover */
+        .member-nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 15%;
+            height: 70%;
+            width: 4px;
+            border-radius: 0 4px 4px 0;
+            background: linear-gradient(180deg, #4facfe, #00f2fe);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .member-nav-link:hover::before {
+            opacity: 1;
+        }
+</style>
+
+<div class="member-sidebar p-4">
+    <h4 class="member-sidebar-title">Member Panel</h4>
+    <hr class="member-sidebar-divider" />
+
+    <ul class="nav flex-column member-nav-list">
+
+        <li class="nav-item">
+            <a class="nav-link member-nav-link" asp-controller="Member" asp-action="Index">
+                <span class="member-nav-text">Dashboard</span>
             </a>
         </li>
 
-        <li class="nav-item mb-2">
-            <a class="nav-link"
-               asp-controller="Member"
-               asp-action="Profile">
-                Profile
+        <li class="nav-item">
+            <a class="nav-link member-nav-link" asp-controller="Member" asp-action="Profile">
+                <span class="member-nav-text">Profile</span>
             </a>
         </li>
 
-        <li class="nav-item mb-2">
-            <a class="nav-link"
-               asp-controller="Member"
-               asp-action="BookedTickets">
-                Booked Tickets
+        <li class="nav-item">
+            <a class="nav-link member-nav-link" asp-controller="Member" asp-action="MyTickets">
+                <span class="member-nav-text">Booked Tickets</span>
             </a>
         </li>
 

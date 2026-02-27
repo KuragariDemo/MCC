@@ -1,0 +1,156 @@
+﻿@model SEM.Models.ViewModels.EventViewModel
+
+@{
+    ViewData["Title"] = "Manage Events";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex">
+
+    @await Html.PartialAsync("_AdminSidebar")
+
+    <div class="admin-content-wrapper flex-fill">
+
+        <div class="admin-card mb-5" style="max-width: 1000px;">
+            <h2 class="admin-page-title">Create New Event</h2>
+            <p class="text-muted mb-4">Set up a new event, assign a venue, and configure ticket pricing tiers.</p>
+
+            <form asp-action="CreateEvent" method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="All" class="admin-alert admin-alert-danger mb-4"></div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-12">
+                        <label class="admin-label">Event Title</label>
+                        <input asp-for="Event.Title" class="admin-input" placeholder="e.g., Summer Jazz Festival" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="admin-label">Date</label>
+                        <input asp-for="Event.Date" type="date" class="admin-input" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="admin-label">Category</label>
+                        <select asp-for="Event.CategoryId" asp-items="Model.Categories" class="admin-input admin-select">
+                            <option value="">-- Select Category --</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="admin-label">Venue</label>
+                        <select asp-for="Event.VenueId" asp-items="Model.Venues" class="admin-input admin-select">
+                            <option value="">-- Select Venue --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr style="border-top: 2px dashed #e2e8f0; margin: 30px 0; opacity: 1;" />
+
+                <h4 class="admin-section-subtitle mb-4">Ticket Pricing Tiers</h4>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-md-4">
+                        <div class="admin-tier-box">
+                            <h5 class="tier-title text-primary">Low Tier</h5>
+                            <label class="admin-label">Total Seats</label>
+                            <input asp-for="Event.LowSeats" type="number" class="admin-input mb-3" placeholder="0" />
+                            <label class="admin-label">Price ($)</label>
+                            <input asp-for="Event.LowPrice" type="number" step="0.01" class="admin-input" placeholder="0.00" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="admin-tier-box">
+                            <h5 class="tier-title text-warning">Medium Tier</h5>
+                            <label class="admin-label">Total Seats</label>
+                            <input asp-for="Event.MediumSeats" type="number" class="admin-input mb-3" placeholder="0" />
+                            <label class="admin-label">Price ($)</label>
+                            <input asp-for="Event.MediumPrice" type="number" step="0.01" class="admin-input" placeholder="0.00" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="admin-tier-box">
+                            <h5 class="tier-title text-danger">High Tier</h5>
+                            <label class="admin-label">Total Seats</label>
+                            <input asp-for="Event.HighSeats" type="number" class="admin-input mb-3" placeholder="0" />
+                            <label class="admin-label">Price ($)</label>
+                            <input asp-for="Event.HighPrice" type="number" step="0.01" class="admin-input" placeholder="0.00" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="admin-btn-gradient" style="padding: 14px 40px;">
+                        + Publish Event
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="admin-card" style="max-width: 1000px;">
+            <h2 class="admin-page-title mb-4">Existing Events</h2>
+
+            <div class="table-responsive">
+                <table class="table align-middle" style="border-collapse: separate; border-spacing: 0 10px;">
+                    <thead>
+                        <tr style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: #94a3b8;">
+                            <th class="ps-3 border-0">Title</th>
+                            <th class="border-0">Date</th>
+                            <th class="border-0">Category</th>
+                            <th class="border-0">Venue</th>
+                            <th class="text-end pe-3 border-0">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Events != null && Model.Events.Any())
+                        {
+                            @foreach (var item in Model.Events)
+                            {
+                                <tr style="background: #f8fafc; transition: all 0.3s ease; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+                                    <td class="ps-3 py-3 border-0 rounded-start font-weight-bold" style="color: #334155; font-weight: 600;">
+                                        @item.Title
+                                    </td>
+                                    <td class="py-3 border-0 text-muted">@item.Date.ToShortDateString()</td>
+                                    <td class="py-3 border-0 text-muted">@item.Category?.Name</td>
+                                    <td class="py-3 border-0 text-muted">
+                                        @item.Venue?.Name <br />
+                                        <small style="font-size: 0.8rem; color: #cbd5e1;">@item.Venue?.Location</small>
+                                    </td>
+                                    <td class="text-end pe-3 py-3 border-0 rounded-end">
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <a asp-action="EditEvent" asp-route-id="@item.Id"
+                                               class="btn btn-sm text-white"
+                                               style="background: linear-gradient(135deg, #f6d365, #fda085); border: none; border-radius: 8px; font-weight: 600; padding: 6px 15px; box-shadow: 0 4px 10px rgba(253, 160, 133, 0.3);">
+                                                Edit
+                                            </a>
+
+                                            <form asp-action="DeleteEvent" method="post" style="display:inline;">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@item.Id" />
+                                                <button type="submit" class="btn btn-sm text-white"
+                                                        style="background: linear-gradient(135deg, #ff0844, #ffb199); border: none; border-radius: 8px; font-weight: 600; padding: 6px 15px; box-shadow: 0 4px 10px rgba(255, 8, 68, 0.3);">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-muted border-0">
+                                    <em>No events found. Create your first event above.</em>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
